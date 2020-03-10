@@ -1,0 +1,358 @@
+TITLE
+LBNF RAL 2.2 m downstream-supported target simulation
+* Set the defaults for precision simulations
+DEFAULTS                                                              PRECISIO
+* Beam parameters: 120 GeV/c protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*log2)*sigma = 2.355*sigma = 6.281 mm
+BEAM            120.       0.0       0.0    -0.628    -0.628          PROTON
+* Beam position: 1cm z offset from the start of the upstream baffle
+BEAMPOS          0.0       0.0      -21.       0.0       0.0
+MGNFIELD         30.      0.05       0.1       0.0       0.0       0.0
+GEOBEGIN                                                              COMBNAME
+    0    0          
+* Black body
+SPH blkbody    0.0 0.0 0.0 100000.
+* Large void sphere
+SPH void       0.0 0.0 0.0 10000.
+* Outer volume
+RCC outvol     0.0 0.0 -30. 0.0 0.0 270. 30.
+ZCC r30        0.0 0.0 30.
+ZCC r09        0.0 0.0 0.9
+ZCC r09p5      0.0 0.0 0.95
+ZCC r1         0.0 0.0 1.
+ZCC r2p5       0.0 0.0 2.5
+ZCC r4         0.0 0.0 4.
+ZCC r5         0.0 0.0 5.
+ZCC r7p5       0.0 0.0 7.5
+ZCC r9p5       0.0 0.0 9.5
+ZCC r11        0.0 0.0 11.
+ZCC r14p5      0.0 0.0 14.5
+ZCC r17        0.0 0.0 17.
+ZCC r18p5      0.0 0.0 18.5
+ZCC r19        0.0 0.0 19.
+ZCC r19p5      0.0 0.0 19.5
+ZCC r20p5      0.0 0.0 20.5
+ZCC r20p7      0.0 0.0 20.7
+ZCC r21p2      0.0 0.0 21.2
+ZCC r21p65     0.0 0.0 21.65
+ZCC r22        0.0 0.0 22.
+ZCC r23p3      0.0 0.0 23.3
+ZCC r23p5      0.0 0.0 23.5
+ZCC r25        0.0 0.0 25.
+XYP z0         0.0
+XYP zm30       -30.
+XYP zm20       -20.
+XYP zm19       -19.
+XYP zm15       -15.
+XYP zm14       -14.
+XYP zm13       -13.
+XYP zm7p5      -7.5
+XYP zm5        -5.
+XYP zm2p5      -2.5
+XYP z1         1.
+XYP z112       112.
+XYP z113p7     113.7
+XYP z116p3     116.3
+XYP z117p5     117.5
+XYP z120p4     120.4
+XYP z150       150.
+XYP z151p5     151.5
+XYP z152p3     152.3
+XYP z155p3     155.3
+XYP z157       157.
+XYP z210p5     210.5
+XYP z212       212.
+XYP z215       215.
+XYP z216       216.
+XYP z219p5     219.5
+XYP z220       220.
+XYP z220p5     220.5
+XYP z222       222.
+XYP z222p5     222.5
+XYP z223       223.
+XYP z224       224.
+XYP z225       225.
+XYP z225p7     225.7
+XYP z226       226.
+XYP z226p7     226.7
+XYP z226p95    226.95
+XYP z227       227.
+XYP z227p15    227.15
+XYP z228p14    228.14
+XYP z228p15    228.15
+XYP z228p45    228.45
+XYP z229p14    229.14
+XYP z230p3     230.3
+XYP z235       235.
+XYP z236       236.
+XYP z240       240.
+* Horn1 outer conductor outer radius
+ZCC h1cyl1     0.0 0.0 23.65
+* Horn1 outer conductor inner radius
+ZCC h1cyl2     0.0 0.0 22.
+* Horn1 start of upstream curved section
+ZCC h1cyl3     0.0 0.0 8.
+* Horn1 inner conductor outer radius
+ZCC h1cyl4o    0.0 0.0 4.55
+* Horn1 inner conductor inner radius
+ZCC h1cyl4i    0.0 0.0 4.30
+* Horn1 radius at start of downstream curved flare section
+ZCC h1cyl5     0.0 0.0 3.35
+* Horn1 water channel along first inner conductor section
+ZCC w1cyl1     0.0 0.0 4.70
+* Rbase = 8 + 2.5tanTheta, tanTheta = (8-4.55)/(0+2.5) = 1.38; Hz = 5 + (Rbase/tanTheta); height Hz decimal accuracy needed to avoid overlaps!
+TRC h1cone1    0.0 0.0 -5. 0.0 0.0 8.297101449 11.45 0.0
+TRC h1cone2    0.0 0.0 -5. 0.0 0.0 10.811 8. 0.0
+* Hz = 212 - 116.3 = 95.7; tanTheta = (4.55 - 3.60)/95.7 = 0.009926855
+TRC h1cone3o   0.0 0.0 116.3 0.0 0.0 95.7 4.55 3.60
+* Hz = 212 - 116.3
+TRC h1cone3i   0.0 0.0 116.3 0.0 0.0 95.7 4.30 3.35
+* Horn1 water channel along tilted inner conductor
+TRC w1cone1    0.0 0.0 116.3 0.0 0.0 95.7 4.70 3.75
+* Start of Horn1 downstream (DS) curved (C) section: base must have larger radius than apex, so need negative Hz length for apex to be before base
+TRC h1dsc1     0.0 0.0 216. 0.0 0.0 -4. 4.2 3.6
+* Horn1 water channel along first DS curved section
+TRC w1dsc1     0.0 0.0 216. 0.0 0.0 -4. 4.35 3.75
+* Approximate Horn1 DS 1st 3 polygons using intersection of two cones
+TRC h1dsc2o    0.0 0.0 219.5 0.0 0.0 -3.5 5. 4.2
+* Approximate Horn1 DS 1st 3 polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc2i    0.0 0.0 219.5 0.0 0.0 -3.5 4. 3.35
+* Approximate Horn1 DS 2nd 3 polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc3o    0.0 0.0 222.5 0.0 0.0 -3. 7.5 5.
+* Approximate Horn1 DS 2nd 3 polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc3i    0.0 0.0 222.5 0.0 0.0 -3. 6.5 4.
+* Approximate Horn1 DS 3rd polygons using intersection of two cones: z = 222.5 to 224.0
+TRC h1dsc4o    0.0 0.0 224. 0.0 0.0 -1.5 9.5 7.5
+* Approximate Horn1 DS 3rd polygons using intersection of two cones: z = 222.5 to 225. Bottom section is longer to better match vertical polygon
+TRC h1dsc4i    0.0 0.0 225. 0.0 0.0 -2.5 9.5 6.5
+* Approximate Horn1 DS 4th polygons using intersection of two cones: z = 222.5 to 225.0
+TRC h1dsc5o    0.0 0.0 222.5 0.0 0.0 2.5 17.5 14.5
+* Approximate Horn1 DS 4th polygons using intersection of two cones: z = 222.5 to 224.0
+TRC h1dsc5i    0.0 0.0 222.5 0.0 0.0 1.5 16.5 14.5
+* Approximate Horn1 DS 5th polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc6o    0.0 0.0 219.5 0.0 0.0 3. 20. 17.5
+* Approximate Horn1 DS 5th polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc6i    0.0 0.0 219.5 0.0 0.0 3. 19. 16.5
+* Approximate Horn1 DS 6th polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc7o    0.0 0.0 216. 0.0 0.0 3.5 20.5 20.
+* Approximate Horn1 DS 6th polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc7i    0.0 0.0 216. 0.0 0.0 3.5 19.5 19.
+* Upstream cone 0.5 mm thick tube connecting to inner target 1 Ti container: outer radius
+TRC upcon1o    0.0 0.0 -5. 0.0 0.0 5. 3.7 1.55
+* Upstream cone 0.5 mm thick tube connecting to inner target 1 Ti container: inner radius
+TRC upcon1i    0.0 0.0 -5. 0.0 0.0 5. 3.6 1.5
+* 1 mm thick cone for baffle connecting to target 1: outer radius
+TRC upcon2o    0.0 0.0 -5. 0.0 0.0 2.5 2.25 0.9
+* 1 mm thick cone for baffle connecting to target 1: inner radius
+TRC upcon2i    0.0 0.0 -5. 0.0 0.0 2.5 2.15 0.8
+TRC upcon3o    0.0 0.0 -13. 0.0 0.0 8. 12. 3.8
+TRC upcon3i    0.0 0.0 -13. 0.0 0.0 8. 8. 3.6
+ZCC upcyl1o    0.0 0.0 9.
+ZCC upcyl1i    0.0 0.0 8.
+* Outer radius of upstream baffle cylinder
+ZCC bfcyl1o    0.0 0.0 2.15
+* Inner radius of upstream baffle cylinder
+ZCC bfcyl1i    0.0 0.0 0.8
+* Conic end part of upstream baffle
+TRC bfcon1     0.0 0.0 -5. 0.0 0.0 -2.5 2.15 0.8
+ZCC bfcyl2     0.0 0.0 2.25
+* Target 1 outer Ti container cylinder outer radius
+ZCC t1cyl1o    0.0 0.0 3.8
+* Target 1 outer Ti container cylinder inner radius
+ZCC t1cyl1i    0.0 0.0 3.7
+* Target 1 inner Ti containter tube outer radius: 0.5 mm thick
+ZCC t1cyl2o    0.0 0.0 1.55
+* Target 1 inner Ti containter tube inner radius
+ZCC t1cyl2i    0.0 0.0 1.50
+* Hz = 227-116.3 = 110.7; dtheta = 0.6 deg approx; rApex = rBase - Hz*tan(dtheta)
+TRC t1cone1o   0.0 0.0 116.3 0.0 0.0 110.7 3.8 2.715
+* Inner part of t1cone1o; 1 mm thick
+TRC t1cone1i   0.0 0.0 116.3 0.0 0.0 110.7 3.7 2.615
+* Target 1 outer Ti container spherical end outer radius: zc = 227 - 0.34 cm; 2.7365
+SPH t1sph1o    0.0 0.0 226.66 2.7365
+* Target 1 outer Ti container spherical end inner radius; 1 mm thick
+SPH t1sph1i    0.0 0.0 226.66 2.6365
+* Outer cone for the downstream He support attached to target; centre = 5.07 cm from end of flow tube: 222 + 5.07 - 2.75*0.5 = 225.7 cm
+TRC t1dsc1o    0.0 0.0 225.7 0.0 0.0 2.75 4. 3.
+* Inner cone for the downstream He support attached to target; centre = 5.07 cm from end of flow tube: 222 + 5.07 - 2.75*0.5 = 225.7 cm
+TRC t1dsc1i    0.0 0.0 225.7 0.0 0.0 2.75 3.8 2.8
+* Outer 2nd cone for the downstream He support attached to target; starts at z = 225.7 + 2.75 + |Hz| = 228.45 + 0.69 = 229.14 cm
+TRC t1dsc2o    0.0 0.0 229.14 0.0 0.0 -0.69 3.1 3.
+* Inner 2nd cone for the downstream He support attached to target; starts at z = 225.7 + 2.75 = 228.45 cm
+TRC t1dsc2i    0.0 0.0 229.14 0.0 0.0 -0.69 2.9 2.8
+* Spoke 1 at 100 deg in (-x,y) quadrant, 3 mm outer radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke1o    -0.52095 2.95442 226.2 -3.2368 18.3568 0.0 0.3
+* Spoke 1 at 100 deg in (-x,y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke1i    -0.52095 2.95442 226.2 -3.2368 18.3568 0.0 0.2
+* Spoke 2 at 220 deg in (-x,-y) quadrant, 3 mm outer radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke2o    -2.29813 -1.92836 226.2 -14.2791 -11.9816 0.0 0.3
+* Spoke 2 at 220 deg in (-x,-y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke2i    -2.29813 -1.92836 226.2 -14.2791 -11.9816 0.0 0.2
+* Spoke 3 at 340 deg in (x,-y) quadrant, 3 mm outer radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke3o    2.81908 -1.02606 226.2 17.5159 -6.37526 0.0 0.3
+* Spoke 3 at 340 deg in (x,-y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke3i    2.81908 -1.02606 226.2 17.5159 -6.37526 0.0 0.2
+* Spoke 4 at 80 deg in (x,y) quadrant, 3 mm outer radius; r = 3 cm to 21.64 cm (17.64 cm); dir = (cos80, sin80, 0), z0 = 228.6 cm, x0 = 3cos80, y0 = 3sin80
+RCC spoke4o    0.52095 2.95442 228.6 3.2368 18.3568 0.0 0.3
+* Spoke 4 at 80 deg in (x,y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm); dir = (cos80, sin80, 0), z0 = 228.6 cm, x0 = 3cos80, y0 = 3sin80
+RCC spoke4i    0.520945 2.95442 228.6 3.2368 18.3568 0.0 0.2
+* Spoke 5 at 200 deg in (-x,-y) quadrant, 3 mm outer radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke5o    -2.8191 -1.0261 228.6 -17.5159 -6.37526 0.0 0.3
+* Spoke 5 at 200 deg in (-x,-y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke5i    -2.8191 -1.0261 228.6 -17.5159 -6.37526 0.0 0.2
+* Spoke 6 at 320 deg in (x,-y) quadrant, 3 mm outer radius r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke6o    2.29813 -1.92836 228.6 14.2791 -11.9816 0.0 0.3
+* Spoke 6 at 320 deg in (x,-y) quadrant, 2 mm inner radius; r = 3 cm to 21.64 cm (17.64 cm)
+RCC spoke6i    2.29813 -1.92836 228.6 14.2791 -11.9816 0.0 0.2
+* Target 1 cylinder core
+ZCC target1    0.0 0.0 0.8
+END
+* Black hole
+BLKBODY      5 +blkbody -void
+* Void
+VOID         5 +void -outvol
+* Outer volume containing the horn and target geometry
+OUTVOL      10 +outvol +zm20 | +outvol -h1cyl1 +z216 -zm20 | +outvol -h1cyl1 +z240 -z216 | +h1cyl1 -upcyl1o +zm15
+               -zm20 | +h1cyl1 -upcon3o +zm5 -zm13
+* Horn 1 Al outer conductor
+H1OUT        5 +h1cyl1 -h1cyl2 +z216 -zm5 | +h1cyl2 -h1cyl3 +zm2p5 -zm5 | +h1cyl2 -r19p5 +z216 -z215
+* Horn 1 Al inner conductor, central cylindrical conductor volume and start of downstream curved region
+H1IN         5 +h1cone1 -h1cone2 +z0 +h1cyl3 |+h1cyl4o -h1cyl4i +z116p3 -z0 | +h1cone3o -h1cone3i | +h1dsc1 -h1cyl5
+* Horn1 Al curved downstream section
+H1END       10 +h1dsc2o -h1dsc2i | +h1dsc3o -h1dsc3i | +h1dsc4o -h1dsc4i | +r9p5 -h1dsc4i +z225 -z224 |
+               +r14p5 -r9p5 +z225 -z224 | +h1dsc5o -h1dsc5i -r14p5 | +h1dsc6o -h1dsc6i | +h1dsc7o -h1dsc7i
+* Horn1 Ar gas region: upstream and central regions
+H1GAS       10 +h1cyl2 -h1cyl3 +z0 -zm2p5 | +h1cyl3 -h1cone1 +z0 -zm2p5 | +h1cyl2 -w1cyl1 +z116p3 -z0 |
+               +h1cyl2 -w1cone1 -z116p3 +z212 | +r19p5 -w1dsc1 +z216 -z212 | +h1cyl2 -r19p5 +z215 -z212
+* Horn1 Ar gas region: downstream end
+H1GAS2      10 +r5 -h1dsc2o +z219p5 -z216 | +r19 -r5 +z219p5 -z216  | +h1dsc7i
+               -r19 | +h1dsc6i -h1dsc3o | +h1dsc5i -h1dsc4o
+BEAMGAS      5 +h1cone2 +z0 -t1cyl1o | +h1cyl4i -t1cyl1o +z116p3 -z0 | +h1cone3i -t1cone1o | +h1cyl5 +z216 -z212
+               -t1cone1o
+* N gas surrounding downstream horn 1 end and the target support structure
+H1GAS3      10 +h1dsc2i -t1cone1o | +h1dsc3i -t1cone1o | +h1dsc4i -t1cone1o | +h1cyl1 -t1cone1o +z225p7 -z225 |
+               +h1cyl1 -h1dsc7o +z219p5 -z216 | +h1cyl1 -h1dsc6o +z222p5 -z219p5 | +h1cyl1 -h1dsc5o +z225 -z222p5
+* N gas surrounding downstream outer edge of horn 1
+H1GAS4      15 +r21p65 -t1dsc1o -z225p7 +z226p7 -spoke1o -spoke2o -spoke3o | +h1cyl1 -t1dsc1o -z226p7 +z228p14 |
+               +r21p65 -t1dsc1o -t1dsc2o -z228p14 +z229p14 -spoke4o -spoke5o -spoke6o | +t1dsc1i -t1cone1o +z227 |
+               +t1dsc1i -t1sph1o -z227 | +t1dsc2i -t1sph1o -z227 | +h1cyl1 -t1sph1o -z229p14 +z240
+* Horn1 water cooling channels along inner conductor surface
+H1COOL       5 +w1cyl1 -h1cyl4o +z116p3 -z0 | +w1cone1 -h1cone3o -z116p3 +z212 | +w1dsc1 -h1dsc1 +z216 -z212
+* Upstream He cooling container surrounding baffle region
+UPCONT       5 +upcyl1o -upcyl1i +zm13 -zm20 | +upcon3o -upcon3i | +h1cyl1 -upcyl1o +zm13 -zm15 | h1cyl3 -bfcyl2
+               +zm19 -zm20
+* Upstream Ti container enclosing baffle/bafflette, connecting to outer target 1 core radius
+BAFCONT      5 +bfcyl2 -bfcyl1o +zm5 -zm20 | +upcon2o -upcon2i | +r09 -target1 +z0 -zm2p5
+* Target 1 Ti flow tube between target core and its outer container
+T1FLOW       5 +upcon1o -upcon1i | +t1cyl2o -t1cyl2i +z222 -z0
+* Target 1 outer container upstream straight section (no field)
+T1CONT1      5 +t1cyl1o -t1cyl1i +z116p3 -zm5
+* Target 1 outer container DS inclined section (some field)
+T1CONT2      5 +t1cone1o -t1cone1i
+* Target 1 outer container DS beam window (no field)
+T1WINDOW     5 +t1sph1o -t1sph1i -z227
+* Outer ring for the downstream target support structure
+T1DSRING     5 +h1cyl1 -r21p65 +z226p7 -z225p7 | +h1cyl1 -r21p65 +z229p14 -z228p14
+* Target 1 downstream support cone, placed on top of the beam window
+T1DSCONE     5 +t1dsc1o -t1dsc1i | +t1dsc2o -t1dsc2i
+* DS support spoke 1 outer radius
+T1SPOKE1     5 +spoke1o -spoke1i -t1dsc1o
+* DS support spoke 2 outer radius
+T1SPOKE2     5 +spoke2o -spoke2i -t1dsc1o
+* DS support spoke 3 outer radius
+T1SPOKE3     5 +spoke3o -spoke3i -t1dsc1o
+* DS support spoke 4 outer radius
+T1SPOKE4     5 +spoke4o -spoke4i -t1dsc1o -t1dsc2o
+* DS support spoke 5 outer radius
+T1SPOKE5     5 +spoke5o -spoke5i -t1dsc1o -t1dsc2o
+* DS support spoke 6 outer radius
+T1SPOKE6     5 +spoke6o -spoke6i -t1dsc1o -t1dsc2o
+* Target 1 He cooling gas region inside Ti container tube, upstream section (no field)
+T1GAS1      15 +bfcyl1i +zm7p5 -zm20 | +bfcon1 | +upcon2i | +target1 -zm2p5 +z0 | +h1cyl3 -bfcyl2 +zm13 -zm19 |
+               +upcon3i -bfcyl2 | +upcon1i -upcon2o +zm2p5 | +upcon1i -r09 +z0 -zm2p5 | +t1cyl1i -upcon1o +z0
+               -zm5 |
+               +t1cyl1i -t1cyl2o +z116p3 -z0
+* Target 1 He cooling gas region, inclined section (some field)
+T1GAS2       5 +t1cone1i -t1cyl2o +z222 | +t1cyl2i -target1 +z222-z0 | +target1 -z220 +z222
+* Target 1 He cooling gas at DS beam window (no field)
+T1GAS3       5 +t1cone1i -z222 +z227 | +t1sph1i -z227
+* DS support spoke 1 inner radius
+T1SPIN1      5 +spoke1i -t1dsc1o
+* DS support spoke 2 inner radius
+T1SPIN2      5 +spoke2i -t1dsc1o
+* DS support spoke 3 inner radius
+T1SPIN3      5 +spoke3i -t1dsc1o
+* DS support spoke 4 inner radius
+T1SPIN4      5 +spoke4i -t1dsc2o -t1dsc1o
+* DS support spoke 5 inner radius
+T1SPIN5      5 +spoke5i -t1dsc2o -t1dsc1o
+* DS support spoke 6 inner radius
+T1SPIN6      5 +spoke6i -t1dsc2o -t1dsc1o
+* Target 1 core cylinder
+TARGET1      5 +target1 +z220 -z0
+* Upstream Ti baffle
+BAFFLE       5 +bfcyl1o -bfcyl1i -bfcon1 +zm5 -zm20
+END
+GEOEND
+MATERIAL                            1.78                              Graphite
+COMPOUND        -.99    CARBON     -.007  NITROGEN     -.003    OXYGENGraphite
+MAT-PROP         31.                      Graphite                    DPA-ENER
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA    BLCKHOLE   BLKBODY
+ASSIGNMA      VACUUM      VOID
+ASSIGNMA    NITROGEN    OUTVOL
+ASSIGNMA    ALUMINUM     H1OUT     H1END                  1.
+ASSIGNMA       ARGON     H1GAS    H1GAS2                  1.
+ASSIGNMA    NITROGEN   BEAMGAS    H1GAS3                  1.
+ASSIGNMA    NITROGEN    H1GAS4
+ASSIGNMA       WATER    H1COOL                            1.
+ASSIGNMA    TITANIUM    UPCONT   T1CONT1
+ASSIGNMA    TITANIUM   T1CONT2                            1.
+ASSIGNMA    TITANIUM  T1WINDOW  T1SPOKE6
+ASSIGNMA      HELIUM    T1GAS1
+ASSIGNMA      HELIUM    T1GAS2                            1.
+ASSIGNMA      HELIUM    T1GAS3   T1SPIN6
+ASSIGNMA    Graphite   TARGET1    BAFFLE
+* Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
+PHYSICS        1000.     1000.     1000.     1000.     1000.     1000.PEATHRES
+* Nuclei evaporation for activation studies
+PHYSICS           3.                                                  EVAPORAT
+* Score energy deposition (GeV) in all regions for each event separately. This is unaffected by userweig weighting
+SCORE         ENERGY
+* Dump the regional scoring info per event to output file: can then be used to find total deposited power in each region etc.
+EVENTDAT         60.                                                  evt.txt
+THRESHOL                             0.0       0.0                 0.0
+* Energy density overall: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -21.       30.       0.0      240.AllE
+USRBIN           0.0       0.0      -20.      300.        1.      260. &
+* Energy density in baffle and upstream He & horn start sections: dz = 1 mm, dr = 1 mm
+USRBIN           11.    ENERGY      -22.       24.       0.0       0.0UpsE
+USRBIN           0.0       0.0      -20.      240.        1.      200. &
+* Energy density in baffle, zoomed: dz = 1 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -23.       2.5       0.0       0.0BafE
+USRBIN           0.0       0.0      -20.      100.        1.      200. &
+* Energy density in target 1: dz = 0.5 cm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -24.        5.       0.0      230.TargE1
+USRBIN           0.0       0.0       -5.      200.        1.      470. &
+* Energy density in target 1 zoom: dz = 0.5 cm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -25.        1.       0.0      220.TargE1Z
+USRBIN           0.0       0.0       0.0       40.        1.      440. &
+* Energy density in downstream target 1 support region: dz = 0.5 mm, dr = 1 mm
+USRBIN           11.    ENERGY      -26.       24.       0.0      230.DSTgtE
+USRBIN           0.0       0.0      225.      240.        1.      100. &
+* Energy density in downstream target 1 support cone zoomed in: dz = 0.25 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -27.        5.       0.0      230.DSTgtEZ
+USRBIN           0.0       0.0      225.      200.        1.      200. &
+* Energy density of the 3 spokes at z = 226.2 cm (100, 220 and 340 deg): dr = 1 mm, dz = 0.25 mm; 5 degree bins
+USRBIN           11.    ENERGY      -28.       24.       0.0     226.6SpokesE1
+USRBIN           0.0       0.0     225.8      240.       72.       32. &
+* Energy density of the 3 spokes at z = 228.6 cm (80, 200 and 320 deg): dr = 1 mm, dz = 0.25 mm; 5 degree bins
+USRBIN           11.    ENERGY      -29.       24.       0.0      229.SpokesE2
+USRBIN           0.0       0.0     228.2      240.       72.       32. &
+* Tally the primary proton beam particles starting at z = -21 cm: creates x-y beam distribution
+USRBIN           10.  BEAMPART      -50.        1.        1.      -20.BeamDist
+USRBIN           -1.       -1.      -22.       50.       50.        1. &
+* Set the random number seed
+RANDOMIZ          1.        2.
+* Set the number of primary histories to be simulated in the run
+START         10000.
+STOP

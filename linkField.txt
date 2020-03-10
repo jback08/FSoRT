@@ -1,0 +1,2 @@
+$FLUPRO/flutil/fff usermvax/magfld.f
+$FLUPRO/flutil/lfluka -o flukahp -m fluka usermvax/magfld.o
