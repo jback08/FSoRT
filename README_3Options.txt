@@ -6,8 +6,8 @@ Option 2: DoubleTarget.inp, two 1 m long targets with supports, including downst
 
 Option 3: SingleTarget.inp, the 1.5 m long cantilevered single target, no downstream support
 
-The Horn A magnetic field is implemented using the magfld.f code in the usermvax subdirectory 
-(which uses fieldarray.inc), along with the field map data stored in FieldMap3D.dat.
+The Horn A magnetic field is implemented using the map_magfld.f code (which must be renamed as magfld.f before linking)
+in the usermvax subdirectory (which uses fieldarray.inc), along with the field map data stored in FieldMap3D.dat.
 
 The text file linkField.txt shows the compilation commands that are needed to link in the B field routine.
 
