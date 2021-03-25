@@ -109,9 +109,6 @@ GEOEND
 MATERIAL                            1.78                              Graphite
 COMPOUND        -.99    CARBON     -.007  NITROGEN     -.003    OXYGENGraphite
 MAT-PROP         31.                      Graphite                    DPA-ENER
-MATERIAL                            3.99                              Alumina
-COMPOUND         0.4  ALUMINUM       0.6    OXYGEN                    Alumina
-MAT-PROP         31.                       Alumina                    DPA-ENER
 * ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
 ASSIGNMA    BLCKHOLE   BLKBODY
 * ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
