@@ -1,0 +1,136 @@
+TITLE
+LBNF Baffle simulation
+* Set the defaults for precision simulations
+DEFAULTS                                                              PRECISIO
+* Beam parameters: 120 GeV/c protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+BEAM            120.       0.0       0.0    -0.628    -0.628          PROTON
+* Beam position: 2cm z offset from the N gas volume start
+BEAMPOS          2.5       0.0      -22.       0.0       0.0
+MGNFIELD         30.      0.05      0.05       0.0       0.0       0.0
+GEOBEGIN                                                              COMBNAME
+    0    0          
+* Black body
+SPH blkbody    0.0 0.0 0.0 100000.
+* Large void sphere
+SPH void       0.0 0.0 0.0 10000.
+* Outer volume containing baffle and surrounding N gas: +- 20 cm from baffle end, r = 20 cm
+RCC outvol     0.0 0.0 -20. 0.0 0.0 290. 20.
+* Main baffle cylinder volume
+ZCC baffle     0.0 0.0 7.6
+* Baffle central hole along beam axis
+ZCC bafhole    0.0 0.0 1.6
+* Baffle outer radius
+ZCC bafouter   0.0 0.0 15.
+* Baffle z start
+XYP bafstart   0.0
+* Baffle end: 2.5 m = 250 cm long
+XYP bafend     250.
+XYP zm20       -20.
+XYP z270       270.
+* Baffle fin 1 lower plane at 0 deg from x axis; N = (sinPhi, -cosPhi, 0), P = (r*cosPhi + d*sinPhi, r*sinPhi - d*cosPhi, 0), where r = outer radius, d = fin half width = 4 mm
+PLA bafxy1a    0.0 -1. 0.0 15. -0.4 0.0
+* Baffle fin 1 upper plane at 0 deg from x axis; N = (sinPhi, -cosPhi, 0), P = (r*cosPhi + d*sinPhi, r*sinPhi - d*cosPhi, 0), where r = outer radius, d = fin half width = 4 mm
+PLA bafxy1b    0.0 -1. 0.0 15. 0.4 0.0
+* Baffle fin 2 lower plane at 22.5 deg from x axis
+PLA bafxy2a    0.3827 -0.9239 0.0 14.0113 5.3707 0.0
+* Baffle fin 2 upper plane at 22.5 deg from x axis
+PLA bafxy2b    0.3827 -0.9239 0.0 13.7051 6.1098 0.0
+* Baffle fin 3 lower plane at 45 deg from x axis
+PLA bafxy3a    0.7071 -0.7071 0.0 10.8894 10.3238 0.0
+* Baffle fin 3 upper plane at 45 deg from x axis
+PLA bafxy3b    0.7071 -0.7071 0.0 10.3238 10.8894 0.0
+* Baffle fin 4 lower plane at 67.5 deg from x axis
+PLA bafxy4a    0.9239 -0.3827 0.0 6.1098 13.7051 0.0
+* Baffle fin 4 upper plane at 67.5 deg from x axis
+PLA bafxy4b    0.9239 -0.3827 0.0 5.3707 14.0113 0.0
+* Baffle fin 5 lower plane at 90 deg from x axis
+PLA bafxy5a    1. 0.0 0.0 0.4 15. 0.0
+* Baffle fin 5 upper plane at 90 deg from x axis
+PLA bafxy5b    1. 0.0 0.0 -0.4 15. 0.0
+* Baffle fin 6 lower plane at 112.5 deg from x axis
+PLA bafxy6a    0.9239 0.3827 0.0 -5.3707 14.0113 0.0
+* Baffle fin 6 upper plane at 112.5 deg from x axis
+PLA bafxy6b    0.9239 0.3827 0.0 -6.1098 13.7051 0.0
+* Baffle fin 7 lower plane at 135.0 deg from x axis
+PLA bafxy7a    0.7071 0.7071 0.0 -10.3238 10.8894 0.0
+* Baffle fin 7 upper plane at 135.0 deg from x axis
+PLA bafxy7b    0.7071 0.7071 0.0 -10.8894 10.3238 0.0
+* Baffle fin 8 lower plane at 157.5 deg from x axis
+PLA bafxy8a    0.3827 0.9239 0.0 -13.7051 6.1098 0.0
+* Baffle fin 8 upper plane at 157.5 deg from x axis
+PLA bafxy8b    0.3827 0.9239 0.0 -14.0113 5.3707 0.0
+END
+* Black hole
+BLKBODY      5 +blkbody -void
+* Void
+VOID         5 +void -outvol
+* Outer volume containing baffle and surrounding N gas
+OUTVOL       5 +outvol +bafstart | +outvol -bafouter -bafstart +bafend -baffle | +outvol -bafend
+* Main baffle cylinder volume
+BAFFLE       5 +baffle -bafhole -bafstart +bafend
+* Baffle graphite fins
+BAFFIN1      5 +bafouter +bafxy1a -bafxy1b -baffle -bafstart +bafend
+BAFFIN2      5 +bafouter +bafxy2a -bafxy2b -baffle -bafstart +bafend
+BAFFIN3      5 +bafouter +bafxy3a -bafxy3b -baffle -bafstart +bafend
+BAFFIN4      5 +bafouter +bafxy4a -bafxy4b -baffle -bafstart +bafend
+BAFFIN5      5 +bafouter +bafxy5a -bafxy5b -baffle -bafstart +bafend
+BAFFIN6      5 +bafouter +bafxy6a -bafxy6b -baffle -bafstart +bafend
+BAFFIN7      5 +bafouter +bafxy7a -bafxy7b -baffle -bafstart +bafend
+BAFFIN8      5 +bafouter +bafxy8a -bafxy8b -baffle -bafstart +bafend
+* Gaps between baffle fins (nitrogen)
+BAFGAPS1    10 +bafouter +bafxy1b -bafxy2a -baffle -bafstart +bafend |
+               +bafouter +bafxy2b -bafxy3a -baffle -bafstart +bafend |
+               +bafouter +bafxy3b -bafxy4a -baffle -bafstart +bafend |
+               +bafouter +bafxy4b -bafxy5a -baffle -bafstart +bafend |
+               +bafouter +bafxy5b -bafxy6a -baffle -bafstart +bafend |
+               +bafouter +bafxy6b -bafxy7a -baffle -bafstart +bafend |
+               +bafouter +bafxy7b -bafxy8a -baffle -bafstart +bafend |
+               +bafouter +bafxy1b +bafxy8b -baffle -bafstart +bafend
+BAFGAPS2    10 +bafouter -bafxy1a +bafxy2b -baffle -bafstart +bafend |
+               +bafouter -bafxy2a +bafxy3b -baffle -bafstart +bafend |
+               +bafouter -bafxy3a +bafxy4b -baffle -bafstart +bafend |
+               +bafouter -bafxy4a +bafxy5b -baffle -bafstart +bafend |
+               +bafouter -bafxy5a +bafxy6b -baffle -bafstart +bafend |
+               +bafouter -bafxy6a +bafxy7b -baffle -bafstart +bafend |
+               +bafouter -bafxy7a +bafxy8b -baffle -bafstart +bafend |
+               +bafouter -bafxy1a -bafxy8a -baffle -bafstart +bafend
+* Baffle central hole (nitrogen)
+BAFHOLE      5 +bafhole -bafstart +bafend
+END
+GEOEND
+MATERIAL                            1.78                              Graphite
+COMPOUND        -.99    CARBON     -.007  NITROGEN     -.003    OXYGENGraphite
+MAT-PROP         31.                      Graphite                    DPA-ENER
+MATERIAL                            3.99                              Alumina
+COMPOUND         0.4  ALUMINUM       0.6    OXYGEN                    Alumina
+MAT-PROP         31.                       Alumina                    DPA-ENER
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA    BLCKHOLE   BLKBODY
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA      VACUUM      VOID
+ASSIGNMA    NITROGEN    OUTVOL
+ASSIGNMA    Graphite    BAFFLE   BAFFIN8
+ASSIGNMA    NITROGEN  BAFGAPS1   BAFHOLE
+* Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
+PHYSICS        1000.     1000.     1000.     1000.     1000.     1000.PEATHRES
+* Nuclei evaporation for activation studies
+PHYSICS           3.                                                  EVAPORAT
+* Score energy deposition (GeV) in all regions for each event separately. This is unaffected by userweig weighting
+SCORE         ENERGY
+* Dump the regional scoring info per event to output file: can then be used to find total deposited power in each region etc.
+EVENTDAT         60.                                                  evt.txt
+THRESHOL                             0.0       0.0                 0.0
+* Energy density overall: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -21.       7.6       0.0      250.EALL
+USRBIN           0.0       0.0       0.0       76.        1.      250. &
+* Energy density overall: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -22.       7.6       0.0      250.EBAF1
+USRBIN           0.0       2.5       0.0       76.        1.      250. &
+* Energy density overall: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -23.       15.       0.0      250.EFIN1
+USRBIN           7.6       0.0       0.0       74.       16.      250. &
+* Set the random number seed
+RANDOMIZ          1.        1.
+* Set the number of primary histories to be simulated in the run; 10,000
+START           100.
+STOP

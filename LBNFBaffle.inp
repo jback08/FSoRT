@@ -1,0 +1,177 @@
+TITLE
+LBNF Baffle simulation
+* Set the defaults for precision simulations
+DEFAULTS                                                              PRECISIO
+* Beam parameters: 120 GeV/c protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+BEAM            120.       0.0       0.0    -0.628    -0.628          PROTON
+* Beam position: 2cm z offset from the N gas volume start; x = 25 mm (y=0) offset, rotated by +2 deg: x' = 2.5*cos(2 deg), y' = 2.5*sin(2 deg)
+BEAMPOS       2.4985    0.0872      -22.       0.0       0.0
+MGNFIELD         30.      0.05      0.05       0.0       0.0       0.0
+GEOBEGIN                                                              COMBNAME
+    0    0          
+* Black body
+SPH blkbody    0.0 0.0 0.0 100000.
+* Large void sphere
+SPH void       0.0 0.0 0.0 10000.
+* Outer volume containing baffle and surrounding N gas: +- 20 cm from baffle end, r = 20 cm
+RCC outvol     0.0 0.0 -20. 0.0 0.0 290. 20.
+* Main baffle cylinder volume
+ZCC baffle     0.0 0.0 7.6
+* Baffle central hole along beam axis
+ZCC bafhole    0.0 0.0 1.6
+* Baffle outer radius
+ZCC bafouter   0.0 0.0 15.
+* Baffle z start
+XYP bafstart   0.0
+* Baffle end: 2.5 m = 250 cm long
+XYP bafend     250.
+XYP zm20       -20.
+XYP z270       270.
+* Baffle fin 1 centred on 0+2 deg, low edge psi = -2 deg; N = (-sinPsi, -cosPsi), P = (rMean*cosPsi, rMean*sinPsi), width at rMean = 4 mm. Extra 2 deg to align usrbins
+PLA bafxy1a    0.0 -1. 0.0 11.3 0.0 0.0
+* Baffle fin 1 centred on 0+2 deg, high edge psi = +2deg; N = (sinPhi, -cosPhi), P = (rMean*cosPhi, rMean*sinPhi), width at rMean = 4 mm
+PLA bafxy1b    0.0702 -0.9975 0.0 11.2721 0.7936 0.0
+* Baffle fin 2 centred on 22.5+2 deg, low edge psi = -2 deg
+PLA bafxy2a    0.3827 -0.9239 0.0 10.4398 4.3243 0.0
+* Baffle fin 2 centred on 22.5+2 deg, high edge psi = +2 deg
+PLA bafxy2b    0.4466 -0.8947 0.0 10.1104 5.0469 0.0
+* Baffle fin 3 centred on 45+2 deg, low edge psi = -2 deg
+PLA bafxy3a    0.7071 -0.7071 0.0 7.9903 7.9903 0.0
+* Baffle fin 3 centred on 45+2 deg, high edge psi = +2 deg
+PLA bafxy3b    0.7550 -0.6557 0.0 7.4094 8.5318 0.0
+* Baffle fin 4 centred on 67.5+2 deg, low edge psi = -2 deg
+PLA bafxy4a    0.9239 -0.3827 0.0 4.3243 10.4398 0.0
+* Baffle fin 4 centred on 67.5+2 deg, high edge psi = +2 deg
+PLA bafxy4b    0.9485 -0.3169 0.0 3.5804 10.7178 0.0
+* Baffle fin 5 centred on 90+2 deg, low edge psi = -2 deg
+PLA bafxy5a    1. 0.0 0.0 0.0 11.3 0.0
+* Baffle fin 5 centred on 90+2 deg, high edge psi = +2 deg
+PLA bafxy5b    0.9975 0.0702 0.0 -0.7936 11.2721 0.0
+* Baffle fin 6 centred on 112.5+2 deg, low edge psi = -2 deg
+PLA bafxy6a    0.9239 0.3827 0.0 -4.3243 10.4398 0.0
+* Baffle fin 6 centred on 112.5+2 deg, high edge psi = +2 deg
+PLA bafxy6b    0.8947 0.4466 0.0 -5.0469 10.1104 0.0
+* Baffle fin 7 centred on 135+2 deg, low edge psi = -2 deg
+PLA bafxy7a    0.7071 0.7071 0.0 -7.9903 7.9903 0.0
+* Baffle fin 7 centred on 135+2 deg, high edge psi = +2 deg
+PLA bafxy7b    0.6557 0.7550 0.0 -8.5318 7.4094 0.0
+* Baffle fin 8 centred on 157.5+2 deg, low edge psi = -2 deg
+PLA bafxy8a    0.3827 0.9239 0.0 -10.4398 4.3243 0.0
+* Baffle fin 8 centred on 157.5+2 deg, high edge psi = +2 deg
+PLA bafxy8b    0.3169 0.9485 0.0 -10.7178 3.5804 0.0
+END
+* Black hole
+BLKBODY      5 +blkbody -void
+* Void
+VOID         5 +void -outvol
+* Outer volume containing baffle and surrounding N gas
+OUTVOL       5 +outvol +bafstart | +outvol -bafouter -bafstart +bafend -baffle | +outvol -bafend
+* Main baffle cylinder volume
+BAFFLE       5 +baffle -bafhole -bafstart +bafend
+* Baffle graphite fins: edges point to the origin as +- 2 degree "wedges" (so they are not parallel to their central radial lines). Required for (r,phi,z) binning
+BAFFIN1      5 +bafouter +bafxy1a -bafxy1b -baffle -bafstart +bafend
+BAFFIN2      5 +bafouter +bafxy2a -bafxy2b -baffle -bafstart +bafend
+BAFFIN3      5 +bafouter +bafxy3a -bafxy3b -baffle -bafstart +bafend
+BAFFIN4      5 +bafouter +bafxy4a -bafxy4b -baffle -bafstart +bafend
+BAFFIN5      5 +bafouter +bafxy5a -bafxy5b -baffle -bafstart +bafend
+BAFFIN6      5 +bafouter +bafxy6a -bafxy6b -baffle -bafstart +bafend
+BAFFIN7      5 +bafouter +bafxy7a -bafxy7b -baffle -bafstart +bafend
+BAFFIN8      5 +bafouter +bafxy8a -bafxy8b -baffle -bafstart +bafend
+BAFFIN9      5 +bafouter -bafxy1a +bafxy1b -baffle -bafstart +bafend
+BAFFIN10     5 +bafouter -bafxy2a +bafxy2b -baffle -bafstart +bafend
+BAFFIN11     5 +bafouter -bafxy3a +bafxy3b -baffle -bafstart +bafend
+BAFFIN12     5 +bafouter -bafxy4a +bafxy4b -baffle -bafstart +bafend
+BAFFIN13     5 +bafouter -bafxy5a +bafxy5b -baffle -bafstart +bafend
+BAFFIN14     5 +bafouter -bafxy6a +bafxy6b -baffle -bafstart +bafend
+BAFFIN15     5 +bafouter -bafxy7a +bafxy7b -baffle -bafstart +bafend
+BAFFIN16     5 +bafouter -bafxy8a +bafxy8b -baffle -bafstart +bafend
+* Gaps between baffle fins (nitrogen)
+BAFGAPS1    10 +bafouter +bafxy1b -bafxy2a -baffle -bafstart +bafend |
+               +bafouter +bafxy2b -bafxy3a -baffle -bafstart +bafend |
+               +bafouter +bafxy3b -bafxy4a -baffle -bafstart +bafend |
+               +bafouter +bafxy4b -bafxy5a -baffle -bafstart +bafend |
+               +bafouter +bafxy5b -bafxy6a -baffle -bafstart +bafend |
+               +bafouter +bafxy6b -bafxy7a -baffle -bafstart +bafend |
+               +bafouter +bafxy7b -bafxy8a -baffle -bafstart +bafend |
+               +bafouter +bafxy8b +bafxy1a -baffle -bafstart +bafend
+BAFGAPS2    10 +bafouter -bafxy1b +bafxy2a -baffle -bafstart +bafend |
+               +bafouter -bafxy2b +bafxy3a -baffle -bafstart +bafend |
+               +bafouter -bafxy3b +bafxy4a -baffle -bafstart +bafend |
+               +bafouter -bafxy4b +bafxy5a -baffle -bafstart +bafend |
+               +bafouter -bafxy5b +bafxy6a -baffle -bafstart +bafend |
+               +bafouter -bafxy6b +bafxy7a -baffle -bafstart +bafend |
+               +bafouter -bafxy7b +bafxy8a -baffle -bafstart +bafend |
+               +bafouter -bafxy8b -bafxy1a -baffle -bafstart +bafend
+* Baffle central hole (nitrogen)
+BAFHOLE      5 +bafhole -bafstart +bafend
+END
+GEOEND
+MATERIAL                            1.78                              Graphite
+COMPOUND        -.99    CARBON     -.007  NITROGEN     -.003    OXYGENGraphite
+MAT-PROP         31.                      Graphite                    DPA-ENER
+MATERIAL                            3.99                              Alumina
+COMPOUND         0.4  ALUMINUM       0.6    OXYGEN                    Alumina
+MAT-PROP         31.                       Alumina                    DPA-ENER
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA    BLCKHOLE   BLKBODY
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA      VACUUM      VOID
+ASSIGNMA    NITROGEN    OUTVOL
+ASSIGNMA    Graphite    BAFFLE  BAFFIN16
+ASSIGNMA    NITROGEN  BAFGAPS1   BAFHOLE
+* Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
+PHYSICS        1000.     1000.     1000.     1000.     1000.     1000.PEATHRES
+* Nuclei evaporation for activation studies
+PHYSICS           3.                                                  EVAPORAT
+* Score energy deposition (GeV) in all regions for each event separately. This is unaffected by userweig weighting
+SCORE         ENERGY
+* Dump the regional scoring info per event to output file: can then be used to find total deposited power in each region etc.
+EVENTDAT         60.                                                  evt.txt
+THRESHOL                             0.0       0.0                 0.0
+* Energy density overall: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -21.       20.       0.0      260.EALL
+USRBIN           0.0       0.0      -10.      200.        1.      270. &
+* Energy density inside baffle around beamspot centre: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -22.       7.6    0.0872      250.ESPOT
+USRBIN           0.0    2.4985       0.0       76.        1.      250. &
+* Energy density inside main baffle with 22.5 deg phi bins: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -31.       7.6       0.0      250.EMAIN1
+USRBIN           0.0       0.0       0.0       76.       16.      250. &
+* Energy density inside main baffle with 10 deg phi bins: dz = 1 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -32.       7.6       0.0      250.EMAIN2
+USRBIN           0.0       0.0       0.0       76.       36.      250. &
+* Energy density inside main baffle with 22.5 deg phi bins: dz = 2 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -33.       7.6       0.0      250.EMAIN3
+USRBIN           0.0       0.0       0.0       76.       16.      125. &
+* Energy density inside main baffle with 10 deg phi bins: dz = 2 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -34.       7.6       0.0      250.EMAIN4
+USRBIN           0.0       0.0       0.0       76.       36.      125. &
+* Energy density inside main baffle with 22.5 deg phi bins: dz = 5 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -35.       7.6       0.0      250.EMAIN5
+USRBIN           0.0       0.0       0.0       76.       16.       50. &
+* Energy density inside main baffle with 10 deg phi bins: dz = 5 cm, dr = 1 mm
+USRBIN           11.    ENERGY      -36.       7.6       0.0      250.EMAIN6
+USRBIN           0.0       0.0       0.0       76.       36.       50. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 1 cm, dr = 1 mm, 16 phi bins
+USRBIN           11.    ENERGY      -41.       15.       0.0      250.EFINS1
+USRBIN           7.6       0.0       0.0       74.       16.      250. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 1 cm, dr = 1 mm, 90 phi bins
+USRBIN           11.    ENERGY      -42.       15.       0.0      250.EFINS2
+USRBIN           7.6       0.0       0.0       74.       90.      250. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 2 cm, dr = 1 mm, 16 phi bins
+USRBIN           11.    ENERGY      -43.       15.       0.0      250.EFINS3
+USRBIN           7.6       0.0       0.0       74.       16.      125. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 2 cm, dr = 1 mm, 90 phi bins
+USRBIN           11.    ENERGY      -44.       15.       0.0      250.EFINS4
+USRBIN           7.6       0.0       0.0       74.       90.      125. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 5 cm, dr = 1 mm, 16 phi bins
+USRBIN           11.    ENERGY      -45.       15.       0.0      250.EFINS5
+USRBIN           7.6       0.0       0.0       74.       16.       50. &
+* Energy density inside baffle fins (phi span = 4 deg): dz = 5 cm, dr = 1 mm, 90 phi bins
+USRBIN           11.    ENERGY      -46.       15.       0.0      250.EFINS6
+USRBIN           7.6       0.0       0.0       74.       90.       50. &
+* Set the random number seed
+RANDOMIZ          1.        1.
+* Set the number of primary protons to be simulated
+START           100.
+STOP

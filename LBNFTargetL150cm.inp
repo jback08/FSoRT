@@ -46,8 +46,15 @@ XYP zm4        -4.
 XYP zm2p5      -2.5
 XYP z8p0855    8.0855
 XYP z40        40.
+XYP z40p2      40.2
+XYP z76        76.0
+XYP z76p2      76.2
+XYP z112       112.0
+XYP z112p2     112.2
 XYP z116p3     116.3
 XYP z145       145.
+XYP z148       148.0
+XYP z148p2     148.2
 XYP z149p4     149.4
 XYP z150       150.
 XYP z150p6     150.6
@@ -241,18 +248,23 @@ TCONT1       5 +r20 -zm14p09 +zm12p49 -r13p73
 TCONT2       5 +tout1o -tout1i +z150p6 -z145
 * Target 1 outer container downstream window (that sees B field)
 TWINDOW      5 +tsph1o -tsph1i -z149p4
-TUPCONE1     5 +tcone4o -tcone4i +zm4 -zm6p52
+* Bafflet container, connecting to the upstream target manifold and the graphite target joins
+BAFCONT      5 +tcone4o -tcone4i +zm4 -zm6p52
                | +tcone4o -tcone4i +tcone5i
                | +tcone5o -tcone5i +tcone1i +zm10p76
                | +tcone5o -tcone5i -tcone1i +zm12p49
                | +r3p3 -r2p9 -zm40 +zm14p04
+TSPACER1     5 +tout1i -tcyl2o +z40p2 -z40
+TSPACER2     5 +tout1i -tcyl2o +z76p2 -z76
+TSPACER3     5 +tout1i -tcyl2o +z112p2 -z112
+TSPACER4     5 +tout1i -tcyl2o +z148p2 -z148
 BAFGAS       5 +target -zm40 +zm16p54
                | +bafcone
 * Target He cooling gas region (no B field)
 TGAS1        5 +r12p2 -r7p4 +zm15p5 -zm29p5
                | +tcone3i +z0 -zm15p5 -tcone4o -r7p4 -tcone5o +zm6p52
                | +tcone5o -tcone5i -zm10p76 +tcone3i
-TGAS2       10 +tcone5i +tcone3i -tcone4o -tcone2o
+TGAS2       10 +tcone5i +tcone3i -tcone4o
                | +tcone3i -tcone4o -zm6p52 +zm4
                | +tcone3i -zm4 +z0 -tupendo
                | +tcone4i +tcone5i
@@ -262,12 +274,13 @@ TGAS2       10 +tcone5i +tcone3i -tcone4o -tcone2o
                | +tcyl2i -target -z8p0855 +z150p6
                | +target -z150 +z150p6
                | +tcyl2o -z150p6 +tsph1i
-TGAS3        5 +tcone5i +zm6p52 -tcone3o
+TGAS3       10 +tcone5i +zm6p52 -tcone3o
                | +tcone2i -tcone3o +z8p0855
                | +tcone2i -tcyl2o -z8p0855 +z40
-               | +tout1i -tcyl2o -z40 +z145
-* Target 1 He cooling gas region inside Ti container, downstream section (with B field)
-TGAS4        5 +tout1i -tcyl2o +z150p6 -z145
+               | +tout1i -tcyl2o -z40p2 +z76
+               | +tout1i -tcyl2o -z76p2 +z112
+               | +tout1i -tcyl2o -z112p2 +z148
+               | +tout1i -tcyl2o -z148p2 +z150p6
                | +tsph1i -tcyl2o -z149p4
 * Target 1 core cylinder
 TARGET       5 +target +z150 -z0
@@ -293,8 +306,8 @@ ASSIGNMA     Alumina   H1CERAM
 ASSIGNMA       ARGON    H1GAS1    H1GAS2                  1.
 ASSIGNMA    NITROGEN   BEAMGAS    H1GAS3
 ASSIGNMA       WATER    H1COOL                            1.
-ASSIGNMA    TITANIUM     TFLOW  TUPCONE1
-ASSIGNMA      HELIUM    BAFGAS     TGAS4
+ASSIGNMA    TITANIUM     TFLOW  TSPACER4
+ASSIGNMA      HELIUM    BAFGAS     TGAS3
 ASSIGNMA    Graphite    TARGET    BAFFLE
 * Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
 PHYSICS        1000.     1000.     1000.     1000.     1000.     1000.PEATHRES
@@ -306,73 +319,85 @@ SCORE         ENERGY
 EVENTDAT         60.                                                  evt.txt
 THRESHOL                             0.0       0.0                 0.0
 * Energy density overall: dz = 1 cm, dr = 1 mm
-USRBIN           11.    ENERGY      -21.      25.0       0.0     230.0EALL
-USRBIN           0.0       0.0     -40.0      250.        1.      270. &
+USRBIN           11.    ENERGY      -21.       25.       0.0      230.EALL
+USRBIN           0.0       0.0      -40.      250.        1.      270. &
 * Energy density in baffle: dz = 1 mm, dr = 0.5 mm
-USRBIN           11.    ENERGY      -22.       3.5       0.0     -14.0EBAF
-USRBIN           0.0       0.0     -40.0       70.        1.      260. &
+USRBIN           11.    ENERGY      -22.       3.5       0.0      -14.EBAF
+USRBIN           0.0       0.0      -40.       70.        1.      260. &
 * Energy density in upstream upper manifold, z = -30 to -4 cm, r = 6.5 to 14.5 cm, dz = 1 mm, dr = 0.5 mm
-USRBIN           11.    ENERGY      -23.      14.5       0.0      -4.0EMAN1
-USRBIN           6.5       0.0     -30.0      160.        1.      260. &
+USRBIN           11.    ENERGY      -23.      14.5       0.0       -4.EMAN1
+USRBIN           6.5       0.0      -30.      160.        1.      260. &
 * Energy density in upstream lower manifold, z = -15 to -4 cm, r = 2 to 7.5 cm, dz = 1 mm, dr = 0.5 mm
-USRBIN           11.    ENERGY      -24.       7.5       0.0      -4.0EMAN2
-USRBIN           2.0       0.0     -15.0      110.        1.      110. &
+USRBIN           11.    ENERGY      -24.       7.5       0.0       -4.EMAN2
+USRBIN            2.       0.0      -15.      110.        1.      110. &
 * Energy density in upper container & ceramic interface with horn plate, z = -20 to -12 cm, r = 13.5 to 24 cm, dz = 1 mm, dr = 1 mm
-USRBIN           11.    ENERGY      -25.      24.0       0.0     -12.0EMAN3
-USRBIN          13.5       0.0     -20.0      105.        1.       80. &
+USRBIN           11.    ENERGY      -25.       24.       0.0      -12.EMAN3
+USRBIN          13.5       0.0      -20.      105.        1.       80. &
 * Energy density in upstream target core, z = -4 to 4 cm, r = 0 to 3 cm: dz = 0.5 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -26.       3.0       0.0       4.0ETARG1
-USRBIN           0.0       0.0      -4.0      120.        1.      160. &
+USRBIN           11.    ENERGY      -26.        3.       0.0        4.ETARG1
+USRBIN           0.0       0.0       -4.      120.        1.      160. &
 * Energy density in main target core, z = 4 cm to 150 cm, r = 0 to 0.8 cm: dz = 1 cm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -27.       0.8       0.0     150.0ETARG2
-USRBIN           0.0       0.0       4.0       32.        1.      146. &
+USRBIN           11.    ENERGY      -27.       0.8       0.0      150.ETARG2
+USRBIN           0.0       0.0        4.       32.        1.      146. &
 * Energy density in flow guide cone 1st part: z = -16 to -4 cm, r = 7.0 to 13 cm, dz = 0.5 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -28.      13.0       0.0      -4.0EFLOW1
-USRBIN           7.0       0.0     -16.0      240.        1.      240. &
+USRBIN           11.    ENERGY      -28.       13.       0.0       -4.EFLOW1
+USRBIN            7.       0.0      -16.      240.        1.      240. &
 * Energy density in flow guide cone 2nd part: z = -4 to 8.5 cm, r = 1.5 to 7.5 cm, dz = 0.5 mm, dr = 0.25 mm
 USRBIN           11.    ENERGY      -29.       7.5       0.0       8.5EFLOW2
-USRBIN           1.5       0.0      -4.0      240.        1.      250. &
+USRBIN           1.5       0.0       -4.      240.        1.      250. &
 * Energy density in flow guide long 3rd part: z = 8 to 151 cm, r = 1.70 to 1.75 cm, dz = 1 cm, dr = 0.1 mm
-USRBIN           11.    ENERGY      -30.      1.75       0.0     151.0EFLOW3
-USRBIN          1.70       0.0       8.0        5.        1.      143. &
+USRBIN           11.    ENERGY      -30.      1.75       0.0      151.EFLOW3
+USRBIN          1.70       0.0        8.        5.        1.      143. &
 * Energy density in container cone 1st part: z = -13 to 0 cm, r = 11 to 14.5 cm, dz = 1 mm, dr = 0.25 mm
 USRBIN           11.    ENERGY      -31.      14.5       0.0       0.0ECONT1
-USRBIN          11.0       0.0     -13.0      140.        1.      130. &
+USRBIN           11.       0.0      -13.      140.        1.      130. &
 * Energy density in container cone 2nd part: z = 0 to 20 cm, r = 7 to 12 cm, dz = 1 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -32.      12.0       0.0      20.0ECONT2
-USRBIN           7.0       0.0       0.0      200.        1.      200. &
+USRBIN           11.    ENERGY      -32.       12.       0.0       20.ECONT2
+USRBIN            7.       0.0       0.0      200.        1.      200. &
 * Energy density in container cone 3rd part: z = 20 to 40 cm, r = 3.5 to 8 cm, dz = 1 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -33.       8.0       0.0      40.0ECONT3
-USRBIN           3.5       0.0      20.0      180.        1.      200. &
+USRBIN           11.    ENERGY      -33.        8.       0.0       40.ECONT3
+USRBIN           3.5       0.0       20.      180.        1.      200. &
 * Energy density in container cone 4th part: z = 40 to 150 cm, r = 2.5 to 4.0 cm, dz = 1 cm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -34.       4.0       0.0     150.0ECONT4
-USRBIN           2.5       0.0      40.0       60.        1.      110. &
+USRBIN           11.    ENERGY      -34.        4.       0.0      150.ECONT4
+USRBIN           2.5       0.0       40.       60.        1.      110. &
 * Energy density in downstream target beam window, dz = 0.25 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -35.       3.0       0.0     152.5EDSWIN
-USRBIN           0.0       0.0     149.0      120.        1.      140. &
+USRBIN           11.    ENERGY      -35.        3.       0.0     152.5EDSWIN
+USRBIN           0.0       0.0      149.      120.        1.      140. &
 * Energy density in horn 1 inner/outer conductor upstream vertical section: z = -5 to -2.5 cm, r = 12.5 to 24 cm, dz = 0.5 mm, dr = 1 mm
-USRBIN           11.    ENERGY      -40.      24.0       0.0      -2.5EH1UPV
-USRBIN          12.5       0.0      -5.0      115.        1.       50. &
+USRBIN           11.    ENERGY      -40.       24.       0.0      -2.5EH1UPV
+USRBIN          12.5       0.0       -5.      115.        1.       50. &
 * Energy density in horn 1 upstream inner conductor cone 1st part: z = -5 to 20 cm, r = 8 to 13.5 cm, dz = 1 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -41.      13.5       0.0      20.0EH1CON1
-USRBIN           8.0       0.0      -5.0      220.        1.      250. &
+USRBIN           11.    ENERGY      -41.      13.5       0.0       20.EH1CON1
+USRBIN            8.       0.0       -5.      220.        1.      250. &
 * Energy density in horn 1 upstream inner conductor cone 2nd part: z = 20 to 40 cm, r = 4 to 9 cm, dz = 1 mm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -42.       9.0       0.0      40.0EH1CON2
-USRBIN           4.0       0.0      20.0      200.        1.      200. &
+USRBIN           11.    ENERGY      -42.        9.       0.0       40.EH1CON2
+USRBIN            4.       0.0       20.      200.        1.      200. &
 * Energy density in horn 1 cylindrical and downstream inner conductor: z = 40 to 216 cm, r = 3.3 to 4.8 cm, dz = 1 cm, dr = 0.1 mm
-USRBIN           11.    ENERGY      -43.       4.8       0.0     216.0EH1IN
-USRBIN           3.3       0.0      40.0      150.        1.      176. &
+USRBIN           11.    ENERGY      -43.       4.8       0.0      216.EH1IN
+USRBIN           3.3       0.0       40.      150.        1.      176. &
 * Energy density in horn 1 downstream endcap: z = 210 to 225 cm, r = 3.0 to 20.5 cm, dz = 1 mm, dr = 1 mm
-USRBIN           11.    ENERGY      -44.      20.5       0.0     225.0EH1END
-USRBIN           3.0       0.0     210.0      175.        1.      150. &
+USRBIN           11.    ENERGY      -44.      20.5       0.0      225.EH1END
+USRBIN            3.       0.0      210.      175.        1.      150. &
 * Energy density in horn 1 outer conductor: z = -5 to 216 cm, r = 22 to 23 cm, dz = 1 cm, dr = 0.25 mm
-USRBIN           11.    ENERGY      -45.      23.0       0.0     216.0EH1OUT
-USRBIN          22.0       0.0      -5.0       40.        1.      221. &
+USRBIN           11.    ENERGY      -45.       23.       0.0      216.EH1OUT
+USRBIN           22.       0.0       -5.       40.        1.      221. &
+* Energy density in spacer 1 at z = 40 cm to 40.2 cm, r = 1.7 cm to 3.8 cm, dz = 0.25 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -50.       3.8       0.0      40.2ESPACER1
+USRBIN           1.7       0.0      40.0       84.        1.        8. &
+* Energy density in spacer 1 at z = 76 cm to 76.2 cm, r = 1.7 cm to 3.5 cm, dz = 0.25 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -51.       3.5       0.0      76.2ESPACER2
+USRBIN           1.7       0.0      76.0       72.        1.        8. &
+* Energy density in spacer 1 at z = 112 cm to 112.2 cm, r = 1.7 cm to 3.2 cm, dz = 0.25 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -52.       3.2       0.0     112.2ESPACER3
+USRBIN           1.7       0.0     112.0       60.        1.        8. &
+* Energy density in spacer 1 at z = 148 cm to 148.2 cm, r = 1.7 cm to 2.8 cm, dz = 0.25 mm, dr = 0.25 mm
+USRBIN           11.    ENERGY      -53.       2.8       0.0     148.2ESPACER4
+USRBIN           1.7       0.0     148.0       44.        1.        8. &
 * Store radionuclides in all volume regions in binary format which can be processed with flutil/usrsuwev
 RESNUCLE          3.      -61.                         H1OUT          RNH1OUT
 RESNUCLE          3.      -62.                          H1IN          RNH1IN
 RESNUCLE          3.      -63.                         H1END          RNH1END
-RESNUCLE          3.       64.                       H1PLATE          RNH1PL
+RESNUCLE          3.      -64.                       H1PLATE          RNH1PL
 RESNUCLE          3.      -65.                       H1CERAM          RNH1CER
 RESNUCLE          3.      -66.                        H1GAS1          RNH1GAS1
 RESNUCLE          3.      -67.                        H1GAS2          RNH1GAS2
@@ -383,14 +408,17 @@ RESNUCLE          3.      -71.                         TFLOW          RNTFLOW
 RESNUCLE          3.      -72.                        TCONT1          RNTCONT1
 RESNUCLE          3.      -73.                        TCONT2          RNTCONT2
 RESNUCLE          3.      -74.                       TWINDOW          RNTWIN
-RESNUCLE          3.      -75.                      TUPCONE1          RNTUPC1
+RESNUCLE          3.      -75.                       BAFCONT          RNBAFCON
 RESNUCLE          3.      -76.                        BAFGAS          RNBAFGAS
 RESNUCLE          3.      -77.                         TGAS1          RNTGAS1
 RESNUCLE          3.      -78.                         TGAS2          RNTGAS2
 RESNUCLE          3.      -79.                         TGAS3          RNTGAS3
-RESNUCLE          3.      -80.                         TGAS4          RNTGAS4
 RESNUCLE          3.      -81.                        TARGET          RNTARGET
 RESNUCLE          3.      -82.                        BAFFLE          RNBAFFLE
+RESNUCLE          3.      -83.                      TSPACER1          RNTSPC1
+RESNUCLE          3.      -84.                      TSPACER2          RNTSPC2
+RESNUCLE          3.      -85.                      TSPACER3          RNTSPC3
+RESNUCLE          3.      -86.                      TSPACER4          RNTSPC4
 * Set the random number seed
 RANDOMIZ          1.        1.
 * Set the number of primary histories to be simulated in the run; 10,000
