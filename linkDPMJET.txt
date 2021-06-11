@@ -1,0 +1,2 @@
+$FLUPRO/flutil/fff usermvax/magfld.f
+$FLUPRO/flutil/lfluka -L$FLUPRO -L$FLUPRO/interface -L$FLUPRO/latestRQMD -l dpmjet3 -l rqmd -O dpmmvax -O rqmdmvax -m fluka -o flukadpm3 usermvax/magfld.o
