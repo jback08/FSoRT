@@ -255,21 +255,21 @@ TCONT        5 +r20 -zm14p09 +zm12p49 -r13p73
                | +tcone5o -tcone5i +tcone1i -tcone3o
                | +tcone2o -tcone2i
                | +tout1o -tout1i +z150p6 -z40
-* Target outer container downstream Ti beam window
-TDSWIN       5 +tsph1o -tsph1i -z149p4
 * Bafflet Ti container, connecting to the upstream target manifold and the graphite target joins
 BAFCONT      5 +tcone4o -tcone4i +zm4 -zm6p52
                | +tcone4o -tcone4i +tcone5i
                | +tcone5o -tcone5i +tcone1i +zm10p76
                | +tcone5o -tcone5i -tcone1i +zm12p49
                | +r3p3 -r2p9 -zm33 +zm14p04
-* Upstream beam window, approximated as a 0.5 mm-thick flat disc (with bafflet outer radius) perpendicular to the beam axis
-UPWINDOW     5 +r3p3 +zm33 -zm33p055
 * Ti support fins connecting flow guide to outer container; ~0.5 to 1 mm thick; +-45 deg and +- 135 deg, each arc spans 2 deg (45+-1 deg)
 TFINS        5 +tout1i -tcyl2o +xy1 +xy2 -z40 +z148 -xzplane
                | +tout1i -tcyl2o +xy3 +xy4 -z40 +z148 -xzplane
                | +tout1i -tcyl2o -xy4 -xy3 -z40 +z148 +xzplane
                | +tout1i -tcyl2o -xy1 -xy2 -z40 +z148 +xzplane
+* Target outer container downstream Ti beam window
+TDSWIN       5 +tsph1o -tsph1i -z149p4
+* Upstream beam window, approximated as a 0.5 mm-thick flat disc (with bafflet outer radius) perpendicular to the beam axis
+UPWINDOW     5 +r3p3 +zm33 -zm33p055
 * He gas inside bafflet
 BAFGAS       5 +target -zm33 +zm16p54
                | +bafcone
@@ -308,6 +308,9 @@ MATERIAL                            1.78                              Graphite
 COMPOUND        -.99    CARBON     -.007  NITROGEN     -.003    OXYGENGraphite
 MATERIAL                            3.99                              Alumina
 COMPOUND         0.4  ALUMINUM       0.6    OXYGEN                    Alumina
+* Define titanium material for beam windows to allow interaction length DPA biasing. Same density (table 5.3 in Fluka manual)
+MATERIAL                            4.54                              TiWindow
+COMPOUND         1.0  TITANIUM                                        TiWindow
 * Set DPA energy thresholds
 MAT-PROP         30.                      Graphite                    DPA-ENER
 MAT-PROP         30.                       Alumina                    DPA-ENER
@@ -324,6 +327,7 @@ ASSIGNMA       ARGON    H1GAS1    H1GAS2                  1.
 ASSIGNMA    NITROGEN   BEAMGAS    H1GAS3
 ASSIGNMA       WATER    H1COOL                            1.
 ASSIGNMA    TITANIUM     TFLOW     TFINS
+ASSIGNMA    TiWindow    TDSWIN  UPWINDOW
 ASSIGNMA      HELIUM    BAFGAS     TGAS3
 ASSIGNMA    Graphite    TARGET    BAFFLE
 * Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
@@ -336,6 +340,8 @@ PHYSICS           1.                                                  COALESCE
 PHYSICS           1.     0.001      0.15        2.        2.          IONSPLIT
 * Transport ions (from radio-nuclear interactions)
 IONTRANS    HEAVYION
+* Bias (reduce) interaction length in beam window titanium to improve statistics. Forces an interaction and applies correction weight. Scaling factor = 0.01: lambda = 28 cm * 0.01 = 2.8 mm
+LAM-BIAS                  0.01  TiWindow    PROTON
 * Score energy deposition (GeV) in all regions for each event separately. This is unaffected by userweig weighting
 SCORE         ENERGY
 * Dump the regional scoring info per event to output file: can then be used to find total deposited power in each region etc.
@@ -458,12 +464,12 @@ USRBIN           3.5       0.0       20.      180.        1.      200. &
 * DPA in container cone 4th part: z = 40 to 150 cm, r = 2.5 to 4.0 cm, dz = 1 cm, dr = 0.25 mm
 USRBIN           11.   DPA-SCO      -59.        4.       0.0      150.DCONT4
 USRBIN           2.5       0.0       40.       60.        1.      110. &
-* DPA in downstream target beam window, dz = 0.25 mm, dr = 0.25 mm
+* DPA in downstream target beam window, dz = 0.25 mm, dr = 0.5 mm
 USRBIN           11.   DPA-SCO      -61.        3.       0.0     152.5DDSWIN
-USRBIN           0.0       0.0      149.      120.        1.      140. &
-* DPA in upstream target beam window, dz = 0.25 mm, dr = 0.25 mm
+USRBIN           0.0       0.0      149.       60.        1.      140. &
+* DPA in upstream target beam window, dz = 0.25 mm, dr = 0.5 mm
 USRBIN           11.   DPA-SCO      -62.       3.3       0.0      -33.DUSWIN
-USRBIN           0.0       0.0     -33.1      132.        1.        4. &
+USRBIN           0.0       0.0     -33.1       66.        1.        4. &
 * DPA in horn 1 inner/outer conductor upstream vertical section: z = -5 to -2.5 cm, r = 12.5 to 24 cm, dz = 0.5 mm, dr = 1 mm
 USRBIN           11.   DPA-SCO      -63.       24.       0.0      -2.5DH1UPV
 USRBIN          12.5       0.0       -5.      115.        1.       50. &
