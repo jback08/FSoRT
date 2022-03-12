@@ -31,9 +31,9 @@ class initPars(object):
 
     def __init__(self):
         # The label for the target output files
-        self.targetLabel = 'LBNFTargetL150cmSpacers'
+        self.targetLabel = 'LBNFTgtL150cmFinsBaf'
         # Base directory containing the job output
-        self.baseDir = '/storage/epp2/phsdau/neutrino/FlukaArchive/fluka2020_v0p3/FSoRT'
+        self.baseDir = 'FlukaArchive/fluka4-2.1/FSoRT'
         
         # The number of simulation job directories: 100
         self.nJobs = 100
@@ -58,11 +58,9 @@ class initPars(object):
         self.POTPulse = 7.5e13
         # POT rate (per sec) for deposited power calculations
         self.POTRate = self.POTPulse/self.pulseT
-        print 'KE = {0}, POTyr = {1}, POTScale = {2}, POTPulse = {3}, t = {4} s, rate = {5}'.format(self.KE, self.POTyr,
-                                                                                                    self.POTScale,
-                                                                                                    self.POTPulse, 
-                                                                                                    self.pulseT,
-                                                                                                    self.POTRate) 
+        print 'KE = {0}, POTyr = {1}, POTScale = {2}, POTPulse = {3}, ' \
+              't = {4} s, rate = {5}'.format(self.KE, self.POTyr, self.POTScale, self.POTPulse,
+                                             self.pulseT, self.POTRate)
         print 'POTRate = {0}'.format(self.POTRate)
 
         PScale = self.GeVToJ*self.POTRate
@@ -259,7 +257,37 @@ def createRootFile(pars):
 def fillRegionInfo(theData, pars):
 
     theData.region.clear()
-    if 'LBNFTargetL150cmSpacers' in pars.targetLabel:
+    if 'LBNFTgtL150cmFins' in pars.targetLabel:
+
+        theData.region.push_back(ROOT.TString('BlackBody'))
+        theData.region.push_back(ROOT.TString('Void'))
+        theData.region.push_back(ROOT.TString('MainBaffle'))
+        theData.region.push_back(ROOT.TString('MBaffleGas'))
+        theData.region.push_back(ROOT.TString('OuterVol'))
+        theData.region.push_back(ROOT.TString('Horn1Out'))
+        theData.region.push_back(ROOT.TString('Horn1In'))
+        theData.region.push_back(ROOT.TString('Horn1End'))
+        theData.region.push_back(ROOT.TString('Horn1Plate'))
+        theData.region.push_back(ROOT.TString('Horn1Ceramic'))
+        theData.region.push_back(ROOT.TString('Horn1Gas1'))
+        theData.region.push_back(ROOT.TString('Horn1Gas2'))
+        theData.region.push_back(ROOT.TString('BeamGas'))
+        theData.region.push_back(ROOT.TString('Horn1Gas3'))
+        theData.region.push_back(ROOT.TString('Horn1Cool'))
+        theData.region.push_back(ROOT.TString('TFlow'))
+        theData.region.push_back(ROOT.TString('TCont'))
+        theData.region.push_back(ROOT.TString('BaffletCont'))
+        theData.region.push_back(ROOT.TString('TFins'))
+        theData.region.push_back(ROOT.TString('TDSWin'))
+        theData.region.push_back(ROOT.TString('UpWindow'))
+        theData.region.push_back(ROOT.TString('BaffletGas'))
+        theData.region.push_back(ROOT.TString('TGas1'))
+        theData.region.push_back(ROOT.TString('TGas2'))
+        theData.region.push_back(ROOT.TString('TGas3'))
+        theData.region.push_back(ROOT.TString('Target'))
+        theData.region.push_back(ROOT.TString('Bafflet'))
+
+    elif 'LBNFTargetL150cmSpacers' in pars.targetLabel:
 
         theData.region.push_back(ROOT.TString('BlackBody'))
         theData.region.push_back(ROOT.TString('Void'))

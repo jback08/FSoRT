@@ -11,7 +11,7 @@ class parameters(object):
     def __init__(self, label, nJobs):
 
         self.label = label
-        self.baseDir = '/dune/data/users/jback/FlukaArchive/fluka2020_v0p3/FSoRT'
+        self.baseDir = 'FlukaArchive/fluka4-2.1/FSoRT'
         self.nJobs = nJobs
 
         # Beam and runtime parameters
@@ -54,8 +54,8 @@ def run(pars, doExtract):
             tarCmd = 'tar -zxf {0}/binList.tar.gz -C {0}'.format(jobDir)
             os.system(tarCmd)
 
-    # Specify list of rad nuclei usrbin regional info (same for all jobs)
-    radList = range(61, 83)
+    # Specify list of rad nuclei usrbin regional info (same for all jobs): min, max+1
+    radList = range(72, 94)
     print('radList = {0}'.format(radList))
 
     for iR,radIdx in enumerate(radList):
@@ -74,7 +74,7 @@ def createScript(radIdx, combDir, pars):
     combName = 'radNucl{0}.sh'.format(radIdx)
     combFile = open(combName, 'w')
 
-    combFile.write('$FLUPRO/flutil/usrsuwev << EOF\n')
+    combFile.write('$FLUPRO/bin/usrsuwev << EOF\n')
     combFile.write('yes\n')
     combFile.write('{0:.6e}\n'.format(pars.POTSec))
 
@@ -106,57 +106,57 @@ def createScript(radIdx, combDir, pars):
 def getRegionName(radIdx):
 
     name = 'Void'
-    if radIdx == 61:
+    if radIdx == 72:
         name = 'H1Out'
-    elif radIdx == 62:
-        name = 'H1In'
-    elif radIdx == 63:
-        name = 'H1End'
-    elif radIdx == 64:
-        name = 'H1Plate'
-    elif radIdx == 65:
-        name = 'H1Ceram'
-    elif radIdx == 66:
-        name = 'H1Gas1'
-    elif radIdx == 67:
-        name = 'H1Gas2'
-    elif radIdx == 68:
-        name = 'BeamGas'
-    elif radIdx == 69:
-        name = 'H1Gas3'
-    elif radIdx == 70:
-        name = 'H1Cool'
-    elif radIdx == 71:
-        name = 'TFlow'
-    elif radIdx == 72:
-        name = 'TCont1'
     elif radIdx == 73:
-        name = 'TCont2'
+        name = 'H1In'
     elif radIdx == 74:
-        name = 'TWindow'
+        name = 'H1End'
     elif radIdx == 75:
-        name = 'TUpCone1'
+        name = 'H1Plate'
     elif radIdx == 76:
-        name = 'BafGas'
+        name = 'H1Ceram'
     elif radIdx == 77:
-        name = 'TGas1'
+        name = 'H1Gas1'
     elif radIdx == 78:
-        name = 'TGas2'
+        name = 'H1Gas2'
     elif radIdx == 79:
-        name = 'TGas3'
+        name = 'BeamGas'
     elif radIdx == 80:
-        name = 'TGas4'
+        name = 'H1Gas3'
     elif radIdx == 81:
-        name = 'Target'
+        name = 'H1Cool'
     elif radIdx == 82:
-        name = 'Baffle'
+        name = 'TFlow'
+    elif radIdx == 83:
+        name = 'TCont'
+    elif radIdx == 84:
+        name = 'TWindow'
+    elif radIdx == 85:
+        name = 'BafCont'
+    elif radIdx == 86:
+        name = 'BafGas'
+    elif radIdx == 87:
+        name = 'TGas1'
+    elif radIdx == 88:
+        name = 'TGas2'
+    elif radIdx == 89:
+        name = 'TGas3'
+    elif radIdx == 90:
+        name = 'Target'
+    elif radIdx == 91:
+        name = 'Bafflet'
+    elif radIdx == 92:
+        name = 'TFins'
+    elif radIdx == 93:
+        name = 'UpWindow'
 
     return name
 
         
 if __name__ == "__main__":
 
-    targetLabel = 'LBNFTargetL150cm'
+    targetLabel = 'LBNFTgtL150cmFinsBaf'
     nJobs = 100
 
     nArg = len(sys.argv)

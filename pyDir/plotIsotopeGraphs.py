@@ -14,7 +14,7 @@ class parameters(object):
     '''
     def __init__(self, dirName):
         # Directory name
-        self.baseDir = '/home/jback/neutrino/FlukaArchive/fluka2020_v0p3/flair-2.3/FSoRT'
+        self.baseDir = 'FlukaArchive/fluka2020_v0p3/flair-2.3/FSoRT'
         self.dirName = dirName
         self.fileDir = '{0}/{1}'.format(self.baseDir, self.dirName)
 

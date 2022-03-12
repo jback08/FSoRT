@@ -38,7 +38,7 @@ class parameters(object):
 
     def __init__(self, label, region):
 
-        self.baseDir = '/dune/data/users/jback/FlukaArchive/fluka2020_v0p3/FSoRT'
+        self.baseDir = 'FlukaArchive/fluka2020_v0p3/FSoRT'
         self.label = label
         self.region = region
 

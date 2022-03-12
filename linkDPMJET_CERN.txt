@@ -1,0 +1,3 @@
+$FLUPRO/bin/fff user/magfld.f
+$FLUPRO/bin/fff user/mgdraw.f
+$FLUPRO/bin/ldpmqmd -o $FLUPRO/bin/flukadpm3 user/magfld.o user/mgdraw.o

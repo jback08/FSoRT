@@ -5,41 +5,47 @@
 import os
 import sys
 
-def run(targetLabel):
+class parameters(object):
+
+    def __init__(self, label):
+
+        self.label = label
+        self.baseDir = 'FlukaArchive/fluka4-2.1/FSoRT'
+        self.combDir = self.baseDir + '/' + self.label + 'All'
+
+def run(pars):
     
     runFile = open('runConvertUsrbin.sh', 'w')
 
-    # Create converted directory if it does not exist
-    convDir = 'converted'
-    if (os.path.isdir(convDir) == False):
-        print 'Creating {0}'.format(convDir)
-        os.makedirs(convDir)
+    # Directory where the combined results are located
+    print('combDir = {0}'.format(pars.combDir))
 
-    usrBins = ['21', '22', '23', '24', '25', '26', '27', '28', '29', 
-               '31', '32', '33', '34', '35', '36', '37', '38', '50']
+    usrBins = range(21, 72) # energy & DPA
+    usrBins += [94] # baffle energy
+    print('usrBins = {0}'.format(usrBins))
 
     for i,iFile in enumerate(usrBins):
             
-        convName = createScript(iFile, targetLabel)
+        convName = createScript(iFile, pars)
         runFile.write('sh {0}\n'.format(convName))
 
     runFile.close()
         
-def createScript(iFile, targetLabel):
+def createScript(iFile, pars):
 
-    fileName = '{0}001_fort.{1}'.format(targetLabel, iFile)
+    fileName = '{0}001_fort.{1}'.format(pars.label, iFile)
     asciiName = '{0}.txt'.format(fileName)
 
     convName = 'convert{0}.sh'.format(iFile)
     convFile = open(convName, 'w')
 
-    line = '$FLUPRO/flutil/usbrea << EOF\n'
+    line = '$FLUPRO/bin/usbrea << EOF\n'
     convFile.write(line)
 
-    binName = 'combined/{0}\n'.format(fileName)
+    binName = '{0}/{1}\n'.format(pars.combDir, fileName)
     convFile.write(binName)
 
-    line = 'converted/{0}\n'.format(asciiName)
+    line = '{0}/{1}\n'.format(pars.combDir, asciiName)
     convFile.write(line)
 
     convFile.write('EOF\n')
@@ -50,10 +56,12 @@ def createScript(iFile, targetLabel):
 
 if __name__ == "__main__":
 
-    targetLabel = 'DoubleTarget'
+    label = 'LBNFTgtL150cmFinsBaf'
+    nJobs = 100
+
     nArg = len(sys.argv)
-
     if (nArg > 1):
-        targetLabel = sys.argv[1]
+        label = sys.argv[1]
 
-    run(targetLabel)
+    pars = parameters(label)
+    run(pars)
