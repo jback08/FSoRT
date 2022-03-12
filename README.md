@@ -45,7 +45,8 @@ The [LBNFTgtL150cmFinsBaf.inp](LBNFTgtL150cmFinsBaf.inp) file implements the geo
 
 ### Processing scripts
 
-The [pyDir](pyDir) directory contains a range of python scripts that processes Fluka output files.
+The [pyDir](pyDir) directory contains a range of python scripts and [ROOT](https://root.cern/) code that processes
+Fluka output files.
 
 ### CERN and INFN Fluka versions
 
@@ -57,7 +58,7 @@ User routines for the CERN version need to go into the installed `src/user` subd
 `usermvax` area. The LBNF horn A magnetic field routine we need is [src_user/magfld.f](src_user/magfld.f),
 which is based on the previous INFN [usermvax/magfld.f](usermvax/magfld.f) code.
 
-The [linkDPMJET_CERN.txt](linkDPMJET_CERN) script (run within the `src` install directory) should be used to
+The [linkDPMJET_CERN.txt](linkDPMJET_CERN.txt) script (run within the `src` install directory) should be used to
 create the CERN Fluka executable that includes the horn field as well as enabling DPMJET physics options to
 provide more precise hadronic interactions and radiation dose calculations.
 
