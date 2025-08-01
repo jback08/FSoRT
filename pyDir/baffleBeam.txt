@@ -1,0 +1,36 @@
+1) python pyDir/getBaffleBeam.py --frac 0.01 --option 1
+
+Running bisectionSigma method for area fraction 0.01
+minDA = -9.996388e-03 for minSigma = 2.666667e-01, meanDA = 2.392055e-01 for meanSigma = 8.008333e-01, maxDA = 2.392055e-01 for maxSigma = 8.008333e-01
+minDA = -9.996388e-03 for minSigma = 2.666667e-01, meanDA = 3.380759e-02 for meanSigma = 5.337500e-01, maxDA = 3.380759e-02 for maxSigma = 5.337500e-01
+minDA = -6.165395e-03 for minSigma = 4.002083e-01, meanDA = -6.165395e-03 for meanSigma = 4.002083e-01, maxDA = 3.380759e-02 for maxSigma = 5.337500e-01
+minDA = -6.165395e-03 for minSigma = 4.002083e-01, meanDA = 6.799711e-03 for meanSigma = 4.669792e-01, maxDA = 6.799711e-03 for maxSigma = 4.669792e-01
+minDA = -1.260474e-03 for minSigma = 4.335937e-01, meanDA = -1.260474e-03 for meanSigma = 4.335937e-01, maxDA = 6.799711e-03 for maxSigma = 4.669792e-01
+minDA = -1.260474e-03 for minSigma = 4.335937e-01, meanDA = 2.339064e-03 for meanSigma = 4.502865e-01, maxDA = 2.339064e-03 for maxSigma = 4.502865e-01
+minDA = -1.260474e-03 for minSigma = 4.335937e-01, meanDA = 4.353380e-04 for meanSigma = 4.419401e-01, maxDA = 4.353380e-04 for maxSigma = 4.419401e-01
+minDA = -4.380201e-04 for minSigma = 4.377669e-01, meanDA = -4.380201e-04 for meanSigma = 4.377669e-01, maxDA = 4.353380e-04 for maxSigma = 4.419401e-01
+minDA = -7.774524e-06 for minSigma = 4.398535e-01, meanDA = -7.774524e-06 for meanSigma = 4.398535e-01, maxDA = 4.353380e-04 for maxSigma = 4.419401e-01
+minDA = -7.774524e-06 for minSigma = 4.398535e-01, meanDA = 2.121648e-04 for meanSigma = 4.408968e-01, maxDA = 2.121648e-04 for maxSigma = 4.408968e-01
+minDA = -7.774524e-06 for minSigma = 4.398535e-01, meanDA = 1.017920e-04 for meanSigma = 4.403752e-01, maxDA = 1.017920e-04 for maxSigma = 4.403752e-01
+The required sigma is 4.403752e-01 for fractional area difference 1.017920e-04
+*** meanSigma = 4.403752e-01 has meanDA = 1.017920e-04 & meanA = 1.010179e-02
+
+2) python pyDir/getBaffleBeam.py --frac 0.01 --option 2
+
+Initial minOffset = 0.000000e+00, minDA = -9.996388e-03, maxOffset = 5.700000e+00, maxDA = 9.899379e-01
+minDA = -9.996388e-03 for minOffset = 0.000000e+00, meanDA = 9.899668e-01 for meanOffset = 2.850000e+00, maxDA = 9.899668e-01 for maxOffset = 2.850000e+00
+minDA = -9.996388e-03 for minOffset = 0.000000e+00, meanDA = 6.581178e-01 for meanOffset = 1.425000e+00, maxDA = 6.581178e-01 for maxOffset = 1.425000e+00
+minDA = -9.996388e-03 for minOffset = 0.000000e+00, meanDA = 3.963391e-03 for meanOffset = 7.125000e-01, maxDA = 3.963391e-03 for maxOffset = 7.125000e-01
+minDA = -9.755294e-03 for minOffset = 3.562500e-01, meanDA = -9.755294e-03 for meanOffset = 3.562500e-01, maxDA = 3.963391e-03 for maxOffset = 7.125000e-01
+minDA = -7.797288e-03 for minOffset = 5.343750e-01, meanDA = -7.797288e-03 for meanOffset = 5.343750e-01, maxDA = 3.963391e-03 for maxOffset = 7.125000e-01
+minDA = -4.195396e-03 for minOffset = 6.234375e-01, meanDA = -4.195396e-03 for meanOffset = 6.234375e-01, maxDA = 3.963391e-03 for maxOffset = 7.125000e-01
+minDA = -8.930960e-04 for minOffset = 6.679687e-01, meanDA = -8.930960e-04 for meanOffset = 6.679687e-01, maxDA = 3.963391e-03 for maxOffset = 7.125000e-01
+minDA = -8.930960e-04 for minOffset = 6.679687e-01, meanDA = 1.309169e-03 for meanOffset = 6.902344e-01, maxDA = 1.309169e-03 for maxOffset = 6.902344e-01
+minDA = -8.930960e-04 for minOffset = 6.679687e-01, meanDA = 1.557725e-04 for meanOffset = 6.791016e-01, maxDA = 1.557725e-04 for maxOffset = 6.791016e-01
+minDA = -3.812224e-04 for minOffset = 6.735352e-01, meanDA = -3.812224e-04 for meanOffset = 6.735352e-01, maxDA = 1.557725e-04 for maxOffset = 6.791016e-01
+minDA = -1.159272e-04 for minOffset = 6.763184e-01, meanDA = -1.159272e-04 for meanOffset = 6.763184e-01, maxDA = 1.557725e-04 for maxOffset = 6.791016e-01
+minDA = -1.159272e-04 for minOffset = 6.763184e-01, meanDA = 1.911421e-05 for meanOffset = 6.777100e-01, maxDA = 1.911421e-05 for maxOffset = 6.777100e-01
+minDA = -4.860763e-05 for minOffset = 6.770142e-01, meanDA = -4.860763e-05 for meanOffset = 6.770142e-01, maxDA = 1.911421e-05 for maxOffset = 6.777100e-01
+The required offset is 6.770142e-01 for fractional area difference -4.860763e-05
+*** meanOffset = 6.770142e-01 has meanDA = -4.860763e-05 & meanA = 9.951392e-03
+

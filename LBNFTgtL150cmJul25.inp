@@ -1,9 +1,5 @@
 * Set the defaults for precision simulations
 DEFAULTS                                                              PRECISIO
-* Beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
-BEAM           -120.       0.0       0.0    -0.628    -0.628          PROTON
-* Beam position: 2 cm from main baffle start: z = -475 cm; Flow tube middle offset: dx = 1.725 cm offset; No baffle: z0 = -35 cm
-BEAMPOS          0.0       0.0    -475.0       0.0       0.0
 MGNFIELD         30.      0.05      0.05                           0.0
 GEOBEGIN                                                              COMBNAME
     0    0          
@@ -701,8 +697,8 @@ MBGASE       5 +MBCylI-MBFin -MBEz1 +MBEz2
 MBGASF1      5 +outvol -MBCylz2 +MBCylz3
 *Main baffle N gas after set E up to end tracking plane 2
 MBGASF2      5 +outvol -MBCylz3 +MBCylz4
-MBGASG       5 +outvol -MBCylz4 +zm60
 #ifdef UseTPT
+MBGASG       5 +outvol -MBCylz4 +zm60
 *Upstream target gas outer region containing TPT & instrument mount
 MNTGAS1      5 +outvol -zm60  +zm44 -tptbr1 -tptbr2 -tptbr3 -tptbox
                | +outvol -zm44 +zm26 -r12p7 -tptbr1 -tptbr2 -tpttend -tptbend -tpttcer -tptbcer
@@ -1060,10 +1056,8 @@ BAFFLET      5 +r2p9 -target -zm32 +zm16p54
                | +r2p9 -bafcone -zm16p54 +zm14p04
 #else
 *Upstream target gas outer region containing TPT & instrument mount
-MNTGAS2      5 +outvol -zm26 | +r12p7 -zm44 +zm26
+MNTGAS2      5 +r12p7 -zm44 +zm26
 #endif
-#else
-MNTGAS1      5 +outvol -zm60
 #endif
 END
 GEOEND
@@ -1094,9 +1088,9 @@ ASSIGNMA      VACUUM     VOID1
 ASSIGNMA      C_DG20  MAINBAFA   MBFINSE
 ASSIGNMA     Ti6Al4V   MBRINGU   MBRINGE
 ASSIGNMA    ALUMINUM    MBDUCT
-ASSIGNMA    NITROGEN    MBGASO    MBGASG
+ASSIGNMA    NITROGEN    MBGASO   MBGASF2
 #ifdef UseTPT
-ASSIGNMA    NITROGEN   MNTGAS1    TPTGAS
+ASSIGNMA    NITROGEN    MBGASG    TPTGAS
 ASSIGNMA     Alumina  TPTCERAM
 ASSIGNMA       AlTPT       TPT
 ASSIGNMA    ALUMINUM    TPTBOX   TPTBRAC
@@ -1113,8 +1107,6 @@ ASSIGNMA      C_IG15    TARGET   BAFFLET
 #else
 ASSIGNMA    NITROGEN   MNTGAS2
 #endif
-#else
-ASSIGNMA    NITROGEN   MNTGAS1
 #endif
 * Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
 PHYSICS        1000.     1000.     1000.     1000.     1000.     1000.PEATHRES
@@ -1226,8 +1218,9 @@ USRBIN            3.       0.0      210.      175.       36.      150. &
 * Energy density in horn 1 outer conductor: z = -5 to 216 cm, r = 22 to 23 cm, dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
 USRBIN           11.    ENERGY       -33     23.65       0.0      216.EH1OUT
 USRBIN           22.       0.0       -5.       66.       36.      221. &
-USRBIN            11    PROTON       -35       2.0       0.0    -470.0BEAM
-USRBIN           0.0       0.0    -480.0       20.       36.       10. &
+*Proton beam distribution at z = -475 cm
+USRBIN            10  BEAMPART       -35      10.0      10.0    -474.0BEAM
+USRBIN         -10.0     -10.0    -476.0      200.      200.        1. &
 *DPA overall (excluding main baffle): dz = 1 cm, dr = 1 mm
 USRBIN           11.   DPA-SCO       -41       35.       0.0      230.DALL
 USRBIN           0.0       0.0      -60.      350.        1.      290. &
@@ -1324,8 +1317,15 @@ USRBIN           22.       0.0       -5.       66.       36.      221. &
 *Regional radionuclides, binary format. Process using flutil/usrsuwev
 *RESNUCLE          3.      -90.                        TARGET          RNTARGET
 USERDUMP         100        99         3         1                    data.txt
+* Beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+BEAM          -120.0       0.0       0.0    -0.628    -0.628          PROTON
+* Beam position: 2 cm from main baffle start: z = -475 cm; Flow tube middle offset: dx = 1.725 cm offset; No baffle: z0 = -35 cm
+BEAMPOS          0.0       0.0    -475.0       0.0       0.0
+*1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
+*Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
+SOURCE             2      0.44       0.0 $bafHoleR  $bRingOR
 * Set the random number seed
 RANDOMIZ          1.        1.
 * Set the number of primary histories to be simulated in the run; 10,000
-START            10.
+START            50.
 STOP

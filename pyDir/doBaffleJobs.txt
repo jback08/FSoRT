@@ -1,0 +1,9 @@
+python runBaffleFNALJobs.py --inName LBNFBaffleJul25 --nJobs 100 --nPOT 10000 --option 1
+python runBaffleFNALJobs.py --inName LBNFBaffleJul25 --nJobs 100 --nPOT 10000 --option 2
+python runBaffleFNALJobs.py --inName LBNFBaffleJul25 --nJobs 100 --nPOT 10000 --option 3
+python runBaffleFNALJobs.py --inName LBNFBaffleTPTJul25 --nJobs 100 --nPOT 10000 --option 1
+python runBaffleFNALJobs.py --inName LBNFBaffleTPTJul25 --nJobs 100 --nPOT 10000 --option 2
+python runBaffleFNALJobs.py --inName LBNFBaffleTPTJul25 --nJobs 100 --nPOT 10000 --option 3
+python runBaffleFNALJobs.py --inName LBNFTgtL150cmJul25 --nJobs 100 --nPOT 10000 --option 1
+python runBaffleFNALJobs.py --inName LBNFTgtL150cmJul25 --nJobs 100 --nPOT 10000 --option 2
+python runBaffleFNALJobs.py --inName LBNFTgtL150cmJul25 --nJobs 100 --nPOT 10000 --option 3
