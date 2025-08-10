@@ -1,7 +1,7 @@
 # flair project file
 Version: 300
 Mode: fluka
-md5: e1b24ca98b4384b4da7e5bf4f903024d
+md5: f959d04edba60305cd9522f7e23a8e88
 Input:
 * Set the defaults for precision simulations
 DEFAULTS PRECISIO
@@ -695,7 +695,6 @@ REGION MBGASF2 5
 #ifdef UseTPT
 REGION MBGASG 5
 	+outvol -MBCylz4 +zm60 
-	@select=1
 *Upstream target gas outer region containing TPT & instrument mount
 REGION MNTGAS1
 	+outvol -zm60  +zm44 -tptbr1 -tptbr2 -tptbr3 -tptbox
@@ -707,8 +706,16 @@ REGION TPTGAS 5
 REGION TPTCERAM 5
 	+tpttcer | +tptbcer 
 REGION TPT 5
-	+tptvrod1 | +tptvrod2 | +tptvrod3 | +tptvrod4 | +tptvrod5
-	| +tpthrod1 | +tpthrod2 | +tpthrod3 | +tpthrod4 | +tpthrod5  
+	+tptvrod1 +r3p3
+	| +tptvrod2 +r3p3
+	| +tptvrod3 +r3p3
+	| +tptvrod4 +r3p3
+	| +tptvrod5 +r3p3
+	| +tpthrod1 +r3p3
+	| +tpthrod2 +r3p3
+	| +tpthrod3 +r3p3
+	| +tpthrod4 +r3p3
+	| +tpthrod5 +r3p3
 REGION TPTBOX 5
 	+tptbox -r3p3 
 REGION TPTBRAC 5
@@ -735,7 +742,7 @@ REGION H1IN 5
 	| +h1cone2o -h1cone2i
 	| +h1dsc1 -h1cyl5
 * Horn1 Al curved downstream section
-REGION H1END 10
+REGION H1END 5
 	+h1dsc2o -h1dsc2i
 	| +h1dsc3o -h1dsc3i
 	| +h1dsc4o -h1dsc4i
@@ -759,7 +766,7 @@ REGION H1GAS2 5
 	| +h1dsc6i -h1dsc3o
 	| +h1dsc5i -h1dsc4o
 *Upstream target gas outer region containing TPT & instrument mount
-REGION MNTGAS2
+REGION MNTGAS2 5
 	+outvol -r20p5 -zm26 +zm22p7 -mountbj -mounttj
 	| +r16p25 -r12p7 -zm26 +zm22p7
 	| +r15p5 -r12p7 -zm22p7 +zm12p49
@@ -769,14 +776,14 @@ REGION MNTGAS2
 	| +r12p7 -r3p3 -zm44 +zm30
 	| +r28p8-r20p5 -zm21p83 +zm16p07
 * Outer volume containing the horn and target geometry
-REGION OUTVOL 15
+REGION OUTVOL 5
 	+outvol -h1cyl1 +z216 -zm15p2
 	| +outvol -h1cyl1 +z230 -z216
 	| +outvol-r34p75 -zm22p7 +zm15p2
 	| +h1cyl1 -r20 -zm15p2 +zm5
 	| +r20 -tcone1o -tcone2o -zm11p87 +zm5
 * Nitrogen gas between horn inner conductor and target container (filled with He)
-REGION BEAMGAS 10
+REGION BEAMGAS 5
 	+h1cone1i -tcone2o
 	| +h1cyl4i -tout1o +z116p3 -z40
 	| +h1cone2i -tout1o +z149p4 -z116p3
@@ -784,7 +791,7 @@ REGION BEAMGAS 10
 	| +h1cone2i -z157 +z212
 	| +h1cyl5 +z216 -z212
 *N gas surrounding DS end of Horn 1
-REGION DSGAS 10
+REGION DSGAS 5
 	+h1dsc2i
 	| +h1dsc3i
 	| +h1dsc4i
@@ -805,7 +812,7 @@ REGION H1COOL 5
 	| +w1cone2 -h1cone2o -z116p3 +z212
 	| +w1dsc1 -h1dsc1 +z216 -z212
 * Target Ti flow tube between target core and its outer container
-REGION TFLOW 10
+REGION TFLOW 5
 	+r7p4 -r6p9 -zm30 +zm6p52 -tcone5o
 	| +r12p2 -r7p4 -zm30 +zm29p5
 	| +r12p7 -r12p2 +zm15p5 -zm30
@@ -897,7 +904,7 @@ REGION TGAS1 5
 	+r12p2 -r7p4 +zm15p5 -zm29p5
 	| +tcone3i +z0 -zm15p5 -tcone4o -r7p4 -tcone5o +zm6p52
 	| +tcone5o -tcone5i -zm10p76 +tcone3i
-REGION TGAS2 10
+REGION TGAS2 5
 	+tcone5i +tcone3i -tcone4o
 	| +tcone3i -tcone4o -zm6p52 +zm4
 	| +tcone3i -zm4 +z0 -tupendo
@@ -970,12 +977,12 @@ REGION TGAS2D 5
 	| +tcyl2i -target -zJoinC4b +z150
 	| +tcyl2i -z150 +z150p6 
 	| +tcyl2o -z150p6 +tsph1i   
-REGION TGAS3 10
+REGION TGAS3 5
 	+tcone5i +zm6p52 -tcone3o
 	| +tcone2i -tcone3o +z8p0855
 	| +tcone2i -tcyl2o -z8p0855 +z40
 *Helium gas for target fin section A
-REGION TGAS4A 10
+REGION TGAS4A 5
 	+tout1i -tcyl2o -z40 +zFinA1
 	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy1a +xy2b 
 	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy2a +xy3b 
@@ -995,7 +1002,7 @@ REGION TGAS4A 10
 	| +tout1i -tcyl2o -zFinA3 +zFinA4 -xy4a +xy1b
 	| +tout1i -tcyl2o -zFinA4 +zFinA5    
 *Helium gas for target fin section B
-REGION TGAS4B 10
+REGION TGAS4B 5
 	+tout1i -tcyl2o -zFinA5 +zFinB1
 	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy1a +xy2b 
 	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy2a +xy3b 
@@ -1015,7 +1022,7 @@ REGION TGAS4B 10
 	| +tout1i -tcyl2o -zFinB3 +zFinB4 -xy4a +xy1b
 	| +tout1i -tcyl2o -zFinB4 +zFinB5    
 *Helium gas for target fin section C
-REGION TGAS4C 10
+REGION TGAS4C 5
 	+tout1i -tcyl2o -zFinB5 +zFinC1
 	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy1a +xy2b 
 	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy2a +xy3b 
@@ -1302,7 +1309,7 @@ BEAM PROTON -120.0 0.0 0.0 -0.628 -0.628
 BEAMPOS , 0.0 0.0 -475.0 0.0 0.0
 *1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
 *Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
-SOURCE , 2 0.44 0.0 $bafHoleR $bRingOR
+SOURCE , 3 0.2667 0.677 $bafHoleR $bRingOR
 * Set the random number seed
 RANDOMIZ , 1. 1.
 * Set the number of primary histories to be simulated in the run; 10,000
@@ -1310,7 +1317,7 @@ START , 50.
 STOP
 EndInput
 
-Page: Input
+Page: Geometry
 plotengine: Gnuplot
 
 # Run information
@@ -1318,7 +1325,7 @@ Run: <default>
 	Exe:      ../../bin/flukadpm3
 	Last:     1
 	Status:   3
-	StartRun: 1754058526.7554824
+	StartRun: 1754310336.4092457
 	open:     1
 End
 Geometry: Geometry
@@ -1332,10 +1339,10 @@ Plot: Red
 	basisu: 0 0 1
 	basisv: 1 0 0
 	coord: Z-X
-	extends: 106.53593045678517 0.13926265419187603
+	extends: 106.53593045678515 0.13926265419187603
 	group: Geometry
 	layer: Media
-	origin: 5.84735 0 145.409
+	origin: -16.8142 0 5.70311
 End
 Plot: Green
 	Type: Geometry
@@ -1350,18 +1357,18 @@ Plot: Blue
 	Type: Geometry
 	basisu: 0 0 1
 	coord: Z-Y
-	extends: 119.99999999999903 60.313725490195594
+	extends: 1.2579115212475247 0.6322444181956515
 	group: Geometry
 	layer: Media
-	origin: 0 -0.202479 -143.011
+	origin: 0 -0.919773 -233.687
 End
 Plot: Magenta
 	Type: Geometry
 	coord: X-Y
-	extends: 69.44444444444382 53402.7777777773
+	extends: 23.25680393613757 17884.48222688979
 	group: Geometry
 	layer: Media
-	origin: 0 0 -40
+	origin: -0.081188 1.88688 -57
 End
 Plot: TargetHornGeom
 	Type: Geometry
@@ -1372,11 +1379,60 @@ Plot: TargetHornGeom
 	extends: 200.0 35.0
 	grid: 0
 	kind: Geometry
+	labels: 0
 	open: 1
 	origin: 0.0 0.0 100.0
 	title: Plot Geometry
 	xlabel: z (cm)
 	ylabel: y (cm)
+End
+Plot: TPTGeom
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 17.5 35.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -42.5
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: TPTGeomYZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 10.0 20.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -50.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: TPTGeomXZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 1.0 0.0 0.0
+	boundaries: 0
+	coord: Z-X
+	extends: 10.0 10.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -50.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: x (cm)
 End
 Plot: TargetGeomXZ
 	Type: Geometry
@@ -1393,18 +1449,49 @@ Plot: TargetGeomXZ
 	xlabel: z (cm)
 	ylabel: x (cm)
 End
-Plot: BaffleGeom
+Plot: TargetGeomXY
 	Type: Geometry
-	basisu: 0 0 1
+	basisu: 1.0 0.0 0.0
+	basisv: 0.0 1.0 0.0
 	boundaries: 0
-	coord: Z-Y
-	extends: 145 50
+	coord: X-Y
+	extends: 5.0 5.0
 	grid: 0
 	kind: Geometry
 	open: 1
-	origin: 0 0 -355
+	origin: 0.0 0.0 43.0
+	title: Plot Geometry
+	xlabel: x (cm)
+	ylabel: y (cm)
+End
+Plot: BaffleGeomYZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 145.0 50.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 -355.0
 	title: Plot Geometry
 	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: BaffleGeomXY
+	Type: Geometry
+	basisu: 1.0 0.0 0.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: X-Y
+	extends: 25.0 25.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 -470.0
+	title: Plot Geometry
+	xlabel: x (cm)
 	ylabel: y (cm)
 End
 Plot: TargetHornBField
@@ -1422,7 +1509,7 @@ Plot: TargetHornBField
 	xlabel: z (cm)
 	ylabel: y (cm)
 End
-Plot: Beam
+Plot: Beam_Opt1
 	Type: USRBIN
 	axes: X-Y
 	bxmax: 10
@@ -1438,14 +1525,83 @@ Plot: Beam
 		|set size ratio -1
 		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
 		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
-	datafile: LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.35
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.35
 	geo: -No-
 	grid: 0
 	hist: 2D Projection
 	open: 1
 	title: Plot USRBIN
 End
-Plot: AllE
+Plot: Beam_Opt2
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: Beam_Opt3
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: Beam_Opt4
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: AllE_Opt1C
 	Type: USRBIN
 	axes: Z-Y
 	cbcpd: 0
@@ -1457,7 +1613,10 @@ Plot: AllE
 		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
 		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
 		|#set label "Text" at x,y font 'Times,14' left front
-	datafile: LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.21
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.21
 	geo: TargetHornGeom
 	grid: 0
 	hist: 2D Projection
@@ -1475,17 +1634,121 @@ Plot: AllE
 	ymax: 35.0
 	ymin: 0.0
 End
-Plot: BaffleE
+Plot: AllE_Opt2C
 	Type: USRBIN
 	axes: Z-Y
 	cbcpd: 0
 	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: AllE_Opt3C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: AllE_Opt4C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt1A
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
 	cbtics: 1
 	commands:
 		|# Norm = POT/pulse * GeV to Joules
 		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
 		|#set label "Text" at x,y font 'Times,14' left front
-	datafile: LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
 	geo: BaffleGeom
 	grid: 0
 	hist: 2D Projection
@@ -1503,24 +1766,28 @@ Plot: BaffleE
 	ymax: 15.0
 	ymin: 0.0
 End
-Plot: BaffleCylE
+Plot: BaffleE_Opt1B
 	Type: USRBIN
 	axes: Z-Y
 	cbcpd: 0
 	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
 	cbtics: 1
 	commands:
 		|# Norm = POT/pulse * GeV to Joules
 		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
 		|#set label "Text" at x,y font 'Times,14' left front
-	datafile: LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
-	det: 2
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt1_All/LBNFBaffleTPTJul25001_fort.22
 	geo: BaffleGeom
 	grid: 0
 	hist: 2D Projection
-	int: 3.8304006591779235E-004
-	max: 5.44960272E-08
-	min: 1.03717328E-12
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
 	norm: 7.5e13*1.609e-10
 	open: 1
 	proj: Y
@@ -1529,39 +1796,178 @@ Plot: BaffleCylE
 	xmax: -220.0
 	xmin: -475
 	ylabel: r (cm)
-	ymax: 23.0
-	ymin: 22.0
+	ymax: 15.0
+	ymin: 0.0
 End
-Plot: BaffleConeE
+Plot: BaffleE_Opt1C
 	Type: USRBIN
 	axes: Z-Y
 	cbcpd: 0
 	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
 	cbtics: 1
 	commands:
 		|# Norm = POT/pulse * GeV to Joules
 		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
 		|#set label "Text" at x,y font 'Times,14' left front
-	datafile: LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
-	det: 3
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
 	geo: BaffleGeom
 	grid: 0
 	hist: 2D Projection
-	int: 4.3293480761508249E-006
-	max: 4.93604890E-09
-	min: 1.99609453E-13
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
 	norm: 7.5e13*1.609e-10
 	open: 1
 	proj: Y
 	title: Deposited energy (J/cc/pulse)
 	xlabel: z (cm)
-	xmax: -470.0
-	xmin: -500.0
+	xmax: -220.0
+	xmin: -475
 	ylabel: r (cm)
-	ymax: 48.0
-	ymin: 22.0
+	ymax: 15.0
+	ymin: 0.0
 End
-Plot: TPTEAll
+Plot: BaffleE_Opt2C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt3C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt4C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleCylE_Opt1C
+	Type: USRBIN
+	axes: Z-Y
+	bxmax: 23
+	bxmin: 22.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1e-5
+	cbmin: 100.0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set lmargin at screen 0.1 and set rmargin at screen 0.5
+		|#set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|#set format cb "%.1f"
+		|#set format cb "%.0e"
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
+	det: 2
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	ylabel: r (cm)
+	ymax: 24.0
+	ymin: 21.0
+End
+Plot: BaffleConeE_Opt1C
 	Type: USRBIN
 	axes: Z-Y
 	cbcpd: 0
@@ -1570,9 +1976,134 @@ Plot: TPTEAll
 	commands:
 		|# Norm = POT/pulse * GeV to Joules
 		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set lmargin at screen 0.1 and set rmargin at screen 0.5
+		|#set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|#set format cb "%.1f"
+		|#set format cb "%.0e"
 		|#set label "Text" at x,y font 'Times,14' left front
-	datafile: LBNFTgtL150cmJul25001_fort.23
-	geo: TargetHornGeom
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
+	det: 3
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -469.0
+	xmin: -501.0
+	ylabel: r (cm)
+	ymax: 49.0
+	ymin: 21.0
+End
+Plot: SubBaffleE_Opt1AB
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1A.dat BaffleE_Opt1B.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: SubBaffleE_Opt1BC
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1B.dat BaffleE_Opt1C.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: SubBaffleE_Opt1AC
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1A.dat BaffleE_Opt1C.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: TPTEAll_Opt1B
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt1_All/LBNFBaffleTPTJul25001_fort.23
+	geo: TPTGeomXZ
 	grid: 0
 	hist: 2D Projection
 	int: 1.4343769318443137E-002
@@ -1580,10 +2111,119 @@ Plot: TPTEAll
 	min: 7.27361574E-11
 	norm: 7.5e13*1.609e-10
 	open: 1
-	proj: X
+	proj: Y
 	title: Deposited energy (J/cc/pulse)
 	xlabel: z (cm)
-	ylabel: y (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt4B
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt4_All/LBNFBaffleTPTJul25001_fort.23
+	geo: TPTGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt1C
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.23
+	geo: TargetGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt4C
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.23
+	geo: TargetGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
 End
 Plot: TPTE_YZ
 	Type: USRBIN
@@ -1989,7 +2629,7 @@ Plot: AllDPA
 	int: 6.9165070077517958E-019
 	max: 1.09573070E-20
 	min: 3.66663802E-34
-	norm: 7.5e13*1.609e-10/1.2
+	norm: 7.5e13*1.609e-10
 	open: 1
 	proj: Y
 	title: DPA
@@ -1999,6 +2639,30 @@ Plot: AllDPA
 	ylabel: r (cm)
 	ymax: 35.0
 	ymin: 0.0
+End
+Plot: TPTDPA
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.43
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	int: 6.9165070077517958E-019
+	max: 1.09573070E-20
+	min: 3.66663802E-34
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: DPA
+	xlabel: z (cm)
+	ylabel: r (cm)
 End
 Plot: LBNFTgtL150cmFeb25_plot
 	Type: RESNUCLE

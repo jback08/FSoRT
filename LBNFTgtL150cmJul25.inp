@@ -707,8 +707,16 @@ TPTGAS       5 +tptbox +r3p3 -tptvrod1 -tptvrod2 -tptvrod3 -tptvrod4 -tptvrod5 -
                -tpthrod4 -tpthrod5
                | +tptbr3 -tptbox +brachole
 TPTCERAM     5 +tpttcer | +tptbcer
-TPT          5 +tptvrod1 | +tptvrod2 | +tptvrod3 | +tptvrod4 | +tptvrod5
-               | +tpthrod1 | +tpthrod2 | +tpthrod3 | +tpthrod4 | +tpthrod5
+TPT          5 +tptvrod1 +r3p3
+               | +tptvrod2 +r3p3
+               | +tptvrod3 +r3p3
+               | +tptvrod4 +r3p3
+               | +tptvrod5 +r3p3
+               | +tpthrod1 +r3p3
+               | +tpthrod2 +r3p3
+               | +tpthrod3 +r3p3
+               | +tpthrod4 +r3p3
+               | +tpthrod5 +r3p3
 TPTBOX       5 +tptbox -r3p3
 TPTBRAC      5 +tptbr1 | +tptbr2 | +tptbr3 -brachole -tptbox | +tpttend | +tptbend
 #ifdef UseTarget
@@ -730,7 +738,7 @@ H1IN         5 +h1cone1o -h1cone1i
                | +h1cone2o -h1cone2i
                | +h1dsc1 -h1cyl5
 * Horn1 Al curved downstream section
-H1END       10 +h1dsc2o -h1dsc2i
+H1END        5 +h1dsc2o -h1dsc2i
                | +h1dsc3o -h1dsc3i
                | +h1dsc4o -h1dsc4i
                | +r9p5 -h1dsc4i +z225 -z224
@@ -760,20 +768,20 @@ MNTGAS2      5 +outvol -r20p5 -zm26 +zm22p7 -mountbj -mounttj
                | +r12p7 -r3p3 -zm44 +zm30
                | +r28p8-r20p5 -zm21p83 +zm16p07
 * Outer volume containing the horn and target geometry
-OUTVOL      15 +outvol -h1cyl1 +z216 -zm15p2
+OUTVOL       5 +outvol -h1cyl1 +z216 -zm15p2
                | +outvol -h1cyl1 +z230 -z216
                | +outvol-r34p75 -zm22p7 +zm15p2
                | +h1cyl1 -r20 -zm15p2 +zm5
                | +r20 -tcone1o -tcone2o -zm11p87 +zm5
 * Nitrogen gas between horn inner conductor and target container (filled with He)
-BEAMGAS     10 +h1cone1i -tcone2o
+BEAMGAS      5 +h1cone1i -tcone2o
                | +h1cyl4i -tout1o +z116p3 -z40
                | +h1cone2i -tout1o +z149p4 -z116p3
                | +h1cone2i -tsph1o +z157 -z149p4
                | +h1cone2i -z157 +z212
                | +h1cyl5 +z216 -z212
 *N gas surrounding DS end of Horn 1
-DSGAS       10 +h1dsc2i
+DSGAS        5 +h1dsc2i
                | +h1dsc3i
                | +h1dsc4i
                | +h1cyl1 -h1dsc7o +z219p5 -z216
@@ -790,7 +798,7 @@ H1COOL       5 +w1cone1 -h1cone1o
                | +w1cone2 -h1cone2o -z116p3 +z212
                | +w1dsc1 -h1dsc1 +z216 -z212
 * Target Ti flow tube between target core and its outer container
-TFLOW       10 +r7p4 -r6p9 -zm30 +zm6p52 -tcone5o
+TFLOW        5 +r7p4 -r6p9 -zm30 +zm6p52 -tcone5o
                | +r12p2 -r7p4 -zm30 +zm29p5
                | +r12p7 -r12p2 +zm15p5 -zm30
                | +tcone3o -tcone3i -tcone5o +zm6p52
@@ -872,7 +880,7 @@ BAFGAS       5 +target -zm32 +zm16p54
 TGAS1        5 +r12p2 -r7p4 +zm15p5 -zm29p5
                | +tcone3i +z0 -zm15p5 -tcone4o -r7p4 -tcone5o +zm6p52
                | +tcone5o -tcone5i -zm10p76 +tcone3i
-TGAS2       10 +tcone5i +tcone3i -tcone4o
+TGAS2        5 +tcone5i +tcone3i -tcone4o
                | +tcone3i -tcone4o -zm6p52 +zm4
                | +tcone3i -zm4 +z0 -tupendo
                | +tcone4i +tcone5i
@@ -939,11 +947,11 @@ TGAS2D       5 +tcyl2i -target -zJoinC3b +zJoinC4a
                | +tcyl2i -target -zJoinC4b +z150
                | +tcyl2i -z150 +z150p6
                | +tcyl2o -z150p6 +tsph1i
-TGAS3       10 +tcone5i +zm6p52 -tcone3o
+TGAS3        5 +tcone5i +zm6p52 -tcone3o
                | +tcone2i -tcone3o +z8p0855
                | +tcone2i -tcyl2o -z8p0855 +z40
 *Helium gas for target fin section A
-TGAS4A      10 +tout1i -tcyl2o -z40 +zFinA1
+TGAS4A       5 +tout1i -tcyl2o -z40 +zFinA1
                | +tout1i -tcyl2o -zFinA1 +zFinA2 -xy1a +xy2b
                | +tout1i -tcyl2o -zFinA1 +zFinA2 -xy2a +xy3b
                | +tout1i -tcyl2o -zFinA1 +zFinA2 -xy3a +xy4b
@@ -962,7 +970,7 @@ TGAS4A      10 +tout1i -tcyl2o -z40 +zFinA1
                | +tout1i -tcyl2o -zFinA3 +zFinA4 -xy4a +xy1b
                | +tout1i -tcyl2o -zFinA4 +zFinA5
 *Helium gas for target fin section B
-TGAS4B      10 +tout1i -tcyl2o -zFinA5 +zFinB1
+TGAS4B       5 +tout1i -tcyl2o -zFinA5 +zFinB1
                | +tout1i -tcyl2o -zFinB1 +zFinB2 -xy1a +xy2b
                | +tout1i -tcyl2o -zFinB1 +zFinB2 -xy2a +xy3b
                | +tout1i -tcyl2o -zFinB1 +zFinB2 -xy3a +xy4b
@@ -981,7 +989,7 @@ TGAS4B      10 +tout1i -tcyl2o -zFinA5 +zFinB1
                | +tout1i -tcyl2o -zFinB3 +zFinB4 -xy4a +xy1b
                | +tout1i -tcyl2o -zFinB4 +zFinB5
 *Helium gas for target fin section C
-TGAS4C      10 +tout1i -tcyl2o -zFinB5 +zFinC1
+TGAS4C       5 +tout1i -tcyl2o -zFinB5 +zFinC1
                | +tout1i -tcyl2o -zFinC1 +zFinC2 -xy1a +xy2b
                | +tout1i -tcyl2o -zFinC1 +zFinC2 -xy2a +xy3b
                | +tout1i -tcyl2o -zFinC1 +zFinC2 -xy3a +xy4b
@@ -1323,7 +1331,7 @@ BEAM          -120.0       0.0       0.0    -0.628    -0.628          PROTON
 BEAMPOS          0.0       0.0    -475.0       0.0       0.0
 *1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
 *Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
-SOURCE             2      0.44       0.0 $bafHoleR  $bRingOR
+SOURCE             3    0.2667     0.677 $bafHoleR  $bRingOR
 * Set the random number seed
 RANDOMIZ          1.        1.
 * Set the number of primary histories to be simulated in the run; 10,000
