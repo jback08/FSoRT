@@ -4,8 +4,6 @@
 # Python script to plot particle info at the tracking planes in the
 # FLUKA LBNF baffle, TPT & target areas using the "Trk.root" files
 
-import math
-import numpy as np
 import ROOT
 
 def run():
