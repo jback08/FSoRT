@@ -1,0 +1,2861 @@
+# flair project file
+Version: 300
+Mode: fluka
+md5: c4a46564ebc210a920e40356e4f13503
+Input:
+* Set the defaults for precision simulations
+DEFAULTS PRECISIO
+MGNFIELD , 30. 0.05 0.05,,, 0.0
+GEOBEGIN COMBNAME
+*Enable to use TPT
+#define UseTPT
+*Enable to use target and horn (also needs TPT enabled)
+#define UseTarget
+*Main baffle downstream graphite face from MCZero
+#define bafDSz -220.82
+*Main baffle length
+#define bafL 253.3
+*Main baffle upstream graphite face
+#define bafUSz bafDSz-bafL
+*Main baffle titanium dividing ring thickness
+#define bRingT 0.8
+*Main baffle graphite segment lengths. Rings divide layout as 1-3-10-3-1 (4 rings are inside, 2 at ends)
+#define bafSegL (bafL-4.0*bRingT)/18.0
+*Main baffle set A z0 first upstream ring start
+#define bafAz0 bafUSz-bRingT
+*Main baffle set A z1 (1 segment)
+#define bafAz1 bafUSz
+*Main baffle set A z2 (1 segment)
+#define bafAz2 bafAz1+bafSegL
+*Main baffle set B z1 (ring + 3 segments)
+#define bafBz1 bafAz2+bRingT
+*Main baffle set B z2 (ring + 3 segments)
+#define bafBz2 bafBz1+3.0*bafSegL
+*Main baffle set C z1 (ring + 10 segments)
+#define bafCz1 bafBz2+bRingT
+*Main baffle set C z2 (ring + 10 segments)
+#define bafCz2 bafCz1+10.0*bafSegL
+*Main baffle set D z1 (ring + 3 segments)
+#define bafDz1 bafCz2+bRingT
+*Main baffle set D z2 (ring + 3 segments)
+#define bafDz2 bafDz1+3.0*bafSegL
+*Main baffle set E z1 (ring + 1 segment)
+#define bafEz1 bafDz2+bRingT
+*Main baffle set E z2 (ring + 1 segment)
+#define bafEz2 bafEz1+bafSegL
+*Main baffle set E z3 final downstream ring end
+#define bafEz3 bafEz2+bRingT
+*Main baffle beam axis hole radius
+#define bafHoleR 1.335
+*Main baffle ring inner radius
+#define bRingIR 6.0
+*Main baffle ring outer radius
+#define bRingOR 7.6
+*Main baffle fin outer radius
+#define bafFinOR 14.8
+*Main baffle total Al duct length (cylinder + cone)
+#define bafDuctL 278.0
+*Main baffle Al duct cone length
+#define bafConeL 25.97
+*Main baffle Al duct thickness
+#define bafDuctT 0.2
+*Main baffle Al duct cone outer radius
+#define bConeOR 47.0
+*Main baffle Al duct cone inner radius
+#define bConeIR bConeOR-bafDuctT
+*Main baffle Al duct cylinder outer radius
+#define bafCylOR 22.5
+*Main baffle Al duct cylinder inner radius
+#define bafCylIR bafCylOR-bafDuctT
+*Main baffle Al duct cylinder downstream edge
+#define bCylDSz bafDSz+1.35
+*Main baffle end z (for tracking plane)
+#define bCylEz1 bCylDSz+2.0
+*Main baffle end z (for tracking plane)
+#define bCylEz2 bCylEz1+2.0
+*Main baffle Al duct cylinder upstream edge
+#define bCylUSz bCylDSz-bafDuctL+bafConeL
+*Main baffle Al duct cone upstream edge
+#define bConeUSz ' bCylUSz-bafConeL'
+*Target support fin end gap dz width
+#define finZGap 3.0
+*Target support Ti fin dz width
+#define finZWidth 1.2
+*Target support He gas "hole" z length A
+#define finHoleAL 28.783
+*Target support He gas "hole" z length B
+#define finHoleBL 28.783
+*Target support He gas "hole" z length C
+#define finHoleCL 28.433
+*Target support Ti fin z coords for sections A, B & C, starting at z = 40 cm
+#define finZA1 40.0+finZGap
+#define finZA2 finZA1+finZWidth
+#define finZA3 finZA2+finHoleAL
+#define finZA4 finZA3+finZWidth
+#define finZA5 finZA4+finZWidth
+#define finZB1 finZA5+finZGap
+#define finZB2 finZB1+finZWidth
+#define finZB3 finZB2+finHoleBL
+#define finZB4 finZB3+finZWidth
+#define finZB5 finZB4+finZWidth
+#define finZC1 finZB5+finZGap
+#define finZC2 finZC1+finZWidth
+#define finZC3 finZC2+finHoleCL
+#define finZC4 finZC3+finZWidth
+*Graphite core join segment lengths
+#define tgtjoinL 1.5
+*Graphite core join segment thickness
+#define tgtjoinW 0.4
+*TPT rod dz shift
+#define tptdz -56.0
+*Define outer cylinder z0 & length, which varies if TPT/target are turned off
+#define outZ0 -500.0
+#if UseTarget
+#define outHz 240-outZ0
+#elif UseTPT
+#define outHz -26-outZ0
+#else
+#define outHz bCylEz2-outZ0
+#endif
+*Primary beam window (PW) to main baffle on-axis dz separation
+#define PW2BDz 230.0
+*Primary beam window z end
+#define PWzEnd bafUSz-PW2BDz
+*Primary beam window z length 1
+#define PWzL1 3.81
+*Primary beam window z length 2 (membrane to end)
+#define PWzL2 0.32
+*Primary beam window z region start
+#define PWz0 PWzEnd-PWzL1
+*Primary beam window membrane start z position
+#define PWz1 PWzEnd-PWzL2
+*Primary beam window volume total z length, from proton beam start up to edge of MBGASU area
+#define PWTotzL outZ0-PWz0
+*Primary beam window inner radius
+#define PWInR 6.35
+*Primary beam window inner radius 2
+#define PWInR2 7.493
+*Primary beam window outer radius
+#define PWOutR 10.16
+*Primary beam window Be membrane thickness
+#define PWThick 0.061
+*Primary beam window Be membrane z end
+#define PWzMem PWz1+PWThick
+*Blackbody
+SPH blkbody 0.0 0.0 0.0 100000.0
+* Large void sphere
+SPH void 0.0 0.0 0.0 10000.
+*Primary beam window total volume (including N gas area) up to start of main baffle region MBGASU
+RCC pwtotvol 0.0 0.0 $PWz0 0.0 0.0 $PWTotzL 50.0
+* Outer volume
+RCC outvol 0.0 0.0 $outZ0 0.0 0.0 $outHz 50.
+ZCC r2p9 0.0 0.0 2.9
+ZCC r3p3 0.0 0.0 3
+ZCC r5 0.0 0.0 5.
+ZCC r6p9 0.0 0.0 6.9
+ZCC r6p35 0.0 0.0 6.35
+ZCC r7p4 0.0 0.0 7.4
+ZCC r7p5 0.0 0.0 7.5
+ZCC r9p5 0.0 0.0 9.5
+ZCC r10p2 0.0 0.0 10.2
+ZCC r12p2 0.0 0.0 12.2
+ZCC r12p7 0.0 0.0 12.7
+ZCC r14p5 0.0 0.0 14.5
+ZCC r15p5 0.0 0.0 15.5
+ZCC r16p25 0.0 0.0 16.25
+ZCC r19 0.0 0.0 19.
+ZCC r19p5 0.0 0.0 19.5
+ZCC r20 0.0 0.0 20.
+ZCC r20p5 0.0 0.0 20.5
+ZCC r28p8 0.0 0.0 28.8
+ZCC r34p75 0.0 0.0 34.75
+ZCC r50 0.0 0.0 50.0
+XYP z0 0.0
+XYP zm60 -60.0
+XYP zm44 -44.0
+XYP zm43p97 -43.97
+XYP zm32 -32.
+XYP zm30 -30.
+XYP zm29p5 -29.5
+XYP zm26 -26.0
+XYP zm22p7 -22.7
+XYP zm21p83 -21.83
+XYP zm16p54 -16.54
+XYP zm16p07 -16.07
+XYP zm15p5 -15.5
+XYP zm15p2 -15.2
+XYP zm14p04 -14.04
+XYP zm12p49 -12.49
+XYP zm11p87 -11.87
+XYP zm10p76 -10.76
+XYP zm6p52 -6.52
+XYP zm5 -5.
+XYP zm4 -4.
+XYP zm2p5 -2.5
+XYP z8p0855 8.0855
+XYP z40 40.
+XYP z116p3 116.3
+XYP z149p4 149.4
+XYP z150 150.
+XYP z150p6 150.6
+XYP z157 157.
+XYP z212 212.
+XYP z215 215.
+XYP z216 216.
+XYP z219p5 219.5
+XYP z222p5 222.5
+XYP z224 224.
+XYP z225 225.
+XYP z230 230.0
+XYP z235 235.
+XYP z240 240.
+XYP PBWz0 $PWz0
+XYP PBWz1 $PWz1
+XYP PBWMem $PWzMem
+XYP PBWzEnd $PWzEnd
+*Main baffle beam axis hole
+ZCC MBHole 0.0 0.0 $bafHoleR
+*Main baffle rings: inner & outer cylinders
+ZCC MBRingI 0.0 0.0 $bRingIR
+ZCC MBRingO 0.0 0.0 $bRingOR
+*Main baffle fin outer radius
+ZCC MBFin 0.0 0.0 $bafFinOR
+*Main baffle Al duct inner cylinder
+ZCC MBCylI 0 0 $bafCylIR
+*Main baffle Al duct outer cylinder
+ZCC MBCylO 0.0 0.0 $bafCylOR
+*Main baffle Al duct inner cone
+TRC MBConeI 0.0 0.0 $bCylUSz 0.0 0.0 -$bafConeL $bafCylIR $bConeIR
+*Main baffle Al duct outer cone
+TRC MBConeO 0.0 0.0 $bCylUSz 0.0 0.0 -$bafConeL $bafCylOR $bConeOR
+*Main baffle segment z boundaries
+XYP MBAz0 $bafAz0
+XYP MBAz1 $bafAz1
+XYP MBAz2 $bafAz2
+XYP MBBz1 $bafBz1
+XYP MBBz2 $bafBz2
+XYP MBCz1 $bafCz1
+XYP MBCz2 $bafCz2
+XYP MBDz1 $bafDz1
+XYP MBDz2 $bafDz2
+XYP MBEz1 $bafEz1
+XYP MBEz2 $bafEz2
+XYP MBEz3 $bafEz3
+XYP MBCylz0 $bConeUSz
+XYP MBCylz1 $bCylUSz
+XYP MBCylz2 $bCylDSz
+XYP MBCylz3 $bCylEz1
+XYP MBCylz4 $bCylEz2
+*Main baffle fin xy planes: anticlock dir = (-sinP,cosP,0), pos = (rcosP,rsinP,0) +- h_w*dir, P = phi, h_w = w/2 = 0.6 cm, +- for alt dirs
+*Baffle fin 1 at phi = 15 deg, 1st plane
+PLA bafxy1a -0.25882 0.96593 0.0 14.14040 4.41008 0.0
+*Baffle fin 1 at phi = 15 deg, 2nd plane
+PLA bafxy1b -0.25882 0.96593 0.0 14.4510 3.25097 0.0
+*Baffle fin 2 at phi = 45 deg, 1st plane
+PLA bafxy2a -0.70711 0.70711 0.0 10.0409 10.8894 0.0
+*Baffle fin 2 at phi = 45 deg, 2nd plane
+PLA bafxy2b -0.70711 0.70711 0.0 10.8894 10.0409 0.0
+*Baffle fin 3 at phi = 75 deg, 1st plane
+PLA bafxy3a -0.96593 0.25882 0.0 3.25097 14.4510 0.0
+*Baffle fin 3 at phi = 75 deg, 2nd plane
+PLA bafxy3b -0.96593 0.25882 0.0 4.41008 14.1404 0.0
+*Baffle fin 4 at phi = 105 deg, 1st plane
+PLA bafxy4a -0.96593 -0.25882 0.0 -4.41008 14.1404 0.0
+*Baffle fin 4 at phi = 105 deg, 2nd plane
+PLA bafxy4b -0.96593 -0.25882 0.0 -3.25097 14.4510 0.0
+*Baffle fin 5 at phi = 135 deg, 1st plane
+PLA bafxy5a -0.70711 -0.70711 0.0 -10.8894 10.0409 0.0
+*Baffle fin 5 at phi = 135 deg, 2nd plane
+PLA bafxy5b -0.70711 -0.70711 0.0 -10.0409 10.8894 0.0
+*Baffle fin 6 at phi = 165 deg, 1st plane
+PLA bafxy6a -0.25882 -0.96593 0.0 -14.4510 3.25097 0.0
+*Baffle fin 6 at phi = 165 deg, 2nd plane
+PLA bafxy6b -0.25882 -0.96593 0.0 -14.1404 4.41008 0.0
+*Baffle fin 7 at phi = 195 deg, 1st plane
+PLA bafxy7a 0.25882 -0.96593 0.0 -14.1404 -4.41008 0.0
+*Baffle fin 7 at phi = 195 deg, 2nd plane
+PLA bafxy7b 0.25882 -0.96593 0.0 -14.4510 -3.25097 0.0
+*Baffle fin 8 at phi = 225 deg, 1st plane
+PLA bafxy8a 0.70711 -0.70711 0.0 -10.0409 -10.8894 0.0
+*Baffle fin 8 at phi = 225 deg, 2nd plane
+PLA bafxy8b 0.70711 -0.70711 0.0 -10.8894 -10.0409 0.0
+*Baffle fin 9 at phi = 255 deg, 1st plane
+PLA bafxy9a 0.96593 -0.25882 0.0 -3.25097 -14.4510 0.0
+*Baffle fin 9 at phi = 255 deg, 2nd plane
+PLA bafxy9b 0.96593 -0.25882 0.0 -4.41008 -14.1404 0.0
+*Baffle fin 10 at phi = 285 deg, 1st plane
+PLA bafxy10a 0.96593 0.25882 0.0 4.41008 -14.1404 0.0
+*Baffle fin 10 at phi = 285 deg, 2nd plane
+PLA bafxy10b 0.96593 0.25882 0.0 3.25097 -14.4510 0.0
+*Baffle fin 11 at phi = 315 deg, 1st plane
+PLA bafxy11a 0.70711 0.70711 0.0 10.8894 -10.0409 0.0
+*Baffle fin 11 at phi = 315 deg, 2nd plane
+PLA bafxy11b 0.70711 0.70711 0.0 10.0409 -10.8894 0.0
+*Baffle fin 12 at phi = 345 deg, 1st plane
+PLA bafxy12a 0.25882 0.96593 0.0 14.4510 -3.25097 0.0
+*Baffle fin 12 at phi = 345 deg, 2nd plane
+PLA bafxy12b 0.25882 0.96593 0.0 14.1404 -4.41008 0.0
+*Target Ti fin xy planes: anticlock dir = (-sinP,cosP,0), pos = (rcosP,rsinP,0) +- h_w*dir, P = phi, h_w = w/2 = 0.6 cm, +- for alt dirs
+*Fin 1 at phi = 45 deg, 1st plane
+PLA xy1a -0.707107 0.707107 0.0 1.73241 1.80312 0.0
+*Fin 1 at phi = 45 deg, 2nd plane
+PLA xy1b -0.707107 0.707107 0.0 1.80312 1.73241 0.0
+*Fin 2 at phi = 135 deg from x axis (anticlockwise), 1st plane
+PLA xy2a -0.707107 -0.707107 0.0 -1.80312 1.73241 0.0
+*Fin 2 at phi = 135 deg from x axis (anticlockwise), 2nd plane
+PLA xy2b -0.707107 -0.707107 0.0 -1.73241 1.80312 0.0
+*Fin 3 at phi = 225 deg from x axis (anticlockwise), 1st plane
+PLA xy3a 0.707107 -0.707107 0.0 -1.73241 -1.80312 0.0
+*Fin 3 at phi = 225 deg from x axis (anticlockwise), 2nd plane
+PLA xy3b 0.707107 -0.707107 0.0 -1.80312 -1.73241 0.0
+*Fin 4 at phi = 315 deg from x axis (anticlockwise), 1st plane
+PLA xy4a 0.707107 0.707107 0.0 1.80312 -1.73241 0.0
+*Fin 4 at phi = 315 deg from x axis (anticlockwise), 2nd plane
+PLA xy4b 0.707107 0.707107 0.0 1.73241 -1.80312 0.0
+*Target graphite joins between core and flow divider tube. Similar as fins above, 4 mm thick, h_w = 0.2 cm
+PLA tgtcj1a -0.707107 0.707107 0.0 1.06066 1.3435 0.0
+*Target graphite join at 45 deg, 2nd plane
+PLA tgtcj1b -0.707107 0.707107 0.0 1.3435 1.06066 0.0
+*Target graphite join at 135 deg, 1st plane
+PLA tgtcj2a -0.707107 -0.707107 0.0 -1.3435 1.06066 0.0
+*Target graphite join at 135 deg, 2nd plane
+PLA tgtcj2b -0.707107 -0.707107 0.0 -1.06066 1.3435 0.0
+*Target graphite join at 225 deg, 1st plane
+PLA tgtcj3a 0.707107 -0.707107 0.0 -1.06066 -1.3435 0.0
+*Target graphite join at 225 deg, 2nd plane
+PLA tgtcj3b 0.707107 -0.707107 0.0 -1.3435 -1.06066 0.0
+*Target graphite join at 315 deg, 1st plane
+PLA tgtcj4a 0.707107 0.707107 0.0 1.3435 -1.06066 0.0
+*Target graphite join at 315 deg, 2nd plane
+PLA tgtcj4b 0.707107 0.707107 0.0 1.06066 -1.3435 0.0
+*Planes defining the z boundaries of the Ti fins and their He gas gaps
+XYP zFinA1 $finZA1
+XYP zFinA2 $finZA2
+XYP zFinA3 $finZA3
+XYP zFinA4 $finZA4
+XYP zFinA5 $finZA5
+XYP zFinB1 $finZB1
+XYP zFinB2 $finZB2
+XYP zFinB3 $finZB3
+XYP zFinB4 $finZB4
+XYP zFinB5 $finZB5
+XYP zFinC1 $finZC1
+XYP zFinC2 $finZC2
+XYP zFinC3 $finZC3
+XYP zFinC4 $finZC4
+*z boundaries of the 1.5 cm long (4 mm thick) graphite joins between the core & flow guide
+XYP zJoinU1a 9.0
+XYP zJoinU1b 10.5
+XYP zJoinA1a =finZA1-2.75
+XYP zJoinA1b =finZA1-1.25
+XYP zJoinA2a =finZA2+1.25
+XYP zJoinA2b =finZA2+2.75
+XYP zJoinA3a =finZA3-2.75
+XYP zJoinA3b =finZA3-1.25
+XYP zJoinB1a =finZB1-2.75
+XYP zJoinB1b =finZB1-1.25
+XYP zJoinB2a =finZB2+1.25
+XYP zJoinB2b =finZB2+2.75
+XYP zJoinB3a =finZB3-2.75
+XYP zJoinB3b =finZB3-1.25
+XYP zJoinC1a =finZC1-2.75
+XYP zJoinC1b =finZC1-1.25
+XYP zJoinC2a =finZC2+1.25
+XYP zJoinC2b =finZC2+2.75
+XYP zJoinC3a =finZC3-2.75
+XYP zJoinC3b =finZC3-1.25
+XYP zJoinC4a =finZC4+1.25
+XYP zJoinC4b =finZC4+2.75
+YZP yzplane 0.0
+XZP xzplane 0.0
+* Horn1 outer conductor outer radius
+ZCC h1cyl1 0.0 0.0 23.65
+* Horn1 outer conductor inner radius
+ZCC h1cyl2 0.0 0.0 22.
+* Horn1 start of upstream curved section
+ZCC h1cyl3 0.0 0.0 8.
+* Horn1 inner conductor outer radius
+ZCC h1cyl4o 0.0 0.0 4.55
+* Horn1 inner conductor inner radius
+ZCC h1cyl4i 0.0 0.0 4.30
+* Horn1 radius at start of downstream curved flare section
+ZCC h1cyl5 0.0 0.0 3.35
+* Horn1 water channel along first inner conductor section
+ZCC w1cyl1 0.0 0.0 4.70
+* Flange of upstream support cone to the left of the horn A conic conductor; outer part
+TRC tcone1o 0.0 0.0 -12.49 0.0 0.0 5.97 14.35 12.96
+* Flange of upstream support cone to the left of the horn A conic conductor; inner part
+TRC tcone1i 0.0 0.0 -12.49 0.0 0.0 5.97 13.73 12.34
+* Upper edge of upstream support cone just below the horn A conic conductor; 1 mm thick at apex; theta = 10.85 + 0.27 = 11.12 deg
+TRC tcone2o 0.0 0.0 -6.52 0.0 0.0 46.52 12.96 3.80
+* Lower edge of upstream support cone just below the horn A conic conductor
+TRC tcone2i 0.0 0.0 -6.52 0.0 0.0 46.52 12.73 3.70
+* Upstream cone connecting to inner target 1 Ti container: outer radius
+TRC tcone3o 0.0 0.0 -15.5 0.0 0.0 23.5855 12.7 1.75
+* Upstream cone connecting to inner target 1 Ti container: inner radius
+TRC tcone3i 0.0 0.0 -15.5 0.0 0.0 23.5855 12.2 1.70
+* Upstream target support cone, inner shell, outer part: Hz = 8.49 - 1.34 = 7.15 cm
+TRC tcone4o 0.0 0.0 -11.75 0.0 0.0 7.75 6.6 2.9
+* Upstream target support cone, inner shell, inner part, 0.8 cm thick (guesstimate)
+TRC tcone4i 0.0 0.0 -11.75 0.0 0.0 7.75 5.8 2.1
+* Connecting outer cone section linking upstream target support sections
+TRC tcone5o 0.0 0.0 -6.52 0.0 0.0 -7.52 12.7 3.3
+* Connecting inner cone section linking upstream target support sections: assume 4 mm thick
+TRC tcone5i 0.0 0.0 -6.52 0.0 0.0 -7.52 12.3 2.9
+* Upstream horn A inner conductor cone, outer section; same incline as target support cone with 5 mm gap; Rbase = tan(11.12 deg)*42.5 + 4.55
+TRC h1cone1o 0.0 0.0 -2.5 0.0 0.0 42.5 12.90 4.55
+* Upstream horn A inner conductor cone, inner section; 5 mm gap with target support cone; Rbase = tan(11.12 deg)*45 + 4.30
+TRC h1cone1i 0.0 0.0 -5. 0.0 0.0 45. 13.15 4.30
+* Hz = 212 - 117.5
+TRC h1cone2o 0.0 0.0 116.3 0.0 0.0 95.7 4.55 3.60
+* Hz = 212 - 117.5
+TRC h1cone2i 0.0 0.0 116.3 0.0 0.0 95.7 4.30 3.35
+* Horn1 water channel along tilted upstream conic inner conductor; Rbase = tan(11.12 deg)*42.5 + 4.7
+TRC w1cone1 0.0 0.0 -2.5 0.0 0.0 42.5 13.05 4.70
+* Horn1 water channel along tilted inner conductor
+TRC w1cone2 0.0 0.0 116.3 0.0 0.0 95.7 4.70 3.75
+* Start of Horn1 downstream (DS) curved (C) section: base must have larger radius than apex, so need negative Hz length for apex to be before base
+TRC h1dsc1 0.0 0.0 216. 0.0 0.0 -4. 4.2 3.6
+* Horn1 water channel along first DS curved section
+TRC w1dsc1 0.0 0.0 216. 0.0 0.0 -4. 4.35 3.75
+* Approximate Horn1 DS 1st 3 polygons using intersection of two cones
+TRC h1dsc2o 0.0 0.0 219.5 0.0 0.0 -3.5 5. 4.2
+* Approximate Horn1 DS 1st 3 polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc2i 0.0 0.0 219.5 0.0 0.0 -3.5 4. 3.35
+* Approximate Horn1 DS 2nd 3 polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc3o 0.0 0.0 222.5 0.0 0.0 -3. 7.5 5.
+* Approximate Horn1 DS 2nd 3 polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc3i 0.0 0.0 222.5 0.0 0.0 -3. 6.5 4.
+* Approximate Horn1 DS 3rd polygons using intersection of two cones: z = 222.5 to 224.0
+TRC h1dsc4o 0.0 0.0 224. 0.0 0.0 -1.5 9.5 7.5
+* Approximate Horn1 DS 3rd polygons using intersection of two cones: z = 222.5 to 225. Bottom section is longer to better match vertical polygon
+TRC h1dsc4i 0.0 0.0 225. 0.0 0.0 -2.5 9.5 6.5
+* Approximate Horn1 DS 4th polygons using intersection of two cones: z = 222.5 to 225.0
+TRC h1dsc5o 0.0 0.0 222.5 0.0 0.0 2.5 17.5 14.5
+* Approximate Horn1 DS 4th polygons using intersection of two cones: z = 222.5 to 224.0
+TRC h1dsc5i 0.0 0.0 222.5 0.0 0.0 1.5 16.5 14.5
+* Approximate Horn1 DS 5th polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc6o 0.0 0.0 219.5 0.0 0.0 3. 20. 17.5
+* Approximate Horn1 DS 5th polygons using intersection of two cones: z = 219.5 to 222.5
+TRC h1dsc6i 0.0 0.0 219.5 0.0 0.0 3. 19. 16.5
+* Approximate Horn1 DS 6th polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc7o 0.0 0.0 216. 0.0 0.0 3.5 20.5 20.
+* Approximate Horn1 DS 6th polygons using intersection of two cones: z = 216.0 to 219.5
+TRC h1dsc7i 0.0 0.0 216. 0.0 0.0 3.5 19.5 19.
+* Target main outer container, outer section
+TRC tout1o 0.0 0.0 40. 0.0 0.0 109.4 3.8 2.77
+* Target main outer container, inner section; 1.0 (0.7) mm thick upstream (downstream)
+TRC tout1i 0.0 0.0 40. 0.0 0.0 109.4 3.7 2.70
+* Target main container outer fin thickness boundary: 2.0 mm thick
+TRC tout1f 0.0 0.0 40. 0.0 0.0 109.4 3.5 2.5
+* Target outer Ti container spherical end outer radius
+SPH tsph1o 0.0 0.0 149.5 2.77
+* Target outer Ti container spherical end inner radius
+SPH tsph1i 0.0 0.0 149.5 2.70
+* Target inner Ti containter tube outer radius: 0.5 mm thick
+ZCC tcyl2o 0.0 0.0 1.75
+* Target inner Ti containter tube inner radius
+ZCC tcyl2i 0.0 0.0 1.70
+* Target inner Ti containter fin thickness boundary: 2.0 mm thick
+ZCC tcyl2f 0.0 0.0 1.90
+* Target main cylinder core
+ZCC target 0.0 0.0 0.8
+* Target upstream core outer cone
+TRC tupendo 0.0 0.0 -4. 0.0 0.0 8. 2.9 0.8
+* Target upstream core inner cone
+TRC tupendi 0.0 0.0 -4. 0.0 0.0 4. 2.1 0.8
+* Bafflet cone piece
+TRC bafcone 0.0 0.0 -14.04 0.0 0.0 -2.5 2.9 0.8
+*Target Position Thermometer (TPT) bracket hole
+ZCC brachole 0.0 0.0 3.5
+RPP tptbox -4.5 4.5 -4.5 4.5 -58.0 -51.0
+*TPT lower arm bracket
+RPP tptbr1 -5.0 5.0 -18.5 -16.5 -49.0 -28.0
+*TPT upper arm bracket
+RPP tptbr2 -5.0 5.0 16.5 18.5 -49.0 -28.0
+*TPT cross beam bracket
+RPP tptbr3 -5.0 5.0 -18.5 18.5 -55.0 -49.0
+*TPT top end piece
+RPP tpttend -5.0 5.0 18.5 24.0 -30.5 -28.0
+*TPT bottom end piece
+RPP tptbend -5.0 5.0 -24.0 -18.5 -30.5 -28.0
+*Ceramic top break at end of TPT
+RPP tpttcer -5.0 5.0 16.5 24.0 -28.0 -26.0
+*Ceramic bottom break at end of TPT
+RPP tptbcer -5.0 5.0 -24.0 -16.5 -28.0 -26.0
+*Instrument mount top join
+RPP mounttj -5.0 5.0 20.5 24.0 -26.0 -22.7
+*Instrument mount bottom join
+RPP mountbj -5.0 5.0 -24.0 -20.5 -26.0 -22.7
+*TPT vertical rod 1
+RCC tptvrod1 0.0 -3.0 $tptdz 0.0 6.0 0.0 0.125
+*TPT vertical rod 2
+RCC tptvrod2 =-1*0.15 -3.0 =1*0.5+tptdz 0.0 6.0 0.0 0.125
+*TPT vertical rod 3
+RCC tptvrod3 =-2*0.15 -3.0 =2*0.5+tptdz 0.0 6.0 0.0 0.125
+*TPT vertical rod 4
+RCC tptvrod4 =1*0.15 -3.0 =-1*0.5+tptdz 0.0 6.0 0.0 0.125
+*TPT vertical rod 5
+RCC tptvrod5 =2*0.15 -3.0 =-2*0.5+tptdz 0.0 6.0 0.0 0.125
+*TPT horizontal rod 1
+RCC tpthrod1 =-3.0 0.0 =3+tptdz 6.0 0.0 0.0 0.125
+*TPT horizontal rod 2
+RCC tpthrod2 =-3.0 =1*0.15 =3-1*0.5+tptdz 6.0 0.0 0.0 0.125
+*TPT horizontal rod 3
+RCC tpthrod3 =-3.0 =2*0.15 =3-2*0.5+tptdz 6.0 0.0 0.0 0.125
+*TPT horizontal rod 4
+RCC tpthrod4 =-3.0 =-1*0.15 =3+1*0.5+tptdz 6.0 0.0 0.0 0.125
+*TPT horizontal rod 5
+RCC tpthrod5 =-3.0 =-2*0.15 =3+2*0.5+tptdz 6.0 0.0 0.0 0.125
+END
+* Black hole
+REGION BLKBODY 5
+	+blkbody -void
+* Void
+REGION VOID1 5
+	+void -outvol-pwtotvol 
+*Primary beam window vacuum region
+REGION PWVAC 5
+	+r6p35 -PBWz0 +PBWz1
+*Primary beam window total N gas volume, up to MBGASU
+REGION PWTOTGAS 5
+	+pwtotvol -r10p2 -PBWz0 +PBWzEnd
+	| +pwtotvol -PBWzEnd
+	| +r7p5 -PBWMem +PBWzEnd 
+*Primary beam window stainless steel cylinder
+REGION PWSTEEL 5
+	+r10p2 -r6p35 -PBWz0 +PBWz1
+	| +r10p2 -r7p5 -PBWz1 +PBWzEnd
+*Primary beam window Be membrane
+REGION PBWMEM 5
+	+r7p5 -PBWz1 +PBWMem 
+* Main graphite baffle cylinder, 2.5-m long, upstream of bafflet, target & horn
+REGION MAINBAFA 5
+	+MBRingO -MBHole -MBAz1 +MBAz2
+* Main baffle core region B
+REGION MAINBAFB 5
+	+MBRingO -MBHole -MBBz1 +MBBz2
+* Main baffle core region C
+REGION MAINBAFC 5
+	+MBRingO -MBHole -MBCz1 +MBCz2
+* Main baffle core region D
+REGION MAINBAFD 5
+	+MBRingO -MBHole -MBDz1 +MBDz2
+* Main baffle core region E
+REGION MAINBAFE 5
+	+MBRingO -MBHole -MBEz1 +MBEz2
+* Main graphite baffle fins extending from central cylinder: set A
+REGION MBFINSA 5
+	+MBFin -MBRingO -MBAz1 +MBAz2 +bafxy1a -bafxy1b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy2a -bafxy2b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy3a -bafxy3b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy4a -bafxy4b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy5a -bafxy5b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy6a -bafxy6b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy7a -bafxy7b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy8a -bafxy8b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy9a -bafxy9b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy10a -bafxy10b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy11a -bafxy11b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 +bafxy12a -bafxy12b +xzplane
+* Main graphite baffle fins extending from central cylinder: set B
+REGION MBFINSB 5
+	+MBFin -MBRingO -MBBz1 +MBBz2 +bafxy1a -bafxy1b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy2a -bafxy2b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy3a -bafxy3b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy4a -bafxy4b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy5a -bafxy5b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy6a -bafxy6b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy7a -bafxy7b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy8a -bafxy8b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy9a -bafxy9b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy10a -bafxy10b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy11a -bafxy11b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 +bafxy12a -bafxy12b +xzplane
+* Main graphite baffle fins extending from central cylinder: set C
+REGION MBFINSC 5
+	+MBFin -MBRingO -MBCz1 +MBCz2 +bafxy1a -bafxy1b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy2a -bafxy2b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy3a -bafxy3b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy4a -bafxy4b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy5a -bafxy5b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy6a -bafxy6b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy7a -bafxy7b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy8a -bafxy8b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy9a -bafxy9b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy10a -bafxy10b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy11a -bafxy11b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 +bafxy12a -bafxy12b +xzplane
+* Main graphite baffle fins extending from central cylinder: set D
+REGION MBFINSD 5
+	+MBFin -MBRingO -MBDz1 +MBDz2 +bafxy1a -bafxy1b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy2a -bafxy2b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy3a -bafxy3b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy4a -bafxy4b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy5a -bafxy5b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy6a -bafxy6b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy7a -bafxy7b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy8a -bafxy8b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy9a -bafxy9b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy10a -bafxy10b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy11a -bafxy11b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 +bafxy12a -bafxy12b +xzplane
+* Main graphite baffle fins extending from central cylinder: set E
+REGION MBFINSE 5
+	+MBFin -MBRingO -MBEz1 +MBEz2 +bafxy1a -bafxy1b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy2a -bafxy2b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy3a -bafxy3b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy4a -bafxy4b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy5a -bafxy5b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy6a -bafxy6b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy7a -bafxy7b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy8a -bafxy8b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy9a -bafxy9b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy10a -bafxy10b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy11a -bafxy11b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 +bafxy12a -bafxy12b +xzplane
+* Main baffle 1st upstream titanium ring, 8 mm thick
+REGION MBRINGU 5
+	+MBRingO -MBRingI +MBAz1 -MBAz0
+* Main baffle titanium ring for set A, 8 mm thick (1-3-10-3-1 layout)
+REGION MBRINGA 5
+	+MBRingO -MBRingI +MBBz1 -MBAz2
+* Main baffle titanium rings for set B
+REGION MBRINGB 5
+	+MBRingO -MBRingI +MBCz1 -MBBz2
+* Main baffle titanium rings for set C
+REGION MBRINGC 5
+	+MBRingO -MBRingI +MBDz1 -MBCz2
+* Main baffle titanium rings for set D
+REGION MBRINGD 5
+	+MBRingO -MBRingI +MBEz1 -MBDz2
+* Main baffle titanium rings for set E
+REGION MBRINGE 5
+	+MBRingO -MBRingI +MBEz3 -MBEz2
+*Main baffle Al duct cylinder and cone
+REGION MBDUCT 5
+	+MBCylO -MBCylI +MBCylz2 -MBCylz1 | +MBConeO -MBConeI  
+*Main baffle N gas surrounding duct
+REGION MBGASO 5
+	+outvol -MBCylI +MBConeI
+	| +outvol -MBCylI -MBConeO +MBCylz1
+	| +outvol -MBCylO -MBCylz1 +MBCylz2
+*Main baffle N upstream gas (before set A)
+REGION MBGASU 5
+	+outvol +MBCylI +MBAz0 | +MBCylI -MBRingO -MBAz0 +MBAz1 | +MBRingI -MBAz0 +MBAz1
+*Main baffle N gas for set A
+REGION MBGASA 5
+	+MBCylI -MBFin -MBAz1 +MBAz2
+	| +MBHole -MBAz1 +MBAz2
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy1a +bafxy2b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy2a +bafxy3b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy3a +bafxy4b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy4a +bafxy5b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy5a +bafxy6b -xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy6a +bafxy7b +yzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy7a +bafxy8b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy8a +bafxy9b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy9a +bafxy10b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy10a +bafxy11b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy11a +bafxy12b +xzplane
+	| +MBFin -MBRingO -MBAz1 +MBAz2 -bafxy12a +bafxy1b -yzplane
+	| +MBCylI -MBRingO -MBAz2 +MBBz1
+	| +MBRingI - MBAz2 + MBBz1
+*Main baffle N gas for set B
+REGION MBGASB 5
+	+MBCylI -MBFin -MBBz1 +MBBz2
+	| +MBHole -MBBz1 +MBBz2
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy1a +bafxy2b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy2a +bafxy3b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy3a +bafxy4b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy4a +bafxy5b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy5a +bafxy6b -xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy6a +bafxy7b +yzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy7a +bafxy8b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy8a +bafxy9b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy9a +bafxy10b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy10a +bafxy11b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy11a +bafxy12b +xzplane
+	| +MBFin -MBRingO -MBBz1 +MBBz2 -bafxy12a +bafxy1b -yzplane
+	| +MBCylI -MBRingO -MBBz2 +MBCz1
+	| +MBRingI - MBBz2 + MBCz1
+*Main baffle N gas for set C
+REGION MBGASC 5
+	+MBCylI -MBFin -MBCz1 +MBCz2
+	| +MBHole -MBCz1 +MBCz2
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy1a +bafxy2b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy2a +bafxy3b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy3a +bafxy4b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy4a +bafxy5b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy5a +bafxy6b -xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy6a +bafxy7b +yzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy7a +bafxy8b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy8a +bafxy9b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy9a +bafxy10b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy10a +bafxy11b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy11a +bafxy12b +xzplane
+	| +MBFin -MBRingO -MBCz1 +MBCz2 -bafxy12a +bafxy1b -yzplane
+	| +MBCylI -MBRingO -MBCz2 +MBDz1
+	| +MBRingI - MBCz2 + MBDz1
+*Main baffle N gas for set D
+REGION MBGASD 5
+	+MBCylI -MBFin -MBDz1 +MBDz2
+	| +MBHole -MBDz1 +MBDz2
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy1a +bafxy2b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy2a +bafxy3b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy3a +bafxy4b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy4a +bafxy5b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy5a +bafxy6b -xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy6a +bafxy7b +yzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy7a +bafxy8b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy8a +bafxy9b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy9a +bafxy10b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy10a +bafxy11b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy11a +bafxy12b +xzplane
+	| +MBFin -MBRingO -MBDz1 +MBDz2 -bafxy12a +bafxy1b -yzplane
+	| +MBCylI -MBRingO -MBDz2 +MBEz1
+	| +MBRingI - MBDz2 + MBEz1
+*Main baffle N gas for set E
+REGION MBGASE 5
+	+MBCylI-MBFin -MBEz1 +MBEz2
+	| +MBHole -MBEz1 +MBEz2
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy1a +bafxy2b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy2a +bafxy3b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy3a +bafxy4b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy4a +bafxy5b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy5a +bafxy6b -xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy6a +bafxy7b +yzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy7a +bafxy8b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy8a +bafxy9b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy9a +bafxy10b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy10a +bafxy11b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy11a +bafxy12b +xzplane
+	| +MBFin -MBRingO -MBEz1 +MBEz2 -bafxy12a +bafxy1b -yzplane
+	| +MBCylI -MBRingO +MBEz3 -MBEz2
+	| +MBRingI +MBEz3 -MBEz2
+	| +MBCylI +MBCylz2 -MBEz3
+*Main baffle N gas after set E up to end tracking plane 1
+REGION MBGASF1 5
+	+outvol -MBCylz2 +MBCylz3
+*Main baffle N gas after set E up to end tracking plane 2
+REGION MBGASF2 5
+	+outvol -MBCylz3 +MBCylz4
+#ifdef UseTPT
+REGION MBGASG 5
+	+outvol -MBCylz4 +zm60 
+*Upstream target gas outer region containing TPT & instrument mount
+REGION MNTGAS1
+	+outvol -zm60  +zm44 -tptbr1 -tptbr2 -tptbr3 -tptbox
+	| +outvol -zm44 +zm26 -r12p7 -tptbr1 -tptbr2 -tpttend -tptbend -tpttcer -tptbcer
+*Gas region inside the TPT
+REGION TPTGAS 5
+	+tptbox +r3p3 -tptvrod1 -tptvrod2 -tptvrod3 -tptvrod4 -tptvrod5 -tpthrod1 -tpthrod2 -tpthrod3 -tpthrod4 -tpthrod5
+	| +tptbr3 -tptbox +brachole  
+REGION TPTCERAM 5
+	+tpttcer | +tptbcer 
+REGION TPT 5
+	+tptvrod1 +r3p3
+	| +tptvrod2 +r3p3
+	| +tptvrod3 +r3p3
+	| +tptvrod4 +r3p3
+	| +tptvrod5 +r3p3
+	| +tpthrod1 +r3p3
+	| +tpthrod2 +r3p3
+	| +tpthrod3 +r3p3
+	| +tpthrod4 +r3p3
+	| +tpthrod5 +r3p3
+REGION TPTBOX 5
+	+tptbox -r3p3 
+REGION TPTBRAC 5
+	+tptbr1 | +tptbr2 | +tptbr3 -brachole -tptbox | +tpttend | +tptbend  
+#ifdef UseTarget
+REGION TGTMOUNT 5
+	+r20p5 -r16p25 -zm26 +zm22p7
+	| +mounttj
+	| +mountbj
+	| +r34p75 -r15p5 -zm22p7 +zm21p83
+	| +r34p75-r28p8 -zm21p83 +zm16p07
+	| +r20p5 -r15p5 -zm21p83 +zm16p07
+	| +r34p75-r15p5 -zm16p07 +zm15p2
+	| +r20 -r15p5 -zm15p2 +zm12p49
+* Horn 1 Al outer conductor
+REGION H1OUT 5
+	+h1cyl2 -h1cone1i -zm5 +zm2p5
+	|+h1cyl1 -h1cyl2 +z216 -zm5
+	| +h1cyl2 -r19p5 +z216 -z215
+* Horn 1 Al inner conductor, central cylindrical conductor volume and start of downstream curved region
+REGION H1IN 5
+	+h1cone1o -h1cone1i
+	| +h1cyl4o -h1cyl4i +z116p3 -z40
+	| +h1cone2o -h1cone2i
+	| +h1dsc1 -h1cyl5
+* Horn1 Al curved downstream section
+REGION H1END 5
+	+h1dsc2o -h1dsc2i
+	| +h1dsc3o -h1dsc3i
+	| +h1dsc4o -h1dsc4i
+	| +r9p5 -h1dsc4i +z225 -z224
+	| +r14p5 -r9p5 +z225 -z224
+	| +h1dsc5o -h1dsc5i -r14p5
+	| +h1dsc6o -h1dsc6i
+	| +h1dsc7o -h1dsc7i
+* Horn1 Ar gas region: upstream and central regions
+REGION H1GAS1 5
+	+h1cyl2 -zm2p5 +z40 -w1cone1
+	| +h1cyl2 -w1cyl1 +z116p3 -z40
+	| +h1cyl2 -w1cone2 -z116p3 +z212
+	| +r19p5 -w1dsc1 +z216 -z212
+	| +h1cyl2 -r19p5 +z215 -z212
+* Horn1 Ar gas region: downstream, outer sections
+REGION H1GAS2 5
+	+r5 -h1dsc2o +z219p5 -z216
+	| +r19 -r5 +z219p5 -z216
+	| +h1dsc7i -r19
+	| +h1dsc6i -h1dsc3o
+	| +h1dsc5i -h1dsc4o
+*Upstream target gas outer region containing TPT & instrument mount
+REGION MNTGAS2 5
+	+outvol -r20p5 -zm26 +zm22p7 -mountbj -mounttj
+	| +r16p25 -r12p7 -zm26 +zm22p7
+	| +r15p5 -r12p7 -zm22p7 +zm12p49
+	| +r12p7 -tcone3o +zm12p49 -zm15p5
+	| +tcone1i -tcone3o -tcone5o
+	| +r6p9 -r3p3 -zm30 -tcone5o +zm6p52
+	| +r12p7 -r3p3 -zm44 +zm30
+	| +r28p8-r20p5 -zm21p83 +zm16p07
+* Outer volume containing the horn and target geometry
+REGION OUTVOL 5
+	+outvol -h1cyl1 +z216 -zm15p2
+	| +outvol -h1cyl1 +z230 -z216
+	| +outvol-r34p75 -zm22p7 +zm15p2
+	| +h1cyl1 -r20 -zm15p2 +zm5
+	| +r20 -tcone1o -tcone2o -zm11p87 +zm5
+* Nitrogen gas between horn inner conductor and target container (filled with He)
+REGION BEAMGAS 5
+	+h1cone1i -tcone2o
+	| +h1cyl4i -tout1o +z116p3 -z40
+	| +h1cone2i -tout1o +z149p4 -z116p3
+	| +h1cone2i -tsph1o +z157 -z149p4
+	| +h1cone2i -z157 +z212
+	| +h1cyl5 +z216 -z212
+*N gas surrounding DS end of Horn 1
+REGION DSGAS 5
+	+h1dsc2i
+	| +h1dsc3i
+	| +h1dsc4i
+	| +h1cyl1 -h1dsc7o +z219p5 -z216
+	| +h1cyl1 -h1dsc6o +z222p5 -z219p5
+	| +h1cyl1 -h1dsc5o +z225 -z222p5
+	| +h1cyl1 +z230 -z225
+*N gas end tracking plane
+REGION ENDGAS1 5
+	+outvol -z230 +z235 
+*N gas end tracking plane
+REGION ENDGAS2 5
+	+outvol -z235 +z240 
+* Horn1 water cooling channels along inner conductor surface
+REGION H1COOL 5
+	+w1cone1 -h1cone1o
+	| +w1cyl1 -h1cyl4o +z116p3 -z40
+	| +w1cone2 -h1cone2o -z116p3 +z212
+	| +w1dsc1 -h1dsc1 +z216 -z212
+* Target Ti flow tube between target core and its outer container
+REGION TFLOW 5
+	+r7p4 -r6p9 -zm30 +zm6p52 -tcone5o
+	| +r12p2 -r7p4 -zm30 +zm29p5
+	| +r12p7 -r12p2 +zm15p5 -zm30
+	| +tcone3o -tcone3i -tcone5o +zm6p52
+	| +tcone3o -tcone3i +tcone5o
+	| +tcone3o -tcone3i -zm6p52
+	| +tcyl2o -tcyl2i -z8p0855 +z150p6
+* Target outer Ti container
+REGION TCONT 5
+	+tcone1o -tcone1i
+	| +r20 -tcone1o -zm12p49 +zm11p87
+	| +tcone5o -tcone5i +tcone1i -tcone3o
+	| +tcone2o -tcone2i
+	| +tout1o -tout1i +z150p6 -z40
+* Bafflet Ti container, connecting to the upstream target manifold and the graphite target joins
+REGION BAFCONT 5
+	+tcone4o -tcone4i +zm4 -zm6p52
+	| +tcone4o -tcone4i +tcone5i
+	| +tcone5o -tcone5i +tcone1i +zm10p76
+	| +tcone5o -tcone5i -tcone1i +zm12p49
+	| +r3p3 -r2p9 -zm43p97 +zm14p04
+* Ti support fins connecting flow guide to outer container; 1 mm thick; +-45, +- 135 deg. First section "A"
+REGION TFINSA 5
+	+tout1i -tcyl2o +xy1a -xy1b -zFinA1 +zFinA2 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinA1 +zFinA2 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinA1 +zFinA2 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b - zFinA1 +zFinA2 +xzplane
+	| +tout1i -tout1f +xy1a -xy1b -zFinA2 +zFinA3 -xzplane
+	| +tout1i -tout1f +xy2a -xy2b -zFinA2 +zFinA3 -xzplane
+	| +tout1i -tout1f +xy3a -xy3b -zFinA2 +zFinA3 +xzplane
+	| +tout1i -tout1f +xy4a -xy4b -zFinA2 +zFinA3 +xzplane
+	| +tcyl2f -tcyl2o +xy1a -xy1b -zFinA2 +zFinA3 -xzplane
+	| +tcyl2f -tcyl2o +xy2a -xy2b -zFinA2 +zFinA3 -xzplane
+	| +tcyl2f -tcyl2o +xy3a -xy3b -zFinA2 +zFinA3 +xzplane
+	| +tcyl2f -tcyl2o +xy4a -xy4b -zFinA2 +zFinA3 +xzplane
+	| +tout1i -tcyl2o +xy1a -xy1b -zFinA3 +zFinA4 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinA3 +zFinA4 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinA3 +zFinA4 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b -zFinA3 +zFinA4 +xzplane    
+* Ti support fins connecting flow guide to outer container; 1 mm thick; +-45, +- 135 deg. Section "B"
+REGION TFINSB 5
+	+tout1i -tcyl2o +xy1a -xy1b -zFinB1 +zFinB2 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinB1 +zFinB2 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinB1 +zFinB2 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b - zFinB1 +zFinB2 +xzplane
+	| +tout1i -tout1f +xy1a -xy1b -zFinB2 +zFinB3 -xzplane
+	| +tout1i -tout1f +xy2a -xy2b -zFinB2 +zFinB3 -xzplane
+	| +tout1i -tout1f +xy3a -xy3b -zFinB2 +zFinB3 +xzplane
+	| +tout1i -tout1f +xy4a -xy4b -zFinB2 +zFinB3 +xzplane
+	| +tcyl2f -tcyl2o +xy1a -xy1b -zFinB2 +zFinB3 -xzplane
+	| +tcyl2f -tcyl2o +xy2a -xy2b -zFinB2 +zFinB3 -xzplane
+	| +tcyl2f -tcyl2o +xy3a -xy3b -zFinB2 +zFinB3 +xzplane
+	| +tcyl2f -tcyl2o +xy4a -xy4b -zFinB2 +zFinB3 +xzplane
+	| +tout1i -tcyl2o +xy1a -xy1b -zFinB3 +zFinB4 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinB3 +zFinB4 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinB3 +zFinB4 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b -zFinB3 +zFinB4 +xzplane    
+* Ti support fins connecting flow guide to outer container; 1 mm thick; +-45, +- 135 deg. Section "C"
+REGION TFINSC 5
+	+tout1i -tcyl2o +xy1a -xy1b -zFinC1 +zFinC2 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinC1 +zFinC2 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinC1 +zFinC2 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b - zFinC1 +zFinC2 +xzplane
+	| +tout1i -tout1f +xy1a -xy1b -zFinC2 +zFinC3 -xzplane
+	| +tout1i -tout1f +xy2a -xy2b -zFinC2 +zFinC3 -xzplane
+	| +tout1i -tout1f +xy3a -xy3b -zFinC2 +zFinC3 +xzplane
+	| +tout1i -tout1f +xy4a -xy4b -zFinC2 +zFinC3 +xzplane
+	| +tcyl2f -tcyl2o +xy1a -xy1b -zFinC2 +zFinC3 -xzplane
+	| +tcyl2f -tcyl2o +xy2a -xy2b -zFinC2 +zFinC3 -xzplane
+	| +tcyl2f -tcyl2o +xy3a -xy3b -zFinC2 +zFinC3 +xzplane
+	| +tcyl2f -tcyl2o +xy4a -xy4b -zFinC2 +zFinC3 +xzplane
+	| +tout1i -tcyl2o +xy1a -xy1b -zFinC3 +zFinC4 -xzplane
+	| +tout1i -tcyl2o +xy2a -xy2b -zFinC3 +zFinC4 -xzplane
+	| +tout1i -tcyl2o +xy3a -xy3b -zFinC3 +zFinC4 +xzplane
+	| +tout1i -tcyl2o +xy4a -xy4b -zFinC3 +zFinC4 +xzplane    
+* Target outer container downstream Ti beam window
+REGION TDSWIN 5
+	+tsph1o -tsph1i -z149p4
+* Upstream beam window, approximated as a 0.5 mm-thick flat disc (with bafflet outer radius) perpendicular to the beam axis
+REGION UPWINDOW 5
+	+r3p3 -zm44 +zm43p97 
+* He gas inside bafflet
+REGION BAFGAS 5
+	+target -zm32 +zm16p54
+	| +bafcone
+	| +r2p9 -zm43p97 +zm32
+* Target He cooling gas regions
+REGION TGAS1 5
+	+r12p2 -r7p4 +zm15p5 -zm29p5
+	| +tcone3i +z0 -zm15p5 -tcone4o -r7p4 -tcone5o +zm6p52
+	| +tcone5o -tcone5i -zm10p76 +tcone3i
+REGION TGAS2 5
+	+tcone5i +tcone3i -tcone4o
+	| +tcone3i -tcone4o -zm6p52 +zm4
+	| +tcone3i -zm4 +z0 -tupendo
+	| +tcone4i +tcone5i
+	| +tcone4i -zm6p52 +zm4
+	| +tupendi
+	| +tcone3i -z0 +z8p0855 -target -tupendo
+REGION TGAS2U 5
+	+tcyl2i -target -z8p0855 +zJoinU1a
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinU1a +zJoinU1b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinU1a +zJoinU1b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinU1a +zJoinU1b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinU1a +zJoinU1b
+	| +tcyl2i -target -zJoinU1b +zJoinA1a  
+REGION TGAS2A 5
+	+tcyl2i -target -tgtcj1a +tgtcj2b -zJoinA1a +zJoinA1b
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinA1a +zJoinA1b
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinA1a +zJoinA1b
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinA1a +zJoinA1b
+	| +tcyl2i -target -zJoinA1b +zJoinA2a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinA2a +zJoinA2b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinA2a +zJoinA2b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinA2a +zJoinA2b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinA2a +zJoinA2b
+	| +tcyl2i -target -zJoinA2b +zJoinA3a
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinA3a +zJoinA3b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinA3a +zJoinA3b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinA3a +zJoinA3b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinA3a +zJoinA3b
+	| +tcyl2i -target -zJoinA3b +zFinA5        
+REGION TGAS2B 5
+	+tcyl2i -target -zFinA5 +zJoinB1a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinB1a +zJoinB1b
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinB1a +zJoinB1b
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinB1a +zJoinB1b
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinB1a +zJoinB1b
+	| +tcyl2i -target -zJoinB1b +zJoinB2a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinB2a +zJoinB2b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinB2a +zJoinB2b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinB2a +zJoinB2b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinB2a +zJoinB2b
+	| +tcyl2i -target -zJoinB2b +zJoinB3a
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinB3a +zJoinB3b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinB3a +zJoinB3b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinB3a +zJoinB3b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinB3a +zJoinB3b
+	| +tcyl2i -target -zJoinB3b +zFinB5        
+REGION TGAS2C 5
+	+tcyl2i -target -zFinB5 +zJoinC1a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinC1a +zJoinC1b
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinC1a +zJoinC1b
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinC1a +zJoinC1b
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinC1a +zJoinC1b
+	| +tcyl2i -target -zJoinC1b +zJoinC2a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinC2a +zJoinC2b 
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinC2a +zJoinC2b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinC2a +zJoinC2b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinC2a +zJoinC2b
+	| +tcyl2i -target -zJoinC2b +zJoinC3a
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinC3a +zJoinC3b
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinC3a +zJoinC3b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinC3a +zJoinC3b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinC3a +zJoinC3b        
+REGION TGAS2D 5
+	+tcyl2i -target -zJoinC3b +zJoinC4a 
+	| +tcyl2i -target -tgtcj1a +tgtcj2b -zJoinC4a +zJoinC4b
+	| +tcyl2i -target -tgtcj2a +tgtcj3b -zJoinC4a +zJoinC4b 
+	| +tcyl2i -target -tgtcj3a +tgtcj4b -zJoinC4a +zJoinC4b 
+	| +tcyl2i -target -tgtcj4a +tgtcj1b -zJoinC4a +zJoinC4b
+	| +tcyl2i -target -zJoinC4b +z150
+	| +tcyl2i -z150 +z150p6 
+	| +tcyl2o -z150p6 +tsph1i   
+REGION TGAS3 5
+	+tcone5i +zm6p52 -tcone3o
+	| +tcone2i -tcone3o +z8p0855
+	| +tcone2i -tcyl2o -z8p0855 +z40
+*Helium gas for target fin section A
+REGION TGAS4A 5
+	+tout1i -tcyl2o -z40 +zFinA1
+	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy1a +xy2b 
+	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinA1 +zFinA2 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinA2 +zFinA3 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinA2 +zFinA3 -xy2a +xy3b
+	| +tout1i -tcyl2o -zFinA2 +zFinA3 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinA2 +zFinA3 -xy4a +xy1b
+	| +tout1f -tcyl2f -zFinA2 +zFinA3 +xy1a -xy1b
+	| +tout1f -tcyl2f -zFinA2 +zFinA3 +xy2a -xy2b 
+	| +tout1f -tcyl2f -zFinA2 +zFinA3 +xy3a -xy3b 
+	| +tout1f -tcyl2f -zFinA2 +zFinA3 +xy4a -xy4b
+	| +tout1i -tcyl2o -zFinA3 +zFinA4 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinA3 +zFinA4 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinA3 +zFinA4 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinA3 +zFinA4 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinA4 +zFinA5    
+*Helium gas for target fin section B
+REGION TGAS4B 5
+	+tout1i -tcyl2o -zFinA5 +zFinB1
+	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy1a +xy2b 
+	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinB1 +zFinB2 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinB2 +zFinB3 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinB2 +zFinB3 -xy2a +xy3b
+	| +tout1i -tcyl2o -zFinB2 +zFinB3 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinB2 +zFinB3 -xy4a +xy1b
+	| +tout1f -tcyl2f -zFinB2 +zFinB3 +xy1a -xy1b
+	| +tout1f -tcyl2f -zFinB2 +zFinB3 +xy2a -xy2b 
+	| +tout1f -tcyl2f -zFinB2 +zFinB3 +xy3a -xy3b 
+	| +tout1f -tcyl2f -zFinB2 +zFinB3 +xy4a -xy4b
+	| +tout1i -tcyl2o -zFinB3 +zFinB4 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinB3 +zFinB4 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinB3 +zFinB4 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinB3 +zFinB4 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinB4 +zFinB5    
+*Helium gas for target fin section C
+REGION TGAS4C 5
+	+tout1i -tcyl2o -zFinB5 +zFinC1
+	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy1a +xy2b 
+	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinC1 +zFinC2 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinC2 +zFinC3 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinC2 +zFinC3 -xy2a +xy3b
+	| +tout1i -tcyl2o -zFinC2 +zFinC3 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinC2 +zFinC3 -xy4a +xy1b
+	| +tout1f -tcyl2f -zFinC2 +zFinC3 +xy1a -xy1b
+	| +tout1f -tcyl2f -zFinC2 +zFinC3 +xy2a -xy2b 
+	| +tout1f -tcyl2f -zFinC2 +zFinC3 +xy3a -xy3b 
+	| +tout1f -tcyl2f -zFinC2 +zFinC3 +xy4a -xy4b
+	| +tout1i -tcyl2o -zFinC3 +zFinC4 -xy1a +xy2b
+	| +tout1i -tcyl2o -zFinC3 +zFinC4 -xy2a +xy3b 
+	| +tout1i -tcyl2o -zFinC3 +zFinC4 -xy3a +xy4b 
+	| +tout1i -tcyl2o -zFinC3 +zFinC4 -xy4a +xy1b
+	| +tout1i -tcyl2o -zFinC4 +z149p4
+	| +tsph1i -tcyl2o -z149p4   
+* Target core cylinder and upstream cone connection to support manifold
+REGION TARGET 5
+	+target +z150 -z0
+	| +tupendo -tupendi -target
+*Graphite joins between the target core & the flow guide tube, section U (before A)
+REGION TGTJOINU 5
+	+tcyl2i -target +tgtcj1a -tgtcj1b -zJoinU1a +zJoinU1b -xzplane 
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinU1a +zJoinU1b -xzplane 
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinU1a +zJoinU1b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinU1a +zJoinU1b +xzplane 
+*Graphite joins between the target core & the flow guide tube, section A
+REGION TGTJOINA 5
+	+tcyl2i -target +tgtcj1a -tgtcj1b -zJoinA1a +zJoinA1b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinA1a +zJoinA1b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinA1a +zJoinA1b +xzplane
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinA1a +zJoinA1b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinA2a +zJoinA2b -xzplane 
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinA2a +zJoinA2b -xzplane 
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinA2a +zJoinA2b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinA2a +zJoinA2b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinA3a +zJoinA3b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinA3a +zJoinA3b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinA3a +zJoinA3b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinA3a +zJoinA3b +xzplane     
+*Graphite joins between the target core & the flow guide tube, section B
+REGION TGTJOINB 5
+	+tcyl2i -target +tgtcj1a -tgtcj1b -zJoinB1a +zJoinB1b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinB1a +zJoinB1b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinB1a +zJoinB1b +xzplane
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinB1a +zJoinB1b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinB2a +zJoinB2b -xzplane 
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinB2a +zJoinB2b -xzplane 
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinB2a +zJoinB2b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinB2a +zJoinB2b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinB3a +zJoinB3b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinB3a +zJoinB3b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinB3a +zJoinB3b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinB3a +zJoinB3b +xzplane     
+*Graphite joins between the target core & the flow guide tube, section C
+REGION TGTJOINC 5
+	+tcyl2i -target +tgtcj1a -tgtcj1b -zJoinC1a +zJoinC1b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinC1a +zJoinC1b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinC1a +zJoinC1b +xzplane
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinC1a +zJoinC1b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinC2a +zJoinC2b -xzplane 
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinC2a +zJoinC2b -xzplane 
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinC2a +zJoinC2b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinC2a +zJoinC2b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinC3a +zJoinC3b -xzplane
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinC3a +zJoinC3b -xzplane
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinC3a +zJoinC3b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinC3a +zJoinC3b +xzplane
+	| +tcyl2i -target +tgtcj1a -tgtcj1b -zJoinC4a +zJoinC4b -xzplane 
+	| +tcyl2i -target +tgtcj2a -tgtcj2b -zJoinC4a +zJoinC4b -xzplane 
+	| +tcyl2i -target +tgtcj3a -tgtcj3b -zJoinC4a +zJoinC4b +xzplane 
+	| +tcyl2i -target +tgtcj4a -tgtcj4b -zJoinC4a +zJoinC4b +xzplane      
+* Upstream graphite bafflet
+REGION BAFFLET 5
+	+r2p9 -target -zm32 +zm16p54
+	| +r2p9 -bafcone -zm16p54 +zm14p04
+#else
+*Upstream target gas outer region containing TPT & instrument mount
+REGION MNTGAS2 5
+	+r12p7 -zm44 +zm26  
+#endif
+#endif
+END
+GEOEND
+* IG-15 graphite for target core and bafflet: 1.9 g/cc
+MATERIAL C_IG15 6.0,, 1.90
+COMPOUND C_IG15 -1.0 CARBON
+* Durograph 20 graphite for main baffle: 1.84 g/cc
+MATERIAL C_DG20 6.0,, 1.84
+COMPOUND C_DG20 -1.0 CARBON
+*Instrument mount ceramic break
+MATERIAL Alumina,,, 3.99
+COMPOUND Alumina 0.4 ALUMINUM 0.6 OXYGEN
+MATERIAL Vanadium 23,, 6.099
+*Titanium grade 5 (Ti6-Al4-V)
+MATERIAL Ti6Al4V,,, 4.43
+COMPOUND Ti6Al4V -0.9 TITANIUM -0.06 ALUMINUM -0.04 Vanadium
+*Titanium (Ti-6Al-4V) for beam windows to allow interaction length DPA biasing
+MATERIAL TiWindow,,, 4.43
+COMPOUND TiWindow -0.9 TITANIUM -0.06 ALUMINUM -0.04 Vanadium
+*TPT aluminium to allow interaction length DPA biasing
+MATERIAL AlTPT,,, 2.699
+COMPOUND AlTPT -1.0 ALUMINUM
+MATERIAL CHROMIUM 24,, 7.18
+*Stainless-Steel (typical)
+*Stainless-Steel is produced with Cr content ranging from
+*4 - 19 Atomic Percent, and with C content from 0 - 4 percent.
+MATERIAL Stainles,,, 8.0
+COMPOUND Stainles 18.0 CHROMIUM 74.0 IRON 8.0 NICKEL
+* Set DPA energy thresholds
+MAT-PROP DPA-ENER 30.,,, C_IG15 AlTPT
+* ..+....1....+....2....+....3....+....4....+....5....+....6....+....7..
+ASSIGNMA , BLCKHOLE BLKBODY
+ASSIGNMA , VACUUM VOID1 PWVAC
+ASSIGNMA , NITROGEN PWTOTGAS
+ASSIGNMA , Stainles PWSTEEL
+ASSIGNMA , BERYLLIU PBWMEM
+ASSIGNMA , C_DG20 MAINBAFA MBFINSE
+ASSIGNMA , Ti6Al4V MBRINGU MBRINGE
+ASSIGNMA , ALUMINUM MBDUCT
+ASSIGNMA , NITROGEN MBGASO MBGASF2
+#ifdef UseTPT
+ASSIGNMA , NITROGEN MBGASG TPTGAS
+ASSIGNMA , Alumina TPTCERAM
+ASSIGNMA , AlTPT TPT
+ASSIGNMA , ALUMINUM TPTBOX TPTBRAC
+#ifdef UseTarget
+ASSIGNMA , ALUMINUM TGTMOUNT
+ASSIGNMA , ALUMINUM H1OUT H1END,, 1
+ASSIGNMA , ARGON H1GAS1 H1GAS2,, 1.
+ASSIGNMA , NITROGEN MNTGAS2 ENDGAS2
+ASSIGNMA , WATER H1COOL,,, 1.
+ASSIGNMA , Ti6Al4V TFLOW TFINSC
+ASSIGNMA , TiWindow TDSWIN UPWINDOW
+ASSIGNMA , HELIUM BAFGAS TGAS4C
+ASSIGNMA , C_IG15 TARGET BAFFLET
+#else
+ASSIGNMA , NITROGEN MNTGAS2
+#endif
+#endif
+* Enable the PEANUT model for hadronic interactions for all energies and main particles. Parameters set the maximum threshold KE to 1 TeV
+PHYSICS PEATHRES 1000. 1000. 1000. 1000. 1000. 1000.
+* Nuclei evaporation for activation studies
+PHYSICS EVAPORAT 3.
+* Also enable coalescence, which requires linking with DPMJET
+PHYSICS COALESCE 1.
+* Transport ions (from radio-nuclear interactions)
+IONTRANS , HEAVYION
+* Bias (reduce) interaction length in beam window titanium to improve statistics. Forces an interaction and applies correction weight. Scaling factor = 0.01: lambda = 28 cm * 0.01 = 2.8 mm
+LAM-BIAS INEALL,, 0.01 TiWindow PROTON
+* Bias (reduce) interaction length in aluminium TPT to improve statistics. Forces an interaction and applies correction weight. Scaling factor = 0.01: lambda = 39.7 cm * 0.01 = 4 mm
+LAM-BIAS INEALL,, 0.01 AlTPT PROTON
+*Bias (reduce) interaction length in Be primary beam window. Scale factor = 0.01, lambda = 42.1 cm * 0.01 = 4.2 mm
+LAM-BIAS INEALL,, 0.01 BERYLLIU PROTON
+* Score energy deposition (GeV) in all regions for each event separately. This is unaffected by userweig weighting
+SCORE , ENERGY
+* Dump the regional scoring info per event to output file: can then be used to find total deposited power in each region etc.
+EVENTDAT evt.txt 60.
+THRESHOL ,,, 0.0 0.0,, 0.0
+*Energy density overall (excluding main baffle): dz = 1 cm, dr = 1 mm
+USRBIN EALL 11. ENERGY -21. 35. 0.0 230. 0.0 0.0 -60. 350. 1. 290.
+* Energy density in main graphite baffle: dz = 1 cm, dr = 0.5 mm, dphi = 10 deg
+USRBIN EMBAF 11. ENERGY -22 15.0 0.0 -220. 0.0 0.0 -475. 300. 36. 255.
+* Energy density in main baffle cylinder container: dz = 1 cm, dr = 0.5 mm, dphi = 10 deg
+USRBIN EMBAFCYL 11. ENERGY -22 23.0 0.0 -215. 22.0 0.0 -470. 2. 36. 255.
+* Energy density in main baffle container cone: dz = 1 cm, dr = 1 mm, dphi = 10 deg
+USRBIN EMBAFCONE 11. ENERGY -22 48.0 0.0 -470.0 22.0 0.0 -500.0 260. 36. 30.
+*Energy in Target Position Thermometer (TPT), including brackets and part of mount: dx, dy, dz = 0.5 cm
+USRBIN ETPTALL 10 ENERGY -23 5.0 24.0 -22.0 -5.0 -24.0 -60.0 20. 96. 76.
+*Energy in TPT only: dx, dy, dz = 0.5 mm
+USRBIN ETPT 10 ENERGY -23 4.5 4.5 -51.5 -4.5 -4.5 -58.5 180. 180. 140.
+*Energy in outer instrument mount (cylindrical sections): dz = 1 mm, dr = 1 mm, dphi = 10 deg
+USRBIN EMOUNT 11 ENERGY -24 35.0 0.0 -11.0 13.0 0.0 -23.0 220. 36.0 120.0
+*Energy density in bafflet: dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN EBAFFLET 11. ENERGY -25 3.0 0.0 -14. 0.0 0.0 -44. 60. 36. 300.
+* Energy density in upstream upper manifold, z = -30 to -4 cm, r = 6.5 to 15.5 cm, dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN ETGTMAN1 11. ENERGY -26 15.5 0.0 -4. 6.5 0.0 -30. 180. 36. 260.
+* Energy density in upstream lower manifold, z = -15 to -4 cm, r = 2 to 7.5 cm, dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN ETGTMAN2 11. ENERGY -26 7.5 0.0 -4. 2.0 0.0 -15. 110. 36. 110.
+* Energy density in upstream target core, z = -4 to 4 cm, r = 0 to 3 cm: dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ETGTUP 11. ENERGY -27 3. 0.0 4. 0.0 0.0 -4. 120. 36. 160.
+* Energy density in main target core, z = 4 cm to 150 cm, r = 0 to 0.8 cm: dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ETGTCORE 11. ENERGY -27. 0.8 0.0 150. 0.0 0.0 4. 32. 36. 146.
+* Energy density in target joins (target core to flow guide), z = 4 cm to 150 cm, r = 0.8 to 1.7 cm: dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ETGTJOINS 11. ENERGY -27. 1.7 0.0 150. 0.8 0.0 4. 36. 36. 146.
+* Energy density in flow guide cone 1st part: z = -16 to -4 cm, r = 6.0 to 13 cm, dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EFLOW1 11. ENERGY -28. 13. 0.0 -4. 6. 0.0 -16. 280. 36. 240.
+* Energy density in flow guide cone 2nd part: z = -4 to 8.5 cm, r = 1.5 to 7.5 cm, dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EFLOW2 11. ENERGY -28 7.5 0.0 8.5 1.5 0.0 -4. 240. 36. 250.
+* Energy density in flow guide long 3rd part: z = 8 to 151 cm, r = 1.70 to 1.75 cm, dz = 1 cm, dr = 0.1 mm, dphi = 10 deg
+USRBIN EFLOW3 11. ENERGY -28 1.75 0.0 151. 1.70 0.0 8. 5. 36. 143.
+* Energy density in container cone 1st part: z = -13 to 0 cm, r = 11 to 14.5 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ECONT1 11. ENERGY -29 15 0.0 0.0 11. 0.0 -13. 160. 36. 130.
+* Energy density in container cone 2nd part: z = 0 to 20 cm, r = 7 to 12 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ECONT2 11. ENERGY -29 12. 0.0 20. 7. 0.0 0.0 200. 36. 200.
+* Energy density in container cone 3rd part: z = 20 to 40 cm, r = 3.5 to 8 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ECONT3 11. ENERGY -29 8. 0.0 40. 3.5 0.0 20. 180. 36. 200.
+* Energy density in container cone 4th part: z = 40 to 150 cm, r = 2.5 to 4.0 cm, dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN ECONT4 11. ENERGY -29 4. 0.0 150. 2.5 0.0 40. 60. 36. 110.
+* Energy density in solid support fins (flow guide to container); z = 40 cm to 76 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN EFINS1 11. ENERGY -30 3.8 0.0 76.0 1.7 0.0 40. 42. 180. 36.
+* Energy density in solid support fins (flow guide to container); z = 75 cm to 111 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN EFINS2 11. ENERGY -30 3.8 0.0 111. 1.7 0.0 75. 42. 180. 36.
+* Energy density in solid support fins (flow guide to container); z = 110 cm to 150 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN EFINS3 11. ENERGY -30 3.8 0.0 150. 1.7 0.0 110. 42. 180. 40.
+* Energy density in downstream target beam window, dz = 0.25 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EDSWIN 11. ENERGY -31 3. 0.0 152.5 0.0 0.0 149. 120. 36. 140.
+* Energy density in upstream target beam window, dz = 0.25 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EUSWIN 11. ENERGY -32 3.0 0.0 -43.95 0.0 0.0 -44.05 120. 36. 4.
+* Energy density in horn 1 inner/outer conductor upstream vertical section: z = -5 to -2.5 cm, r = 12.5 to 24 cm, dz = 0.5 mm, dr = 1 mm, dphi = 10 deg
+USRBIN EH1UPV 11. ENERGY -33 24. 0.0 -2.5 12.5 0.0 -5. 115. 36. 50.
+* Energy density in horn 1 upstream inner conductor cone 1st part: z = -5 to 20 cm, r = 8 to 13.5 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EH1CON1 11. ENERGY -33 13.5 0.0 20. 8. 0.0 -5. 220. 36. 250.
+* Energy density in horn 1 upstream inner conductor cone 2nd part: z = 20 to 40 cm, r = 4 to 9 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EH1CON2 11. ENERGY -33 9. 0.0 40. 4. 0.0 20. 200. 36. 200.
+* Energy density in horn 1 cylindrical and downstream inner conductor: z = 40 to 216 cm, r = 3.3 to 4.8 cm, dz = 1 cm, dr = 0.1 mm, dphi = 10 deg
+USRBIN EH1IN 11. ENERGY -33 4.8 0.0 216. 3.3 0.0 40. 150. 36. 176.
+* Energy density in horn 1 downstream endcap: z = 210 to 225 cm, r = 3.0 to 20.5 cm, dz = 1 mm, dr = 1 mm, dphi = 10 deg
+USRBIN EH1END 11. ENERGY -33 20.5 0.0 225. 3. 0.0 210. 175. 36. 150.
+* Energy density in horn 1 outer conductor: z = -5 to 216 cm, r = 22 to 23 cm, dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN EH1OUT 11. ENERGY -33 23.65 0.0 216. 22. 0.0 -5. 66. 36. 221.
+*Energy density in primary beam window region, including the N gas all the way up to the main baffle, dz = 1 cm, dr = 5 mm
+USRBIN EPBWALL 11 ENERGY -34 50.0 0.0 -500.0 0.0 0.0 -710.0 100.0 1.0 210.0
+*Energy density in primary beam window region, r = 0 to 15 cm (similar to main baffle r range), dz = 1 cm, dr = 0.5 mm
+USRBIN EPBWR 11 ENERGY -34 15.0 0.0 -500.0 0.0 0.0 -710.0 300.0 1.0 210.0
+*Energy density in primary beam window steel region, dz = 1 mm, dr = 1 mm
+USRBIN EPBWSTL 11 ENERGY -34 10.5 0.0 -704.0 0.0 0.0 -708.0 105.0 1.0 40.0
+*Energy density in primary beam window Be membrane (0.6 mm thickness), dz = 0.1 mm, dr = 1 mm
+USRBIN EPBWIN 11 ENERGY -34 7.5 0.0 $PWzEnd 0.0 0.0 $PWz1 75.0 1.0 6.0
+*Proton beam distribution at z = -475 cm
+USRBIN BEAM 10 BEAMPART -35 10.0 10.0 -474.0 -10.0 -10.0 -476.0 200. 200. 1.
+*DPA overall (excluding main baffle): dz = 1 cm, dr = 1 mm
+USRBIN DALL 11. DPA-SCO -41 35. 0.0 230. 0.0 0.0 -60. 350. 1. 290.
+*DPA in main graphite baffle: dz = 1 cm, dr = 0.5 mm, dphi = 10 deg
+USRBIN DMBAF 11. DPA-SCO -42 15.0 0.0 -220. 0.0 0.0 -475. 300. 36. 255.
+*DPA density in main baffle cylinder container: dz = 1 cm, dr = 0.5 mm, dphi = 10 deg
+USRBIN DMBAFCYL 11. DPA-SCO -42 23.0 0.0 -215. 22.0 0.0 -470. 2. 36. 255.
+*DPA density in main baffle container cone: dz = 1 cm, dr = 1 mm, dphi = 10 deg
+USRBIN DMBAFCONE 11. DPA-SCO -42 48.0 0.0 -470.0 22.0 0.0 -500.0 260. 36. 30.
+*DPA in TPT, including brackets and part of mount: dx, dy, dz = 0.5 cm
+USRBIN DTPTALL 10 DPA-SCO -43 5.0 24.0 -22.0 -5.0 -24.0 -60.0 20. 96. 76.
+*DPA in TPT only: dx, dy, dz = 0.5 mm
+USRBIN DTPT 10 DPA-SCO -43 4.5 4.5 -51.5 -4.5 -4.5 -58.5 180. 180. 140.
+*DPA in outer instrument mount (cylindrical sections): dz = 1 mm, dr = 1 mm, dphi = 10 deg
+USRBIN DMOUNT 11 DPA-SCO -44 35.0 0.0 -11.0 13.0 0.0 -23.0 220. 36.0 120.0
+*DPA in bafflet: dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN DBAFFLE 11. DPA-SCO -45 3.0 0.0 -14. 0.0 0.0 -44. 60. 36. 300.
+*DPA in upstream upper manifold, z = -30 to -4 cm, r = 6.5 to 15.5 cm, dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN DTGTMAN1 11. DPA-SCO -46 15.5 0.0 -4. 6.5 0.0 -30. 180. 36. 260.
+*DPA in upstream lower manifold, z = -15 to -4 cm, r = 2 to 7.5 cm, dz = 1 mm, dr = 0.5 mm, dphi = 10 deg
+USRBIN DTGTMAN2 11. DPA-SCO -46 7.5 0.0 -4. 2.0 0.0 -15. 110. 36. 110.
+*DPA in upstream target core, z = -4 to 4 cm, r = 0 to 3 cm: dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DTGTUP 11. DPA-SCO -47 3. 0.0 4. 0.0 0.0 -4. 120. 36. 160.
+*DPA in main target core, z = 4 cm to 150 cm, r = 0 to 0.8 cm: dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DTGTCORE 11. DPA-SCO -47 0.8 0.0 150. 0.0 0.0 4. 32. 36. 146.
+*DPA in target joins (target core to flow guide), z = 4 cm to 150 cm, r = 0.8 to 1.7 cm: dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DTGTJOIN 11. DPA-SCO -47 1.7 0.0 150. 0.8 0.0 4. 36. 36. 146.
+*DPA in flow guide cone 1st part: z = -16 to -4 cm, r = 6.0 to 13 cm, dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DFLOW1 11. DPA-SCO -48 13. 0.0 -4. 6. 0.0 -16. 280. 36. 240.
+*DPA in flow guide cone 2nd part: z = -4 to 8.5 cm, r = 1.5 to 7.5 cm, dz = 0.5 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DFLOW2 11. DPA-SCO -48 7.5 0.0 8.5 1.5 0.0 -4. 240. 36. 250.
+*DPA in flow guide long 3rd part: z = 8 to 151 cm, r = 1.70 to 1.75 cm, dz = 1 cm, dr = 0.1 mm, dphi = 10 deg
+USRBIN DFLOW3 11. DPA-SCO -48 1.75 0.0 151. 1.70 0.0 8. 5. 36. 143.
+*DPA in container cone 1st part: z = -13 to 0 cm, r = 11 to 14.5 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DCONT1 11. DPA-SCO -49 15 0.0 0.0 11. 0.0 -13. 160. 36. 130.
+*DPA in container cone 2nd part: z = 0 to 20 cm, r = 7 to 12 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DCONT2 11. DPA-SCO -49 12. 0.0 20. 7. 0.0 0.0 200. 36. 200.
+*DPA in container cone 3rd part: z = 20 to 40 cm, r = 3.5 to 8 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DCONT3 11. DPA-SCO -49 8. 0.0 40. 3.5 0.0 20. 180. 36. 200.
+*DPA in container cone 4th part: z = 40 to 150 cm, r = 2.5 to 4.0 cm, dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DCONT4 11. DPA-SCO -49 4. 0.0 150. 2.5 0.0 40. 60. 36. 110.
+*DPA in solid support fins (flow guide to container); z = 40 cm to 76 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN DFINS1 11. DPA-SCO -50 3.8 0.0 76.0 1.7 0.0 40. 42. 180. 36.
+*DPA in solid support fins (flow guide to container); z = 75 cm to 111 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN DFINS2 11. DPA-SCO -50 3.8 0.0 111. 1.7 0.0 75. 42. 180. 36.
+*DPA in solid support fins (flow guide to container); z = 110 cm to 150 cm, dz = 1 cm,  dr = 0.5 mm, dPhi = 2 degrees
+USRBIN DFINS3 11. DPA-SCO -50 3.8 0.0 150. 1.7 0.0 110. 42. 180. 40.
+*DPA in downstream target beam window, dz = 0.25 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DDSWIN 11. DPA-SCO -51 3. 0.0 152.5 0.0 0.0 149. 120. 36. 140.
+*DPA in upstream target beam window, dz = 0.25 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DUSWIN 11. DPA-SCO -52 3.0 0.0 -43.95 0.0 0.0 -44.05 120. 36. 4.
+*DPA in horn 1 inner/outer conductor upstream vertical section: z = -5 to -2.5 cm, r = 12.5 to 24 cm, dz = 0.5 mm, dr = 1 mm, dphi = 10 deg
+USRBIN DH1UPV 11. DPA-SCO -53 24. 0.0 -2.5 12.5 0.0 -5. 115. 36. 50.
+*DPA in horn 1 upstream inner conductor cone 1st part: z = -5 to 20 cm, r = 8 to 13.5 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DH1CON1 11. DPA-SCO -53 13.5 0.0 20. 8. 0.0 -5. 220. 36. 250.
+*DPA in horn 1 upstream inner conductor cone 2nd part: z = 20 to 40 cm, r = 4 to 9 cm, dz = 1 mm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DH1CON2 11. DPA-SCO -53 9. 0.0 40. 4. 0.0 20. 200. 36. 200.
+*DPA in horn 1 cylindrical and downstream inner conductor: z = 40 to 216 cm, r = 3.3 to 4.8 cm, dz = 1 cm, dr = 0.1 mm, dphi = 10 deg
+USRBIN DH1IN 11. DPA-SCO -53 4.8 0.0 216. 3.3 0.0 40. 150. 36. 176.
+*DPA in horn 1 downstream endcap: z = 210 to 225 cm, r = 3.0 to 20.5 cm, dz = 1 mm, dr = 1 mm, dphi = 10 deg
+USRBIN DH1END 11. DPA-SCO -53 20.5 0.0 225. 3. 0.0 210. 175. 36. 150.
+*DPA in horn 1 outer conductor: z = -5 to 216 cm, r = 22 to 23 cm, dz = 1 cm, dr = 0.25 mm, dphi = 10 deg
+USRBIN DH1OUT 11. DPA-SCO -53 23.65 0.0 216. 22. 0.0 -5. 66. 36. 221.
+*DPA in primary beam window region, including the N gas all the way up to the main baffle, dz = 1 cm, dr = 0.25 cm
+USRBIN DPBWALL 11 DPA-SCO -54 50.0 0.0 -500.0 0.0 0.0 -710.0 200.0 1.0 210.0
+*DPA in primary beam window region, r = 0 to 15 cm (similar to main baffle r range), dz = 1 cm, dr = 0.5 mm
+USRBIN DPBWR 11 DPA-SCO -54 15.0 0.0 -500.0 0.0 0.0 -710.0 300.0 1.0 210.0
+*DPA in primary beam window steel region, dz = 1 mm, dr = 1 mm
+USRBIN DPBSTL 11 DPA-SCO -54 10.5 0.0 -704.0 0.0 0.0 -708.0 105.0 1.0 40.0
+*DPA in primary beam window Be membrane (0.6 mm thickness), dz = 0.1 mm, dr = 1 mm
+USRBIN DPBWIN 11 DPA-SCO -54 7.5 0.0 $PWzEnd 0.0 0.0 $PWz1 75.0 1.0 6.0
+*Regional radionuclides, binary format. Process using flutil/usrsuwev
+!RESNUCLE RNTARGET 3. -90.,,, TARGET
+USERDUMP data.txt 100 99 3 1
+* Beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+BEAM PROTON -120.0 0.0 0.0 -0.628 -0.628
+* Beam position: 2 cm from main baffle start: z = -475 cm; Flow tube middle offset: dx = 1.725 cm offset; No baffle: z0 = -35 cm. PBW: z = -710 cm
+BEAMPOS , 0.0 0.0 -710.0 0.0 0.0
+*1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
+*Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
+SOURCE , 1 0.2667 0.0 $bafHoleR $bRingOR
+* Set the random number seed
+RANDOMIZ , 1. 1.
+* Set the number of primary histories to be simulated in the run; 10,000
+START , 50.
+STOP
+EndInput
+
+Page: Input
+plotengine: Gnuplot
+
+# Run information
+Run: <default>
+	Exe:      ../../bin/flukadpm3
+	Last:     1
+	Status:   3
+	StartRun: 1757527469.5185847
+	open:     1
+End
+Geometry: Geometry
+	Frame.tsplit: 1.0
+	Frame.vsplit: 1.0
+End
+
+# Plots information
+Plot: Red
+	Type: Geometry
+	basisu: 0 0 1
+	basisv: 1 0 0
+	coord: Z-X
+	extends: 184.0940878293236 92.64865858077071
+	group: Geometry
+	layer: Media
+	origin: -4.82985 0 -542.622
+End
+Plot: Green
+	Type: Geometry
+	basisu: 0.836516 0.0173377 0.547668
+	basisv: 0.224144 0.901221 -0.370891
+	extends: 40.18775720164605 30944.573045267458
+	group: Geometry
+	layer: 3D
+	origin: -14.0242 -0.0385598 -9.32718
+End
+Plot: Blue
+	Type: Geometry
+	basisu: 0 0 1
+	coord: Z-Y
+	extends: 207.35999999999848 0.2710588235294098
+	group: Geometry
+	layer: Media
+	origin: 0 -12.6408 -694.305
+End
+Plot: Magenta
+	Type: Geometry
+	coord: X-Y
+	extends: 40.18775720164574 0.05253301594986372
+	group: Geometry
+	layer: Media
+	origin: -2.4362 -1.34198 -704.4
+End
+Plot: TargetHornGeom
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 200.0 35.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 100.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: TPTGeom
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 17.5 35.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -42.5
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: TPTGeomYZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 10.0 20.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -50.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: TPTGeomXZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 1.0 0.0 0.0
+	boundaries: 0
+	coord: Z-X
+	extends: 10.0 10.0
+	grid: 0
+	kind: Geometry
+	labels: 0
+	open: 1
+	origin: 0.0 0.0 -50.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: x (cm)
+End
+Plot: TargetGeomXZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 1.0 0.0 0.0
+	boundaries: 0
+	coord: Z-X
+	extends: 200.0 35.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 100.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: x (cm)
+End
+Plot: TargetGeomXY
+	Type: Geometry
+	basisu: 1.0 0.0 0.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: X-Y
+	extends: 5.0 5.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 43.0
+	title: Plot Geometry
+	xlabel: x (cm)
+	ylabel: y (cm)
+End
+Plot: BaffleGeomYZ
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 145.0 50.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 -355.0
+	title: Plot Geometry
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: BaffleGeomXY
+	Type: Geometry
+	basisu: 1.0 0.0 0.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: X-Y
+	extends: 25.0 25.0
+	grid: 0
+	kind: Geometry
+	open: 1
+	origin: 0.0 0.0 -470.0
+	title: Plot Geometry
+	xlabel: x (cm)
+	ylabel: y (cm)
+End
+Plot: TargetHornBField
+	Type: Geometry
+	basisu: 0.0 0.0 1.0
+	basisv: 0.0 1.0 0.0
+	boundaries: 0
+	coord: Z-Y
+	extends: 200.0 35.0
+	grid: 0
+	kind: Field Intensity
+	open: 1
+	origin: 0.0 0.0 100.0
+	title: B field
+	xlabel: z (cm)
+	ylabel: y (cm)
+End
+Plot: PBWAll
+	Type: USRBIN
+	axes: Z-Y
+	bxmax: 50
+	bxmin: 0.
+	bzmax: -500
+	bzmin: -710.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: LBNFTgtL150cmSept25001_fort.34
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -500.0
+	xmin: -710.0
+	ylabel: r (cm)
+	ymax: 50.0
+	ymin: 0.0
+End
+Plot: PBWR
+	Type: USRBIN
+	axes: Z-Y
+	bxmax: 50
+	bxmin: 0.
+	bzmax: -500
+	bzmin: -710.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: LBNFTgtL150cmSept25001_fort.34
+	det: 2
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -500.0
+	xmin: -710.0
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: PBWin
+	Type: USRBIN
+	axes: Z-Y
+	bxmax: 50
+	bxmin: 0.
+	bzmax: -704.12
+	bzmin: -704.44
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: LBNFTgtL150cmSept25001_fort.34
+	det: 4
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -704.12
+	xmin: -704.44
+	ylabel: r (cm)
+	ymax: 7.5
+	ymin: 0.0
+End
+Plot: Beam_Opt1
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: Beam_Opt2
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: Beam_Opt3
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: Beam_Opt4
+	Type: USRBIN
+	axes: X-Y
+	bxmax: 10
+	bxmin: -10.
+	bymax: 10
+	bymin: -10.
+	bzmax: -474
+	bzmin: -476.
+	cbtics: 1
+	commands:
+		|# Plot inner baffle radius aperture
+		|# Scale circle size to plot axes, otherwise the wrong radius is drawn
+		|set size ratio -1
+		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
+		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.35
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	open: 1
+	title: Plot USRBIN
+End
+Plot: AllE_Opt1C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: AllE_Opt2C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: AllE_Opt3C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: AllE_Opt4C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1000.0
+	cbmin: 1e-4
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules (1 pulse = 1.2 sec)
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.21
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 5.6159611293823435
+	max: 1.65859573E-02
+	min: 9.18016704E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt1A
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt1B
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt1_All/LBNFBaffleTPTJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt1C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt2C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt2_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt3C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt3_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10*0.01
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleE_Opt4C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+		|set cbtics offset 0,0,0
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: BaffleCylE_Opt1C
+	Type: USRBIN
+	axes: Z-Y
+	bxmax: 23
+	bxmin: 22.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 1e-5
+	cbmin: 100.0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set lmargin at screen 0.1 and set rmargin at screen 0.5
+		|#set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|#set format cb "%.1f"
+		|#set format cb "%.0e"
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
+	det: 2
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	ylabel: r (cm)
+	ymax: 24.0
+	ymin: 21.0
+End
+Plot: BaffleConeE_Opt1C
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set lmargin at screen 0.1 and set rmargin at screen 0.5
+		|#set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|#set format cb "%.1f"
+		|#set format cb "%.0e"
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.22
+	det: 3
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -469.0
+	xmin: -501.0
+	ylabel: r (cm)
+	ymax: 49.0
+	ymin: 21.0
+End
+Plot: SubBaffleE_Opt1AB
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1A.dat BaffleE_Opt1B.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: SubBaffleE_Opt1BC
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1B.dat BaffleE_Opt1C.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: SubBaffleE_Opt1AC
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|splot '< paste BaffleE_Opt1A.dat BaffleE_Opt1C.dat' us 1:2:($3-$7)*7.5e13*1.609e-10 notitle
+	datafile: baffleData/LBNFBaffleJul25_Opt1_All/LBNFBaffleJul25001_fort.22
+	geo: BaffleGeom
+	grid: 0
+	hist: 2D Projection
+	int: 2.8285145208788824E-002
+	max: 5.22929713E-06
+	min: 1.79751789E-13
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -220.0
+	xmin: -475
+	ylabel: r (cm)
+	ymax: 15.0
+	ymin: 0.0
+End
+Plot: TPTEAll_Opt1B
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt1_All/LBNFBaffleTPTJul25001_fort.23
+	geo: TPTGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt4B
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFBaffleTPTJul25_Opt4_All/LBNFBaffleTPTJul25001_fort.23
+	geo: TPTGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt1C
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.23
+	geo: TargetGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTEAll_Opt4C
+	Type: USRBIN
+	axes: Z-X
+	bymax: 0.5
+	bymin: 0.
+	cbcpd: 0
+	cblog: 1
+	cbmax: 100.0
+	cbmin: 1e-5
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+		|set cbtics offset 0,0,0
+		|set colorbox user size 0.025,0.75 origin 0.9,0.125
+		|set format cb "%.0e"
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.23
+	geo: TargetGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 1.4343769318443137E-002
+	max: 1.21401179E-04
+	min: 7.27361574E-11
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -26.0
+	xmin: -60.0
+	ylabel: x (cm)
+	ymax: 5.0
+	ymin: -5.0
+End
+Plot: TPTE_YZ
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.23
+	det: 2
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 4.4373740790419058E-003
+	max: 9.99325770E-04
+	min: 4.65649880E-10
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: X
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -51.5
+	xmin: -58.5
+	ylabel: y (cm)
+	ymax: 4.5
+	ymin: -4.5
+End
+Plot: TPTE_XZ
+	Type: USRBIN
+	axes: Z-X
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.23
+	det: 2
+	geo: TargetGeomXZ
+	grid: 0
+	hist: 2D Projection
+	int: 4.4373740790419024E-003
+	max: 9.70132125E-04
+	min: 4.39721676E-10
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -51.5
+	xmin: -58.5
+	ylabel: x (cm)
+	ymax: 4.5
+	ymin: -4.5
+End
+Plot: MountE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.24
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 1.4739464294753424E-002
+	max: 4.10663779E-06
+	min: 1.40685463E-10
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: Deposited energy (J/cc/pulse)
+	xlabel: z (cm)
+	xmax: -11.0
+	xmin: -23.0
+	ylabel: y (cm)
+	ymax: 35.0
+	ymin: 13.0
+End
+Plot: BaffletE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.25
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 9.4540772438574359E-003
+	max: 5.27206995E-03
+	min: 7.11464165E-10
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: -14.0
+	xmin: -44.0
+	ylabel: r (cm)
+	ymax: 3.0
+	ymin: 0.0
+End
+Plot: ManifoldE1
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbmax: 0.14
+	cbmin: 1e-3
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.26
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 9.8688188949714421E-003
+	max: 1.25882370E-05
+	min: 1.19297072E-10
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: -4.0
+	xmin: -30.0
+	ylabel: r (cm)
+	ymax: 15.5
+	ymin: 6.5
+End
+Plot: ManifoldE2
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.26
+	det: 2
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 4.3372966476558075E-003
+	max: 3.57138415E-05
+	min: 3.26910748E-10
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: -4.0
+	xmin: -15.0
+	ylabel: r (cm)
+	ymax: 7.5
+	ymin: 2.0
+End
+Plot: TargetCoreE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cbmax: 200.0
+	cbmin: 0.0
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25All/LBNFTgtL150cmFeb25001_fort.27
+	det: 2
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 1.9073471524273793
+	max: 1.71700455E-02
+	min: 7.01463199E-04
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: 150.0
+	xmin: 4.0
+	ylabel: r (cm)
+	ymax: 0.801
+	ymin: 0.0
+End
+Plot: TgtJoinsE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.27
+	det: 3
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 3.1761091527621695E-002
+	max: 3.56981577E-03
+	min: 8.75291766E-12
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: 150.0
+	xmin: 0.0
+	ylabel: r (cm)
+	ymax: 1.7
+	ymin: 0.8
+End
+Plot: FlowE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.28
+	det: 3
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 0.20044433169389725
+	max: 4.29101810E-02
+	min: 4.25873765E-07
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	ylabel: r (cm)
+	ymax: 1.8
+	ymin: 1.6
+End
+Plot: ContainerE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.29
+	det: 4
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 0.36089730867370107
+	max: 1.55799920E-02
+	min: 2.47624743E-09
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	ylabel: r (cm)
+End
+Plot: FinsE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.30
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 0.11925011732905769
+	max: 7.57225649E-03
+	min: 2.52455568E-09
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	ylabel: r (cm)
+End
+Plot: DSWinE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.31
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 1.8269489075918278E-002
+	max: 3.67726646E-02
+	min: 1.08609285E-11
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: 152.5
+	xmin: 149.0
+	ylabel: r (cm)
+	ymax: 3.0
+	ymin: 0.0
+End
+Plot: USWinE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.32
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 1.9008015680048497E-004
+	max: 8.03416371E-02
+	min: 6.90207491E-09
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	xmax: -43.9
+	xmin: -44.1
+	ylabel: r (cm)
+	ymax: 3.0
+	ymin: 0.0
+End
+Plot: HornE
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.33
+	det: 4
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 1.5018711764817387
+	max: 2.04704441E-02
+	min: 1.05126401E-10
+	norm: 7.5e13*1.609e-10/1.2
+	open: 1
+	proj: Y
+	title: Deposited energy (W/cc)
+	xlabel: z (cm)
+	ylabel: r (cm)
+End
+Plot: AllDPA
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: LBNFTgtL150cmFeb25001_fort.41
+	geo: TargetHornGeom
+	grid: 0
+	hist: 2D Projection
+	int: 6.9165070077517958E-019
+	max: 1.09573070E-20
+	min: 3.66663802E-34
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: DPA
+	xlabel: z (cm)
+	xmax: 230.0
+	xmin: -60.0
+	ylabel: r (cm)
+	ymax: 35.0
+	ymin: 0.0
+End
+Plot: TPTDPA
+	Type: USRBIN
+	axes: Z-Y
+	cbcpd: 0
+	cblog: 1
+	cbtics: 1
+	commands:
+		|# Norm = POT/pulse * GeV to Joules/pulse time
+		|set palette defined (-4 "royalblue", -3 "skyblue", -2 "light-turquoise", -1 "plum", 0 "gold", 1 "orange", 2 "red", 3 "dark-red")
+		|#set label "Text" at x,y font 'Times,14' left front
+	datafile: baffleData/LBNFTgtL150cmJul25_Opt1_All/LBNFTgtL150cmJul25001_fort.43
+	geo: -No-
+	grid: 0
+	hist: 2D Projection
+	int: 6.9165070077517958E-019
+	max: 1.09573070E-20
+	min: 3.66663802E-34
+	norm: 7.5e13*1.609e-10
+	open: 1
+	proj: Y
+	title: DPA
+	xlabel: z (cm)
+	ylabel: r (cm)
+End
+Plot: LBNFTgtL150cmFeb25_plot
+	Type: RESNUCLE
+	cbtics: 1
+	datafile: LBNFTgtL150cmFeb25001_fort.90
+	det: 2
+	grid: 0
+	open: 1
+	plot: Z
+	title: Plot RESNUCLE
+End
