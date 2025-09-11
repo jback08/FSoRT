@@ -35,26 +35,33 @@ class parameters(object):
         self.flukaTarFile = '{0}/{1}'.format(self.baseJob, self.flukaTarName)
 
         # Proton beam energy (GeV)
-        self.beamE = 120.0
-
-        # Beam FWHM size (cm)
-        #self.beamFWHM = 2.0*math.sqrt(2.0*math.log(2.0))*self.beamSigma
+        #self.beamKE = 120.0
 
         # Nominal beam sigma (cm) = r/3, r = 8 mm
         self.beamSigma = 0.2667
+        # Beam FWHM (cm) = sigma*2*sqrt(2*ln2) = sigma*2.355
+        #self.beamFWHM = self.beamSigma*2.0*sqrt(2.0*log(2.0))
 
-        # Nominal beam offset (cm) = zero
+        # Nominal beam start z (cm)
+        self.beamZ0 = -710.0
+        #self.beamZ0 = -475.0
+
+        # Nominal beam transverse offset (cm) = zero
         self.beamOffset = 0.0
         
-        # Run option: 1 (nominal), 2 wide beam, 3 offset beam
+        # Run option: 1 (nominal), 2 wide beam (not inner), 3 offset beam (not inner)
+        # 4 : very large offset, otherwise nominal beam sigma, can be inside inner aperture (option 1)
         self.option = int(args.option)
 
         if self.option == 2:
-            # Wider beam
+            # Wider beam, not inside inner aperture
             self.beamSigma = 0.44
         elif self.option == 3:
-            # Nominal sigma but offset
+            # Nominal sigma but offset, not in inner aperture
             self.beamOffset = 0.677
+        elif self.option == 4:
+            # Nominal sigma, large offset, can be inside inner aperture
+            self.beamOffset = 4.0
         
         # Fluka executable
         self.flukaExe = 'flukadpm3'
@@ -180,9 +187,15 @@ def createFlukaInput(pars, jPars):
         for line in f:
             if 'RANDOMIZ' in line:
                 newFile.write('{0:<10}{1:>10.0f}{2:>10.0f}\n'.format('RANDOMIZ', 1, randInt))
+
             elif 'START' in line:
                 # Number of events
                 newFile.write('{0:<10}{1:>10.1f}\n'.format('START', pars.nPOT))
+
+            elif (('BEAMPOS' in line) and (pars.option == 4)):
+                # Add offset for otherwise nominal baffle beam
+                newFile.write('{0:<10}{1:>10.4f}{2:>10.4f}{3:>10.4f}{4:>10.4f}{5:>10.4f}\n'.format('BEAMPOS', pars.beamOffset, 0.0,
+                                                                                                   pars.beamZ0, 0.0, 0.0))
             elif 'SOURCE' in line:
                 # Proton beam source parameters
                 print('Opt = {0}'.format(pars.option))
@@ -190,7 +203,9 @@ def createFlukaInput(pars, jPars):
                 newLine = '{0:<10}{1:>10.0f}{2:>10.4f}{3:>10.4f}{4:>10}{5:>10}\n'.format('SOURCE', pars.option*1.0,
                                                                                          pars.beamSigma, pars.beamOffset,
                                                                                          '$bafHoleR', '$bRingOR')
-                newFile.write(newLine)
+                # Don't use SOURCE for option 4: just use BEAM & BEAMPOS settings
+                if pars.option < 4:
+                    newFile.write(newLine)
             else:
                 # Copy line unchanged
                 newFile.write(line)
@@ -294,7 +309,7 @@ def createJobScript(pars, jPars, inputFile, fieldFile):
 def processArgs(parser):
 
     parser.add_argument('--option', default=1, type=int, metavar='Opt',
-                        help='Choose beam run option: Nominal (1), Wider (2), Offset (3)')
+                        help='Choose beam run option: Nominal (1), Wider (2), Offset (3), Large offset (4)')
     parser.add_argument('--inName', default='LBNFTgtL150cmJul25', metavar='fileName',
                         help='Input Fluka file label (without .inp extension)')
     parser.add_argument('--nJobs', default=1, type=int, metavar='N', help='Number of jobs')

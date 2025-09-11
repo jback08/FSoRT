@@ -1,7 +1,7 @@
 # flair project file
 Version: 300
 Mode: fluka
-md5: c4a46564ebc210a920e40356e4f13503
+md5: dfe730b7c3ea21723c7b6fd9d4280c4b
 Input:
 * Set the defaults for precision simulations
 DEFAULTS PRECISIO
@@ -11,6 +11,8 @@ GEOBEGIN COMBNAME
 #define UseTPT
 *Enable to use target and horn (also needs TPT enabled)
 #define UseTarget
+*Beam start z position (baffle: -475.0)
+#define beamZ0 -710.0
 *Main baffle downstream graphite face from MCZero
 #define bafDSz -220.82
 *Main baffle length
@@ -1304,7 +1306,8 @@ USRBIN EPBWSTL 11 ENERGY -34 10.5 0.0 -704.0 0.0 0.0 -708.0 105.0 1.0 40.0
 *Energy density in primary beam window Be membrane (0.6 mm thickness), dz = 0.1 mm, dr = 1 mm
 USRBIN EPBWIN 11 ENERGY -34 7.5 0.0 $PWzEnd 0.0 0.0 $PWz1 75.0 1.0 6.0
 *Proton beam distribution at z = -475 cm
-USRBIN BEAM 10 BEAMPART -35 10.0 10.0 -474.0 -10.0 -10.0 -476.0 200. 200. 1.
+USRBIN BEAM 10 BEAMPART -35 10.0 10.0 =beamZ0+1 -10.0 -10.0 =beamZ0-1 200. 200. \
+	 1.
 *DPA overall (excluding main baffle): dz = 1 cm, dr = 1 mm
 USRBIN DALL 11. DPA-SCO -41 35. 0.0 230. 0.0 0.0 -60. 350. 1. 290.
 *DPA in main graphite baffle: dz = 1 cm, dr = 0.5 mm, dphi = 10 deg
@@ -1378,10 +1381,10 @@ USRBIN DPBWIN 11 DPA-SCO -54 7.5 0.0 $PWzEnd 0.0 0.0 $PWz1 75.0 1.0 6.0
 *Regional radionuclides, binary format. Process using flutil/usrsuwev
 !RESNUCLE RNTARGET 3. -90.,,, TARGET
 USERDUMP data.txt 100 99 3 1
-* Beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+* Nominal beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
 BEAM PROTON -120.0 0.0 0.0 -0.628 -0.628
 * Beam position: 2 cm from main baffle start: z = -475 cm; Flow tube middle offset: dx = 1.725 cm offset; No baffle: z0 = -35 cm. PBW: z = -710 cm
-BEAMPOS , 0.0 0.0 -710.0 0.0 0.0
+BEAMPOS , 0.0 0.0 $beamZ0 0.0 0.0
 *1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
 *Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
 SOURCE , 1 0.2667 0.0 $bafHoleR $bRingOR
@@ -1400,7 +1403,7 @@ Run: <default>
 	Exe:      ../../bin/flukadpm3
 	Last:     1
 	Status:   3
-	StartRun: 1757527469.5185847
+	StartRun: 1757589575.2110264
 	open:     1
 End
 Geometry: Geometry
@@ -1414,10 +1417,10 @@ Plot: Red
 	basisu: 0 0 1
 	basisv: 1 0 0
 	coord: Z-X
-	extends: 184.0940878293236 92.64865858077071
+	extends: 381.7375005228853 192.11625843308607
 	group: Geometry
 	layer: Media
-	origin: -4.82985 0 -542.622
+	origin: -36.3483 0 -508.958
 End
 Plot: Green
 	Type: Geometry
@@ -1770,8 +1773,6 @@ Plot: Beam_Opt4
 	bxmin: -10.
 	bymax: 10
 	bymin: -10.
-	bzmax: -474
-	bzmin: -476.
 	cbtics: 1
 	commands:
 		|# Plot inner baffle radius aperture
@@ -1779,7 +1780,7 @@ Plot: Beam_Opt4
 		|set size ratio -1
 		|set object 1 circle front at 0.0,0.0 size 1.335 fillcolor rgb "black" lw 1
 		|set object 2 circle front at 0.0,0.0 size 7.6 fillcolor rgb "black" lw 1
-	datafile: baffleData/LBNFTgtL150cmJul25_Opt4_All/LBNFTgtL150cmJul25001_fort.35
+	datafile: LBNFTgtL150cmSept25001_fort.35
 	geo: -No-
 	grid: 0
 	hist: 2D Projection

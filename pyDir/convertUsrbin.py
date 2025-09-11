@@ -7,45 +7,47 @@ import sys
 
 class parameters(object):
 
-    def __init__(self, label):
+    def __init__(self, label, option):
 
         self.label = label
-        self.baseDir = 'FlukaArchive/fluka4-2.1/FSoRT'
-        self.combDir = self.baseDir + '/' + self.label + 'All'
+        self.option = option
+        self.baseDir = '/exp/dune/data/users/jback/FlukaArchive/fluka4-5.0/FSoRT'
+
 
 def run(pars):
     
     runFile = open('runConvertUsrbin.sh', 'w')
 
     # Directory where the combined results are located
-    print('combDir = {0}'.format(pars.combDir))
+    combDir = pars.baseDir + '/' + pars.label + '_Opt{0}_'.format(pars.option) + 'All'
+    print('combDir = {0}'.format(combDir))
 
-    usrBins = range(21, 72) # energy & DPA
-    usrBins += [94] # baffle energy
+    usrBins = list(range(21,36)) + list(range(41, 55))
     print('usrBins = {0}'.format(usrBins))
 
-    for i,iFile in enumerate(usrBins):
+    for i,binIdx in enumerate(usrBins):
             
-        convName = createScript(iFile, pars)
+        convName = createScript(binIdx, combDir, pars)
         runFile.write('sh {0}\n'.format(convName))
 
     runFile.close()
         
-def createScript(iFile, pars):
 
-    fileName = '{0}001_fort.{1}'.format(pars.label, iFile)
+def createScript(binIdx, combDir, pars):
+
+    fileName = '{0}001_fort.{1}'.format(pars.label, binIdx)
     asciiName = '{0}.txt'.format(fileName)
 
-    convName = 'convert{0}.sh'.format(iFile)
+    convName = 'convert{0}.sh'.format(binIdx)
     convFile = open(convName, 'w')
 
     line = '$FLUPRO/bin/usbrea << EOF\n'
     convFile.write(line)
 
-    binName = '{0}/{1}\n'.format(pars.combDir, fileName)
+    binName = '{0}/{1}\n'.format(combDir, fileName)
     convFile.write(binName)
 
-    line = '{0}/{1}\n'.format(pars.combDir, asciiName)
+    line = '{0}/{1}\n'.format(combDir, asciiName)
     convFile.write(line)
 
     convFile.write('EOF\n')
@@ -56,12 +58,16 @@ def createScript(iFile, pars):
 
 if __name__ == "__main__":
 
-    label = 'LBNFTgtL150cmFinsBaf'
-    nJobs = 100
+    label = 'LBNFBaffleSept25'
+    #label = 'LBNBaffleTPTSept2525'
+    #label = 'LBNFTgtL150cmSept25'
+    option = 1
 
     nArg = len(sys.argv)
     if (nArg > 1):
         label = sys.argv[1]
+    if (nArg > 2):
+        option = sys.argv[2]
 
-    pars = parameters(label)
+    pars = parameters(label, option)
     run(pars)

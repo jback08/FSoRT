@@ -7,6 +7,8 @@ GEOBEGIN                                                              COMBNAME
 #define UseTPT
 *Enable to use target and horn (also needs TPT enabled)
 #define UseTarget
+*Beam start z position (baffle: -475.0)
+#define beamZ0 -710
 *Main baffle downstream graphite face from MCZero
 #define bafDSz -220.82
 *Main baffle length
@@ -1294,8 +1296,10 @@ USRBIN           0.0       0.0    -708.0     105.0       1.0      40.0 &
 USRBIN            11    ENERGY       -34       7.5       0.0   $PWzEndEPBWIN
 USRBIN           0.0       0.0     $PWz1      75.0       1.0       6.0 &
 *Proton beam distribution at z = -475 cm
-USRBIN            10  BEAMPART       -35      10.0      10.0    -474.0BEAM
-USRBIN         -10.0     -10.0    -476.0      200.      200.        1. &
+!@what.6=beamZ0+1
+!@what.9=beamZ0-1
+USRBIN            10  BEAMPART       -35      10.0      10.0      -709BEAM
+USRBIN         -10.0     -10.0      -711      200.      200.        1. &
 *DPA overall (excluding main baffle): dz = 1 cm, dr = 1 mm
 USRBIN           11.   DPA-SCO       -41       35.       0.0      230.DALL
 USRBIN           0.0       0.0      -60.      350.        1.      290. &
@@ -1404,10 +1408,10 @@ USRBIN           0.0       0.0     $PWz1      75.0       1.0       6.0 &
 *Regional radionuclides, binary format. Process using flutil/usrsuwev
 *RESNUCLE          3.      -90.                        TARGET          RNTARGET
 USERDUMP         100        99         3         1                    data.txt
-* Beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
+* Nominal beam parameters: 120 GeV protons, sigma = 2.667 mm, FWHM = 2*sqrt(2*ln2)*sigma = 2.355*sigma = 6.281 mm
 BEAM          -120.0       0.0       0.0    -0.628    -0.628          PROTON
 * Beam position: 2 cm from main baffle start: z = -475 cm; Flow tube middle offset: dx = 1.725 cm offset; No baffle: z0 = -35 cm. PBW: z = -710 cm
-BEAMPOS          0.0       0.0    -710.0       0.0       0.0
+BEAMPOS          0.0       0.0   $beamZ0       0.0       0.0
 *1 = option (nominal, wider, offset), 2 = beam sigma, 3 = beam x offset, 4 = baffle inner radius, 5 = baffle outer radius
 *Option 1 (nominal), 2 has sigma = 0.44 cm & offset = 0, 3 has sigma = 0.2667 & offset = 0.677 cm
 SOURCE             1    0.2667       0.0 $bafHoleR  $bRingOR

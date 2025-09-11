@@ -263,10 +263,14 @@ def fillRegionInfo(theData, pars):
 
     theData.region.clear()
 
-    if 'LBNFBaffleJul25' in pars.targetLabel:
+    if 'LBNFBaffleSept25' in pars.targetLabel:
 
         theData.region.push_back(ROOT.TString('BlackBody'))
         theData.region.push_back(ROOT.TString('Void1'))
+        theData.region.push_back(ROOT.TString('PWVac'))
+        theData.region.push_back(ROOT.TString('PWTotGas'))
+        theData.region.push_back(ROOT.TString('PWSteel'))
+        theData.region.push_back(ROOT.TString('PBWindow'))
         theData.region.push_back(ROOT.TString('MBaffleA'))
         theData.region.push_back(ROOT.TString('MBaffleB'))
         theData.region.push_back(ROOT.TString('MBaffleC'))
@@ -294,10 +298,14 @@ def fillRegionInfo(theData, pars):
         theData.region.push_back(ROOT.TString('MBGasF1'))
         theData.region.push_back(ROOT.TString('MBGasF2'))
 
-    elif 'LBNFBaffleTPTJul25' in pars.targetLabel:
+    elif 'LBNFBaffleTPTSept25' in pars.targetLabel:
 
         theData.region.push_back(ROOT.TString('BlackBody'))
         theData.region.push_back(ROOT.TString('Void1'))
+        theData.region.push_back(ROOT.TString('PWVac'))
+        theData.region.push_back(ROOT.TString('PWTotGas'))
+        theData.region.push_back(ROOT.TString('PWSteel'))
+        theData.region.push_back(ROOT.TString('PBWindow'))
         theData.region.push_back(ROOT.TString('MBaffleA'))
         theData.region.push_back(ROOT.TString('MBaffleB'))
         theData.region.push_back(ROOT.TString('MBaffleC'))
@@ -333,10 +341,14 @@ def fillRegionInfo(theData, pars):
         theData.region.push_back(ROOT.TString('TPTBrac'))
         theData.region.push_back(ROOT.TString('MountGas2'))
 
-    elif 'LBNFTgtL150cmJul25' in pars.targetLabel:
+    elif 'LBNFTgtL150cmSept25' in pars.targetLabel:
 
         theData.region.push_back(ROOT.TString('BlackBody'))
         theData.region.push_back(ROOT.TString('Void1'))
+        theData.region.push_back(ROOT.TString('PWVac'))
+        theData.region.push_back(ROOT.TString('PWTotGas'))
+        theData.region.push_back(ROOT.TString('PWSteel'))
+        theData.region.push_back(ROOT.TString('PBWindow'))
         theData.region.push_back(ROOT.TString('MBaffleA'))
         theData.region.push_back(ROOT.TString('MBaffleB'))
         theData.region.push_back(ROOT.TString('MBaffleC'))
@@ -422,9 +434,9 @@ def run(pars):
 
 if __name__ == "__main__":
 
-    targetLabel = 'LBNFBaffleJul25'
-    #targetLabel = 'LBNFBaffleTPTJul25'
-    #targetLabel = 'LBNFTgtL150cmJul25'
+    targetLabel = 'LBNFBaffleSept25'
+    #targetLabel = 'LBNFBaffleTPTSept25'
+    #targetLabel = 'LBNFTgtL150cmSept25'
     option = 1
     nJobs = 100
     
