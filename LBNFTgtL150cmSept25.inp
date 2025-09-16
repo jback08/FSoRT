@@ -148,14 +148,14 @@ RCC pwtotvol   0.0 0.0 $PWz0 0.0 0.0 $PWTotzL 50.0
 * Outer volume
 RCC outvol     0.0 0.0 $outZ0 0.0 0.0 $outHz 50.
 ZCC r2p9       0.0 0.0 2.9
+ZCC r3p175     0.0 0.0 3.175
 ZCC r3p3       0.0 0.0 3
+ZCC r3p75      0.0 0.0 3.75
 ZCC r5         0.0 0.0 5.
+ZCC r5p1       0.0 0.0 5.1
 ZCC r6p9       0.0 0.0 6.9
-ZCC r6p35      0.0 0.0 6.35
 ZCC r7p4       0.0 0.0 7.4
-ZCC r7p5       0.0 0.0 7.5
 ZCC r9p5       0.0 0.0 9.5
-ZCC r10p2      0.0 0.0 10.2
 ZCC r12p2      0.0 0.0 12.2
 ZCC r12p7      0.0 0.0 12.7
 ZCC r14p5      0.0 0.0 14.5
@@ -548,16 +548,16 @@ BLKBODY      5 +blkbody -void
 * Void
 VOID1        5 +void -outvol-pwtotvol
 *Primary beam window vacuum region
-PWVAC        5 +r6p35 -PBWz0 +PBWz1
+PWVAC        5 +r3p175 -PBWz0 +PBWz1
 *Primary beam window total N gas volume, up to MBGASU
-PWTOTGAS     5 +pwtotvol -r10p2 -PBWz0 +PBWzEnd
+PWTOTGAS     5 +pwtotvol -r5p1 -PBWz0 +PBWzEnd
                | +pwtotvol -PBWzEnd
-               | +r7p5 -PBWMem +PBWzEnd
+               | +r3p75 -PBWMem +PBWzEnd
 *Primary beam window stainless steel cylinder
-PWSTEEL      5 +r10p2 -r6p35 -PBWz0 +PBWz1
-               | +r10p2 -r7p5 -PBWz1 +PBWzEnd
+PWSTEEL      5 +r5p1 -r3p175 -PBWz0 +PBWz1
+               | +r5p1 -r3p75 -PBWz1 +PBWzEnd
 *Primary beam window Be membrane
-PBWMEM       5 +r7p5 -PBWz1 +PBWMem
+PBWMEM       5 +r3p75 -PBWz1 +PBWMem
 * Main graphite baffle cylinder, 2.5-m long, upstream of bafflet, target & horn
 MAINBAFA     5 +MBRingO -MBHole -MBAz1 +MBAz2
 * Main baffle core region B
@@ -1284,11 +1284,11 @@ USRBIN            3.       0.0      210.      175.       36.      150. &
 USRBIN           11.    ENERGY       -33     23.65       0.0      216.EH1OUT
 USRBIN           22.       0.0       -5.       66.       36.      221. &
 *Energy density in primary beam window region, including the N gas all the way up to the main baffle, dz = 1 cm, dr = 5 mm
-USRBIN            11    ENERGY       -34      50.0       0.0    -500.0EPBWALL
-USRBIN           0.0       0.0    -710.0     100.0       1.0     210.0 &
+USRBIN            11    ENERGY       -34      50.0       0.0    -460.0EPBWALL
+USRBIN           0.0       0.0    -710.0     100.0       1.0     250.0 &
 *Energy density in primary beam window region, r = 0 to 15 cm (similar to main baffle r range), dz = 1 cm, dr = 0.5 mm
-USRBIN            11    ENERGY       -34      15.0       0.0    -500.0EPBWR
-USRBIN           0.0       0.0    -710.0     300.0       1.0     210.0 &
+USRBIN            11    ENERGY       -34      15.0       0.0    -460.0EPBWR
+USRBIN           0.0       0.0    -710.0     300.0       1.0     250.0 &
 *Energy density in primary beam window steel region, dz = 1 mm, dr = 1 mm
 USRBIN            11    ENERGY       -34      10.5       0.0    -704.0EPBWSTL
 USRBIN           0.0       0.0    -708.0     105.0       1.0      40.0 &
@@ -1394,11 +1394,11 @@ USRBIN            3.       0.0      210.      175.       36.      150. &
 USRBIN           11.   DPA-SCO       -53     23.65       0.0      216.DH1OUT
 USRBIN           22.       0.0       -5.       66.       36.      221. &
 *DPA in primary beam window region, including the N gas all the way up to the main baffle, dz = 1 cm, dr = 0.25 cm
-USRBIN            11   DPA-SCO       -54      50.0       0.0    -500.0DPBWALL
-USRBIN           0.0       0.0    -710.0     200.0       1.0     210.0 &
+USRBIN            11   DPA-SCO       -54      50.0       0.0    -460.0DPBWALL
+USRBIN           0.0       0.0    -710.0     200.0       1.0     250.0 &
 *DPA in primary beam window region, r = 0 to 15 cm (similar to main baffle r range), dz = 1 cm, dr = 0.5 mm
-USRBIN            11   DPA-SCO       -54      15.0       0.0    -500.0DPBWR
-USRBIN           0.0       0.0    -710.0     300.0       1.0     210.0 &
+USRBIN            11   DPA-SCO       -54      15.0       0.0    -460.0DPBWR
+USRBIN           0.0       0.0    -710.0     300.0       1.0     250.0 &
 *DPA in primary beam window steel region, dz = 1 mm, dr = 1 mm
 USRBIN            11   DPA-SCO       -54      10.5       0.0    -704.0DPBSTL
 USRBIN           0.0       0.0    -708.0     105.0       1.0      40.0 &
